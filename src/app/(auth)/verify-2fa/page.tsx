@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -144,17 +142,15 @@ export default function Verify2FAPage() {
             <p className="text-sm text-gray-500">
               Mo ung dung Google Authenticator hoac Authy de lay ma
             </p>
-            <p className="text-xs text-gray-400">
-              Ma se het han sau 30 giay
-            </p>
+            <p className="text-xs text-gray-400">Ma se het han sau 30 giay</p>
           </div>
 
           <div className="border-t pt-4">
             <p className="text-xs text-center text-gray-400">
               Khong the truy cap ung dung xac thuc?{' '}
-              <a href="#" className="text-green-600 hover:underline">
+              <button type="button" className="text-green-600 hover:underline">
                 Lien he ho tro
-              </a>
+              </button>
             </p>
           </div>
         </CardContent>

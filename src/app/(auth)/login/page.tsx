@@ -1,5 +1,3 @@
-
-
 import { Suspense, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -176,34 +174,32 @@ function LoginContent() {
               onClick={() => {
                 const logs = authLogger.getLogs();
                 console.log('All logs:', logs);
-                alert(`Total logs: ${logs.length}\nErrors: ${logs.filter(l => l.level === 'error').length}`);
+                alert(
+                  `Total logs: ${logs.length}\nErrors: ${logs.filter((l) => l.level === 'error').length}`,
+                );
               }}
               className="bg-yellow-600 text-black px-3 py-1.5 rounded text-xs hover:bg-yellow-700"
             >
               Count
             </button>
           </div>
-          <div className="mt-2 text-gray-400 text-[10px]">
-            Open Console (F12) to see logs
-          </div>
+          <div className="mt-2 text-gray-400 text-[10px]">Open Console (F12) to see logs</div>
         </div>
 
         <div className="text-center">
-          <p className="text-sm text-gray-500">
-            Chi danh cho Admin va Editor cua CDHC
-          </p>
+          <p className="text-sm text-gray-500">Chi danh cho Admin va Editor cua CDHC</p>
         </div>
 
         <div className="border-t pt-4">
           <p className="text-xs text-center text-gray-400">
             Bang viec dang nhap, ban dong y voi{' '}
-            <a href="#" className="text-green-600 hover:underline">
+            <button type="button" className="text-green-600 hover:underline">
               Dieu khoan su dung
-            </a>{' '}
+            </button>{' '}
             va{' '}
-            <a href="#" className="text-green-600 hover:underline">
+            <button type="button" className="text-green-600 hover:underline">
               Chinh sach bao mat
-            </a>
+            </button>
           </p>
         </div>
       </CardContent>
@@ -220,9 +216,7 @@ function LoginLoading() {
         </div>
         <div>
           <CardTitle className="text-2xl font-bold">CDHC Admin</CardTitle>
-          <CardDescription className="text-base mt-2">
-            Dang tai...
-          </CardDescription>
+          <CardDescription className="text-base mt-2">Dang tai...</CardDescription>
         </div>
       </CardHeader>
       <CardContent className="flex justify-center py-8">

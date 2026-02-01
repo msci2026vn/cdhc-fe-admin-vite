@@ -1,6 +1,4 @@
-
-
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -35,11 +33,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useTableData } from '@/hooks/useMonitoring';
 
 // Column co the la string hoac object voi column_name
@@ -76,23 +70,17 @@ function formatDataType(col: ColumnInfo): string {
   return type;
 }
 
-export default function TableDetailPage() {
-  const [searchParams] = useSearchParams();
+function TableDetailContent({ tableName }: { tableName: string }) {
   const navigate = useNavigate();
-  const tableName = searchParams.get('name') || '';
-
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSchema, setShowSchema] = useState(false);
   const limit = 20;
 
-  // Reset page when table changes
-  useEffect(() => {
-    setPage((prev) => (prev !== 1 ? 1 : prev));
-    setSearchQuery((prev) => (prev !== '' ? '' : prev));
-  }, [tableName]);
-
-  const { data, isLoading, isError, refetch, isFetching } = useTableData(tableName, { page, limit });
+  const { data, isLoading, isError, refetch, isFetching } = useTableData(tableName, {
+    page,
+    limit,
+  });
 
   // Filter rows based on search query
   const rawRows = data?.rows;
@@ -102,9 +90,7 @@ export default function TableDetailPage() {
     }
     const query = searchQuery.toLowerCase();
     return rawRows.filter((row) =>
-      Object.values(row).some((value) =>
-        String(value).toLowerCase().includes(query)
-      )
+      Object.values(row).some((value) => String(value).toLowerCase().includes(query)),
     );
   }, [rawRows, searchQuery]);
 
@@ -118,16 +104,18 @@ export default function TableDetailPage() {
     // Create CSV content
     const csvHeader = columns.join(',');
     const csvRows = exportRows.map((row) =>
-      columns.map((col) => {
-        const value = row[col];
-        if (value === null || value === undefined) return '';
-        const strValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
-        // Escape quotes and wrap in quotes if contains comma or newline
-        if (strValue.includes(',') || strValue.includes('\n') || strValue.includes('"')) {
-          return `"${strValue.replace(/"/g, '""')}"`;
-        }
-        return strValue;
-      }).join(',')
+      columns
+        .map((col) => {
+          const value = row[col];
+          if (value === null || value === undefined) return '';
+          const strValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+          // Escape quotes and wrap in quotes if contains comma or newline
+          if (strValue.includes(',') || strValue.includes('\n') || strValue.includes('"')) {
+            return `"${strValue.replace(/"/g, '""')}"`;
+          }
+          return strValue;
+        })
+        .join(','),
     );
 
     const csvContent = [csvHeader, ...csvRows].join('\n');
@@ -217,7 +205,9 @@ export default function TableDetailPage() {
 
   // Normalize columns - co the la array of strings hoac array of objects
   const columns: string[] = rawColumns.map((col: string | ColumnInfo) => getColumnName(col));
-  const columnInfos: ColumnInfo[] = rawColumns.map((col: string | ColumnInfo) => getColumnInfo(col));
+  const columnInfos: ColumnInfo[] = rawColumns.map((col: string | ColumnInfo) =>
+    getColumnInfo(col),
+  );
 
   // Check if we have schema info (columns are objects with metadata)
   const hasSchemaInfo = rawColumns.length > 0 && typeof rawColumns[0] !== 'string';
@@ -253,9 +243,7 @@ export default function TableDetailPage() {
             <Table2 className="h-6 w-6 text-blue-600" />
             {tableName}
           </h1>
-          <span className="text-muted-foreground">
-            ({data.total?.toLocaleString() || 0} rows)
-          </span>
+          <span className="text-muted-foreground">({data.total?.toLocaleString() || 0} rows)</span>
         </div>
         <div className="flex items-center gap-2">
           {/* Export Dropdown */}
@@ -277,12 +265,7 @@ export default function TableDetailPage() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => refetch()}
-            disabled={isFetching}
-          >
+          <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
             <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
@@ -333,7 +316,10 @@ export default function TableDetailPage() {
                           </TableCell>
                           <TableCell>
                             {col.is_nullable === 'YES' ? (
-                              <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                              <Badge
+                                variant="outline"
+                                className="text-yellow-600 border-yellow-600"
+                              >
                                 NULL
                               </Badge>
                             ) : (
@@ -421,7 +407,8 @@ export default function TableDetailPage() {
           {totalPages > 1 && !searchQuery && (
             <div className="flex items-center justify-between mt-4 pt-4 border-t">
               <div className="text-sm text-muted-foreground">
-                Hien thi {(page - 1) * limit + 1} - {Math.min(page * limit, data.total || 0)} trong {data.total?.toLocaleString() || 0} rows
+                Hien thi {(page - 1) * limit + 1} - {Math.min(page * limit, data.total || 0)} trong{' '}
+                {data.total?.toLocaleString() || 0} rows
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -452,4 +439,12 @@ export default function TableDetailPage() {
       </Card>
     </div>
   );
+}
+
+export default function TableDetailPage() {
+  const [searchParams] = useSearchParams();
+  const tableName = searchParams.get('name') || '';
+
+  // Use key prop to reset component state when tableName changes
+  return <TableDetailContent key={tableName} tableName={tableName} />;
 }

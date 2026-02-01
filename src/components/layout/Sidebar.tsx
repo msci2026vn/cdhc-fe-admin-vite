@@ -1,5 +1,3 @@
-
-
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import {
@@ -19,6 +17,7 @@ import {
   UserCheck,
   TrendingUp,
   FolderCode,
+  Newspaper,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -108,6 +107,18 @@ const navigation = [
     superAdminOnly: true,
   },
   {
+    name: 'Tin tức',
+    href: '/news',
+    icon: Newspaper,
+    permission: 'stats.view',
+  },
+  {
+    name: 'Danh mục tin tức',
+    href: '/news/categories',
+    icon: Newspaper,
+    permission: 'stats.view',
+  },
+  {
     name: 'Lịch sử hoạt động',
     href: '/activity-logs',
     icon: History,
@@ -150,8 +161,8 @@ export function Sidebar() {
 
       <nav className="flex-1 space-y-1 px-3 py-4">
         {filteredNavigation.map((item) => {
-          const isActive = pathname === item.href ||
-            (item.href !== '/' && pathname.startsWith(item.href));
+          const isActive =
+            pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
 
           return (
             <Link
@@ -161,7 +172,7 @@ export function Sidebar() {
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 isActive
                   ? 'bg-gray-800 text-white'
-                  : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                  : 'text-gray-400 hover:bg-gray-800 hover:text-white',
               )}
             >
               <item.icon className="h-5 w-5" />

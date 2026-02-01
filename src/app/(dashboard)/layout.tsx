@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -46,6 +44,7 @@ export default function DashboardLayout() {
     // Small delay to allow zustand to rehydrate
     const timer = setTimeout(checkAuth, 100);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Show loading while checking auth
@@ -77,7 +76,9 @@ export default function DashboardLayout() {
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-auto p-6"><Outlet /></main>
+        <main className="flex-1 overflow-auto p-6">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

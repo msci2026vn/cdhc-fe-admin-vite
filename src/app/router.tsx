@@ -23,6 +23,10 @@ const SecurityPage = lazy(() => import('./(dashboard)/monitoring/security/page')
 const NotificationsPage = lazy(() => import('./(dashboard)/notifications/page'));
 const SettingsPage = lazy(() => import('./(dashboard)/settings/page'));
 const TopHoldersPage = lazy(() => import('./(dashboard)/top-holders/page'));
+const NewsListPage = lazy(() => import('./(dashboard)/news/page'));
+const NewsCreatePage = lazy(() => import('./(dashboard)/news/create/page'));
+const NewsEditPage = lazy(() => import('./(dashboard)/news/edit/page'));
+const NewsCategoriesPage = lazy(() => import('./(dashboard)/news/categories/page'));
 
 function PageLoader() {
   return (
@@ -59,6 +63,10 @@ export function AppRouter() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/top-holders" element={<TopHoldersPage />} />
+          <Route path="/news" element={<NewsListPage />} />
+          <Route path="/news/create" element={<NewsCreatePage />} />
+          <Route path="/news/:id/edit" element={<NewsEditPage />} />
+          <Route path="/news/categories" element={<NewsCategoriesPage />} />
         </Route>
       </Routes>
     </Suspense>

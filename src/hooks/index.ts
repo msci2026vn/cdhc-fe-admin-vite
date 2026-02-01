@@ -4,3 +4,4 @@ export * from './useUsers';
 export * from './useStats';
 export * from './useMonitoring';
 export * from './use2FA';
+export * from './useNews';
