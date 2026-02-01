@@ -1,0 +1,31 @@
+{
+  "version": "0.2",
+  "language": "en,vi",
+  "words": [
+    "cdhc",
+    "zustand",
+    "tanstack",
+    "radix",
+    "tailwindcss",
+    "sonner",
+    "recharts",
+    "lucide",
+    "clsx",
+    "hookform",
+    "tseslint",
+    "commitlint",
+    "cspell",
+    "knip",
+    "postcss",
+    "autoprefixer",
+    "eslintrc",
+    "noEmit",
+    "typecheck"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "bun.lock",
+    "package-lock.json"
+  ]
+}
