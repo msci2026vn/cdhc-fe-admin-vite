@@ -85,7 +85,8 @@ class ApiClient {
       let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
       try {
         const errorJson = await response.json();
-        errorMessage = errorJson.message || errorJson.error || errorMessage;
+        const rawError = errorJson.message || errorJson.error;
+        errorMessage = typeof rawError === 'string' ? rawError : (rawError?.message || errorMessage);
       } catch {
         // Response body not JSON, use default message
       }
@@ -129,7 +130,8 @@ class ApiClient {
 
       // Case 2: { success: false, error: '...' } - return error
       if (json.success === false) {
-        const errorMessage = json.error || json.message || 'Request failed';
+        const rawErr = json.error || json.message || 'Request failed';
+        const errorMessage = typeof rawErr === 'string' ? rawErr : (rawErr?.message || 'Request failed');
         authLogger.error('ApiClient', `Backend returned error: ${endpoint}`, {
           error: errorMessage,
         });
