@@ -95,29 +95,29 @@ export default function TableDetailPage() {
   const { data, isLoading, isError, refetch, isFetching } = useTableData(tableName, { page, limit });
 
   // Filter rows based on search query
-  const rows = data?.rows;
+  const rawRows = data?.rows;
   const filteredRows = useMemo(() => {
-    if (!rows || !searchQuery.trim()) {
-      return rows || [];
+    if (!rawRows || !searchQuery.trim()) {
+      return rawRows || [];
     }
     const query = searchQuery.toLowerCase();
-    return rows.filter((row) =>
+    return rawRows.filter((row) =>
       Object.values(row).some((value) =>
         String(value).toLowerCase().includes(query)
       )
     );
-  }, [rows, searchQuery]);
+  }, [rawRows, searchQuery]);
 
   // Export functions
   const exportToCSV = () => {
     if (!data?.rows || !data?.columns) return;
 
     const columns = data.columns.map((col) => getColumnName(col));
-    const rows = searchQuery ? filteredRows : data.rows;
+    const exportRows = searchQuery ? filteredRows : data.rows;
 
     // Create CSV content
     const csvHeader = columns.join(',');
-    const csvRows = rows.map((row) =>
+    const csvRows = exportRows.map((row) =>
       columns.map((col) => {
         const value = row[col];
         if (value === null || value === undefined) return '';
@@ -137,8 +137,8 @@ export default function TableDetailPage() {
   const exportToJSON = () => {
     if (!data?.rows) return;
 
-    const rows = searchQuery ? filteredRows : data.rows;
-    const jsonContent = JSON.stringify(rows, null, 2);
+    const jsonRows = searchQuery ? filteredRows : data.rows;
+    const jsonContent = JSON.stringify(jsonRows, null, 2);
     downloadFile(jsonContent, `${tableName}.json`, 'application/json');
   };
 
