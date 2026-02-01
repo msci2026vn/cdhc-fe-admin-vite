@@ -80,6 +80,25 @@ class ApiClient {
       return this.handleUnauthorized<T>(endpoint, options);
     }
 
+    // Handle non-OK responses (4xx/5xx) that aren't 401
+    if (!response.ok) {
+      let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+      try {
+        const errorJson = await response.json();
+        errorMessage = errorJson.message || errorJson.error || errorMessage;
+      } catch {
+        // Response body not JSON, use default message
+      }
+      authLogger.error('ApiClient', `HTTP Error: ${endpoint}`, {
+        status: response.status,
+        error: errorMessage,
+      });
+      return {
+        success: false,
+        error: { message: errorMessage },
+      };
+    }
+
     const json = await response.json();
 
     // Log raw response for debugging
@@ -228,21 +247,6 @@ class ApiClient {
         statusText: response.statusText,
         ok: response.ok,
       });
-
-      // Handle 403 Forbidden - log chi tiet de debug
-      if (response.status === 403) {
-        authLogger.error('ApiClient', `403 Forbidden: ${endpoint}`, {
-          endpoint,
-          hint: 'Cookie may be missing or expired. Check if httpOnly cookie was set by backend.',
-        });
-      }
-
-      if (!response.ok && response.status !== 401) {
-        authLogger.error('ApiClient', `HTTP Error: ${response.status}`, {
-          endpoint,
-          status: response.status,
-        });
-      }
 
       return this.handleResponse<T>(response, endpoint, options);
     } catch (error) {
