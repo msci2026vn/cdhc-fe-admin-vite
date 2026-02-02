@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,15 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
+import { Eye, Calendar, Clock, User } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { ThumbnailUpload } from './ThumbnailUpload';
 import { AudioUpload } from './AudioUpload';
 import { YouTubeInput } from './YouTubeInput';
 import { FillTemplateButton } from './FillTemplateButton';
+import { NewsPreviewModal } from './NewsPreviewModal';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNewsCategories } from '@/hooks/useNews';
 import { formatDate } from '@/lib/utils';
+import { NEWS_STATUS_LABELS, NEWS_STATUS_VARIANTS } from '@/types/news';
 import type { News } from '@/types/news';
 import type { NewsTemplate } from './newsTemplates';
 
@@ -30,7 +35,8 @@ const newsSchema = z.object({
   categoryId: z.string().optional(),
   summary: z.string().max(500).optional(),
   content: z.string().min(10, 'Nội dung tối thiểu 10 ký tự'),
-  status: z.enum(['draft', 'published']),
+  status: z.enum(['draft', 'published', 'scheduled', 'archived']),
+  scheduledPublishAt: z.string().optional(),
   youtubeVideoId: z.string().max(20).optional(),
 });
 
@@ -63,6 +69,7 @@ export function NewsForm({
 }: NewsFormProps) {
   const { data: categoriesData } = useNewsCategories();
   const categories = categoriesData?.data || [];
+  const [showPreview, setShowPreview] = useState(false);
 
   const {
     register,
@@ -70,6 +77,7 @@ export function NewsForm({
     control,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<NewsFormValues>({
     resolver: zodResolver(newsSchema),
@@ -78,10 +86,14 @@ export function NewsForm({
       categoryId: initialData?.categoryId || undefined,
       summary: initialData?.summary || '',
       content: initialData?.content || '',
-      status: initialData?.status === 'published' ? 'published' : 'draft',
+      status: initialData?.status || 'draft',
+      scheduledPublishAt: initialData?.scheduledPublishAt || '',
       youtubeVideoId: initialData?.youtubeVideoId || '',
     },
   });
+
+  const watchedFields = watch();
+  const selectedCategory = categories.find((c) => c.id === watchedFields.categoryId);
 
   useEffect(() => {
     if (initialData) {
@@ -90,7 +102,8 @@ export function NewsForm({
         categoryId: initialData.categoryId || undefined,
         summary: initialData.summary || '',
         content: initialData.content,
-        status: initialData.status === 'published' ? 'published' : 'draft',
+        status: initialData.status || 'draft',
+        scheduledPublishAt: initialData.scheduledPublishAt || '',
         youtubeVideoId: initialData.youtubeVideoId || '',
       });
     }
@@ -103,166 +116,212 @@ export function NewsForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Author Info (read-only, edit mode) */}
-      {initialData && (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Thong tin tac gia</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={initialData.authorAvatar || ''} />
-                <AvatarFallback>
-                  {initialData.authorName?.charAt(0)?.toUpperCase() || 'A'}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium text-sm">{initialData.authorName || 'Admin'}</p>
-                {initialData.authorRole && (
-                  <p className="text-xs text-gray-500">{initialData.authorRole}</p>
-                )}
-                <p className="text-xs text-gray-400">Tao: {formatDate(initialData.createdAt)}</p>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Author Info (read-only, edit mode) */}
+        {initialData && (
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm">Thông tin tác giả</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={initialData.authorAvatar || ''} />
+                  <AvatarFallback>
+                    {initialData.authorName?.charAt(0)?.toUpperCase() || 'A'}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium text-sm">{initialData.authorName || 'Admin'}</p>
+                  {initialData.authorRole && (
+                    <p className="text-xs text-gray-500">{initialData.authorRole}</p>
+                  )}
+                  <p className="text-xs text-gray-400">Tạo: {formatDate(initialData.createdAt)}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+            </CardContent>
+          </Card>
+        )}
 
-      {/* Fill Template Button */}
-      <div className="flex justify-end">
-        <FillTemplateButton onFill={handleFillTemplate} disabled={isSubmitting} />
-      </div>
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center">
+          <FillTemplateButton onFill={handleFillTemplate} disabled={isSubmitting} />
+          <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(true)}>
+            <Eye className="w-4 h-4 mr-2" />
+            Xem trước
+          </Button>
+        </div>
 
-      {/* Title */}
-      <div className="space-y-2">
-        <Label htmlFor="title">Tiêu đề *</Label>
-        <Input id="title" {...register('title')} placeholder="Nhập tiêu đề bài viết" />
-        {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
-      </div>
-
-      {/* Category + Status */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Title */}
         <div className="space-y-2">
-          <Label>Danh mục</Label>
+          <Label htmlFor="title">Tiêu đề *</Label>
+          <Input id="title" {...register('title')} placeholder="Nhập tiêu đề bài viết" />
+          {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+        </div>
+
+        {/* Category + Status */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Danh mục</Label>
+            <Controller
+              name="categoryId"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  value={field.value || 'none'}
+                  onValueChange={(v) => field.onChange(v === 'none' ? undefined : v)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Chọn danh mục" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Không chọn</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Trạng thái</Label>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Bản nháp</SelectItem>
+                    <SelectItem value="published">Đăng ngay</SelectItem>
+                    <SelectItem value="scheduled">Hẹn giờ đăng</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+        </div>
+
+        {/* Scheduled Publish Time */}
+        {watchedFields.status === 'scheduled' && (
+          <div className="space-y-2 bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <Label htmlFor="scheduledPublishAt" className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              Thời gian đăng bài
+            </Label>
+            <Input
+              id="scheduledPublishAt"
+              type="datetime-local"
+              {...register('scheduledPublishAt')}
+              className="bg-white"
+            />
+            {errors.scheduledPublishAt && (
+              <p className="text-sm text-red-500">{errors.scheduledPublishAt.message}</p>
+            )}
+            <p className="text-xs text-gray-600">
+              Bài viết sẽ tự động được đăng vào thời gian đã chọn
+            </p>
+          </div>
+        )}
+
+        {/* Summary */}
+        <div className="space-y-2">
+          <Label htmlFor="summary">Tóm tắt</Label>
+          <Textarea
+            id="summary"
+            {...register('summary')}
+            placeholder="Tóm tắt ngắn gọn..."
+            rows={3}
+          />
+          {errors.summary && <p className="text-sm text-red-500">{errors.summary.message}</p>}
+        </div>
+
+        {/* Content */}
+        <div className="space-y-2">
+          <Label>Nội dung *</Label>
           <Controller
-            name="categoryId"
+            name="content"
             control={control}
             render={({ field }) => (
-              <Select
-                value={field.value || 'none'}
-                onValueChange={(v) => field.onChange(v === 'none' ? undefined : v)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn danh mục" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">Không chọn</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <RichTextEditor content={field.value} onChange={field.onChange} />
             )}
           />
+          {errors.content && <p className="text-sm text-red-500">{errors.content.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <Label>Trạng thái</Label>
-          <Controller
-            name="status"
-            control={control}
-            render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">Bản nháp</SelectItem>
-                  <SelectItem value="published">Đăng bài</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-          />
-        </div>
-      </div>
+        {/* Media Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold border-b pb-2">Media</h3>
 
-      {/* Summary */}
-      <div className="space-y-2">
-        <Label htmlFor="summary">Tóm tắt</Label>
-        <Textarea
-          id="summary"
-          {...register('summary')}
-          placeholder="Tóm tắt ngắn gọn..."
-          rows={3}
-        />
-        {errors.summary && <p className="text-sm text-red-500">{errors.summary.message}</p>}
-      </div>
+          {/* Thumbnail */}
+          <div className="space-y-2">
+            <Label>Ảnh đại diện</Label>
+            <ThumbnailUpload
+              currentUrl={initialData?.thumbnailUrl || null}
+              onUpload={onThumbnailUpload || (() => {})}
+              onDelete={onThumbnailDelete || (() => {})}
+              isUploading={isThumbnailUploading}
+            />
+          </div>
 
-      {/* Content */}
-      <div className="space-y-2">
-        <Label>Nội dung *</Label>
-        <Controller
-          name="content"
-          control={control}
-          render={({ field }) => <RichTextEditor content={field.value} onChange={field.onChange} />}
-        />
-        {errors.content && <p className="text-sm text-red-500">{errors.content.message}</p>}
-      </div>
+          {/* Audio */}
+          <div className="space-y-2">
+            <Label>Audio (MP3)</Label>
+            <AudioUpload
+              currentUrl={initialData?.audioUrl || null}
+              audioDuration={initialData?.audioDuration || null}
+              audioFileSize={initialData?.audioFileSize || null}
+              onUpload={onAudioUpload || (() => {})}
+              onDelete={onAudioDelete || (() => {})}
+              isUploading={isAudioUploading}
+            />
+          </div>
 
-      {/* Media Section */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold border-b pb-2">Media</h3>
-
-        {/* Thumbnail */}
-        <div className="space-y-2">
-          <Label>Ảnh đại diện</Label>
-          <ThumbnailUpload
-            currentUrl={initialData?.thumbnailUrl || null}
-            onUpload={onThumbnailUpload || (() => {})}
-            onDelete={onThumbnailDelete || (() => {})}
-            isUploading={isThumbnailUploading}
-          />
+          {/* YouTube */}
+          <div className="space-y-2">
+            <Label>Video YouTube</Label>
+            <Controller
+              name="youtubeVideoId"
+              control={control}
+              render={({ field }) => (
+                <YouTubeInput value={field.value || ''} onChange={field.onChange} />
+              )}
+            />
+          </div>
         </div>
 
-        {/* Audio */}
-        <div className="space-y-2">
-          <Label>Audio (MP3)</Label>
-          <AudioUpload
-            currentUrl={initialData?.audioUrl || null}
-            audioDuration={initialData?.audioDuration || null}
-            audioFileSize={initialData?.audioFileSize || null}
-            onUpload={onAudioUpload || (() => {})}
-            onDelete={onAudioDelete || (() => {})}
-            isUploading={isAudioUploading}
-          />
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-3 border-t pt-4">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Hủy
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Đang lưu...' : initialData ? 'Cập nhật' : 'Tạo bài viết'}
+          </Button>
         </div>
+      </form>
 
-        {/* YouTube */}
-        <div className="space-y-2">
-          <Label>Video YouTube</Label>
-          <Controller
-            name="youtubeVideoId"
-            control={control}
-            render={({ field }) => (
-              <YouTubeInput value={field.value || ''} onChange={field.onChange} />
-            )}
-          />
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex items-center justify-end gap-3 border-t pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
-          Hủy
-        </Button>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Đang lưu...' : initialData ? 'Cập nhật' : 'Tạo bài viết'}
-        </Button>
-      </div>
-    </form>
+      {/* Preview Modal */}
+      <NewsPreviewModal
+        open={showPreview}
+        onOpenChange={setShowPreview}
+        title={watchedFields.title}
+        summary={watchedFields.summary}
+        content={watchedFields.content}
+        thumbnailUrl={initialData?.thumbnailUrl}
+        audioUrl={initialData?.audioUrl}
+        youtubeVideoId={watchedFields.youtubeVideoId}
+        category={selectedCategory}
+        status={watchedFields.status}
+        scheduledPublishAt={watchedFields.scheduledPublishAt}
+      />
+    </>
   );
 }

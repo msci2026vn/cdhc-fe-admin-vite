@@ -1,6 +1,7 @@
 export { NewsTable } from './NewsTable';
 export { NewsFilters } from './NewsFilters';
 export { NewsForm } from './NewsForm';
+export { NewsPreviewModal } from './NewsPreviewModal';
 export { RichTextEditor } from './RichTextEditor';
 export { CategoriesTable } from './CategoriesTable';
 export { CategoryFormModal } from './CategoryFormModal';

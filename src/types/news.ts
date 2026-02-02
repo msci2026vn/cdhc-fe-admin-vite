@@ -21,8 +21,9 @@ export interface News {
   summary: string | null;
   content: string;
   thumbnailUrl: string | null;
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'published' | 'archived' | 'scheduled';
   publishedAt: string | null;
+  scheduledPublishAt: string | null;
   viewCount: number;
   likeCount: number;
   commentCount: number;
@@ -72,7 +73,8 @@ export interface CreateNewsData {
   slug?: string;
   summary?: string;
   content: string;
-  status: 'draft' | 'published';
+  status: 'draft' | 'published' | 'scheduled' | 'archived';
+  scheduledPublishAt?: string;
   youtubeVideoId?: string;
 }
 
@@ -101,11 +103,14 @@ export interface NewsComment {
 export const NEWS_STATUS_LABELS: Record<string, string> = {
   draft: 'Bản nháp',
   published: 'Đã đăng',
+  scheduled: 'Đã lên lịch',
   archived: 'Lưu trữ',
 };
 
-export const NEWS_STATUS_VARIANTS: Record<string, 'warning' | 'success' | 'secondary'> = {
-  draft: 'warning',
-  published: 'success',
-  archived: 'secondary',
-};
+export const NEWS_STATUS_VARIANTS: Record<string, 'warning' | 'success' | 'secondary' | 'default'> =
+  {
+    draft: 'warning',
+    published: 'success',
+    scheduled: 'default',
+    archived: 'secondary',
+  };
