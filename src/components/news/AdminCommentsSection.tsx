@@ -40,16 +40,15 @@ export function AdminCommentsSection({ newsId, commentCount = 0 }: AdminComments
 
   return (
     <Card>
-      <CardHeader
-        className="cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
+      <CardHeader className="cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <MessageCircle className="h-5 w-5" />
             Bình luận ({totalComments})
           </span>
-          <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+          <ChevronDown
+            className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          />
         </CardTitle>
       </CardHeader>
 
@@ -58,9 +57,7 @@ export function AdminCommentsSection({ newsId, commentCount = 0 }: AdminComments
           {isLoading ? (
             <div className="text-center py-4 text-gray-500">Đang tải...</div>
           ) : comments.length === 0 ? (
-            <div className="text-center py-4 text-gray-500">
-              Chưa có bình luận nào
-            </div>
+            <div className="text-center py-4 text-gray-500">Chưa có bình luận nào</div>
           ) : (
             <div className="space-y-4">
               {comments.map((comment) => (
@@ -78,9 +75,7 @@ export function AdminCommentsSection({ newsId, commentCount = 0 }: AdminComments
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-sm">{comment.userName}</span>
-                      <span className="text-xs text-gray-400">
-                        {formatDate(comment.createdAt)}
-                      </span>
+                      <span className="text-xs text-gray-400">{formatDate(comment.createdAt)}</span>
                     </div>
                     <p className="text-sm text-gray-700 break-words">{comment.content}</p>
                     {comment.likeCount > 0 && (
@@ -105,7 +100,8 @@ export function AdminCommentsSection({ newsId, commentCount = 0 }: AdminComments
                       <AlertDialogHeader>
                         <AlertDialogTitle>Xóa bình luận?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Bình luận của &quot;{comment.userName}&quot; sẽ bị xóa vĩnh viễn. Hành động này không thể hoàn tác.
+                          Bình luận của &quot;{comment.userName}&quot; sẽ bị xóa vĩnh viễn. Hành
+                          động này không thể hoàn tác.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

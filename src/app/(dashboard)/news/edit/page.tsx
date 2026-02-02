@@ -122,10 +122,7 @@ export default function NewsEditPage() {
       </div>
 
       {/* Comments Section */}
-      <AdminCommentsSection
-        newsId={id}
-        commentCount={news.commentCount}
-      />
+      <AdminCommentsSection newsId={id} commentCount={news.commentCount} />
     </div>
   );
 }

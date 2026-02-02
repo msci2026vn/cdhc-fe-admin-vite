@@ -84,16 +84,13 @@ export function FillTemplateButton({ onFill, disabled }: FillTemplateButtonProps
           <AlertDialogHeader>
             <AlertDialogTitle>Dien noi dung mau?</AlertDialogTitle>
             <AlertDialogDescription>
-              Noi dung mau <strong>&quot;{selectedTemplate?.categoryName}&quot;</strong> se duoc dien vao form.
-              Noi dung hien tai trong form se bi thay the.
+              Noi dung mau <strong>&quot;{selectedTemplate?.categoryName}&quot;</strong> se duoc
+              dien vao form. Noi dung hien tai trong form se bi thay the.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Huy</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirm}
-              className="bg-amber-500 hover:bg-amber-600"
-            >
+            <AlertDialogAction onClick={handleConfirm} className="bg-amber-500 hover:bg-amber-600">
               <Sparkles className="h-4 w-4 mr-2" />
               Dien mau
             </AlertDialogAction>

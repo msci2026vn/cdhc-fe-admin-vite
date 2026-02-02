@@ -123,9 +123,7 @@ export function NewsForm({
                 {initialData.authorRole && (
                   <p className="text-xs text-gray-500">{initialData.authorRole}</p>
                 )}
-                <p className="text-xs text-gray-400">
-                  Tao: {formatDate(initialData.createdAt)}
-                </p>
+                <p className="text-xs text-gray-400">Tao: {formatDate(initialData.createdAt)}</p>
               </div>
             </div>
           </CardContent>

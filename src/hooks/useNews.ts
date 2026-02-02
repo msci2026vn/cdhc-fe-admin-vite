@@ -40,7 +40,10 @@ export function useUpdateNewsCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateCategoryData }) =>
-      api.request<NewsCategory>(`${CATEGORIES_BASE}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+      api.request<NewsCategory>(`${CATEGORIES_BASE}/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news-categories'] });
     },
@@ -127,7 +130,8 @@ export function usePublishNews() {
 export function useUnpublishNews() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.request<News>(`${API_BASE}/${id}/unpublish`, { method: 'PATCH' }),
+    mutationFn: (id: string) =>
+      api.request<News>(`${API_BASE}/${id}/unpublish`, { method: 'PATCH' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news'] });
     },
@@ -146,7 +150,7 @@ export function useAdminNewsComments(newsId: string, params?: { page?: number; l
     queryKey: ['news', newsId, 'comments', { page, limit }],
     queryFn: () =>
       api.get<{ items: NewsComment[]; pagination: { total: number; totalPages: number } }>(
-        `${API_BASE}/${newsId}/comments?${query.toString()}`
+        `${API_BASE}/${newsId}/comments?${query.toString()}`,
       ),
     enabled: !!newsId,
   });

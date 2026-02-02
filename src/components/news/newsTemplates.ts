@@ -7,7 +7,8 @@ export interface NewsTemplate {
 export const NEWS_TEMPLATES: Record<string, NewsTemplate> = {
   'thoi-tiet': {
     title: 'Du bao thoi tiet nong vu thang [X]/2026',
-    summary: 'Cap nhat tinh hinh thoi tiet va khuyen cao canh tac cho ba con nong dan khu vuc [vung] trong thang [X].',
+    summary:
+      'Cap nhat tinh hinh thoi tiet va khuyen cao canh tac cho ba con nong dan khu vuc [vung] trong thang [X].',
     content: `<h2>Tong quan thoi tiet</h2>
 <p>Thang [X]/2026 du bao thoi tiet [on dinh/bien dong], [it mua/mua nhieu], phu hop cho viec [hoat dong canh tac].</p>
 
@@ -36,7 +37,8 @@ export const NEWS_TEMPLATES: Record<string, NewsTemplate> = {
 
   'ky-thuat': {
     title: 'Ky thuat [ten ky thuat] cho [cay trong/vat nuoi]',
-    summary: 'Huong dan chi tiet quy trinh [ten ky thuat] giup tang nang suat [X]% cho [doi tuong ap dung].',
+    summary:
+      'Huong dan chi tiet quy trinh [ten ky thuat] giup tang nang suat [X]% cho [doi tuong ap dung].',
     content: `<h2>Gioi thieu</h2>
 <p>[Mo ta ngan ve ky thuat va loi ich mang lai cho nong dan]</p>
 
@@ -89,7 +91,8 @@ export const NEWS_TEMPLATES: Record<string, NewsTemplate> = {
 
   'thi-truong': {
     title: 'Gia [nong san] [tang/giam/on dinh] trong thang [X]/2026',
-    summary: 'Cap nhat dien bien gia [nong san] tai [khu vuc], phan tich nguyen nhan va du bao xu huong thoi gian toi.',
+    summary:
+      'Cap nhat dien bien gia [nong san] tai [khu vuc], phan tich nguyen nhan va du bao xu huong thoi gian toi.',
     content: `<h2>Dien bien gia</h2>
 <p>Gia [nong san] hien dat <strong>[X] dong/kg</strong>, [tang/giam] <strong>[Y]%</strong> so voi [tuan truoc/thang truoc/cung ky nam truoc].</p>
 
@@ -121,7 +124,8 @@ export const NEWS_TEMPLATES: Record<string, NewsTemplate> = {
 
   'sau-benh': {
     title: 'Canh bao [ten sau benh] gay hai [cay trong] tai [khu vuc]',
-    summary: '[Mo ta ngan muc do va pham vi]. Ba con can theo doi dong ruong va phong tru kip thoi.',
+    summary:
+      '[Mo ta ngan muc do va pham vi]. Ba con can theo doi dong ruong va phong tru kip thoi.',
     content: `<h2>Tinh hinh dich hai</h2>
 <p>[Mo ta muc do, pham vi, mat do sau benh dang xay ra]</p>
 <ul>
@@ -181,7 +185,8 @@ export const NEWS_TEMPLATES: Record<string, NewsTemplate> = {
 
   'chinh-sach': {
     title: '[Ten chuong trinh/chinh sach] ho tro nong dan [doi tuong/khu vuc]',
-    summary: '[Co quan ban hanh] trien khai [ten chuong trinh] voi muc ho tro [tom tat] cho [doi tuong thu huong].',
+    summary:
+      '[Co quan ban hanh] trien khai [ten chuong trinh] voi muc ho tro [tom tat] cho [doi tuong thu huong].',
     content: `<h2>Thong tin chung</h2>
 <ul>
   <li><strong>Ten chuong trinh:</strong> [Ten day du]</li>

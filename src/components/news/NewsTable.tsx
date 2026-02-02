@@ -1,4 +1,13 @@
-import { MoreHorizontal, Eye, Pencil, Trash2, Globe, GlobeLock, Heart, MessageCircle } from 'lucide-react';
+import {
+  MoreHorizontal,
+  Eye,
+  Pencil,
+  Trash2,
+  Globe,
+  GlobeLock,
+  Heart,
+  MessageCircle,
+} from 'lucide-react';
 import {
   Table,
   TableBody,
