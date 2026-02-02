@@ -12,18 +12,20 @@ export interface NewsCategory {
   };
 }
 
+export type NewsStatus = 'draft' | 'published' | 'archived';
+
 export interface News {
   id: string;
   categoryId: string | null;
   category?: NewsCategory;
+  categoryName?: string;
   title: string;
   slug: string;
   summary: string | null;
   content: string;
   thumbnailUrl: string | null;
-  status: 'draft' | 'published' | 'archived' | 'scheduled';
+  status: NewsStatus;
   publishedAt: string | null;
-  scheduledPublishAt: string | null;
   viewCount: number;
   likeCount: number;
   commentCount: number;
@@ -73,8 +75,7 @@ export interface CreateNewsData {
   slug?: string;
   summary?: string;
   content: string;
-  status: 'draft' | 'published' | 'scheduled' | 'archived';
-  scheduledPublishAt?: string;
+  status?: NewsStatus;
   youtubeVideoId?: string;
 }
 
@@ -103,7 +104,6 @@ export interface NewsComment {
 export const NEWS_STATUS_LABELS: Record<string, string> = {
   draft: 'Bản nháp',
   published: 'Đã đăng',
-  scheduled: 'Đã lên lịch',
   archived: 'Lưu trữ',
 };
 
@@ -111,6 +111,5 @@ export const NEWS_STATUS_VARIANTS: Record<string, 'warning' | 'success' | 'secon
   {
     draft: 'warning',
     published: 'success',
-    scheduled: 'default',
     archived: 'secondary',
   };

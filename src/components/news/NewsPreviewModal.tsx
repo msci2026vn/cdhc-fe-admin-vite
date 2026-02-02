@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, Clock, Eye, Heart, MessageCircle, User } from 'lucide-react';
+import { Calendar, Eye, Heart, MessageCircle, User } from 'lucide-react';
 import { NEWS_STATUS_LABELS, NEWS_STATUS_VARIANTS } from '@/types/news';
 import type { NewsCategory } from '@/types/news';
 
@@ -15,8 +15,7 @@ interface NewsPreviewModalProps {
   audioUrl?: string | null;
   youtubeVideoId?: string;
   category?: NewsCategory | null;
-  status: 'draft' | 'published' | 'scheduled' | 'archived';
-  scheduledPublishAt?: string;
+  status: 'draft' | 'published' | 'archived';
 }
 
 export function NewsPreviewModal({
@@ -30,7 +29,6 @@ export function NewsPreviewModal({
   youtubeVideoId,
   category,
   status,
-  scheduledPublishAt,
 }: NewsPreviewModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,12 +46,6 @@ export function NewsPreviewModal({
                 <Badge variant="outline" className="bg-blue-50">
                   {category.name}
                 </Badge>
-              )}
-              {status === 'scheduled' && scheduledPublishAt && (
-                <span className="text-xs text-gray-500 flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  Đăng lúc: {new Date(scheduledPublishAt).toLocaleString('vi-VN')}
-                </span>
               )}
             </div>
 

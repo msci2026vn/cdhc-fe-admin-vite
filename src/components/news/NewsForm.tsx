@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Eye, Calendar } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { ThumbnailUpload } from './ThumbnailUpload';
 import { AudioUpload } from './AudioUpload';
@@ -32,8 +32,7 @@ const newsSchema = z.object({
   categoryId: z.string().optional(),
   summary: z.string().max(500).optional(),
   content: z.string().min(10, 'Nội dung tối thiểu 10 ký tự'),
-  status: z.enum(['draft', 'published', 'scheduled', 'archived']),
-  scheduledPublishAt: z.string().optional(),
+  status: z.enum(['draft', 'published', 'archived']),
   youtubeVideoId: z.string().max(20).optional(),
 });
 
@@ -84,7 +83,6 @@ export function NewsForm({
       summary: initialData?.summary || '',
       content: initialData?.content || '',
       status: initialData?.status || 'draft',
-      scheduledPublishAt: initialData?.scheduledPublishAt || '',
       youtubeVideoId: initialData?.youtubeVideoId || '',
     },
   });
@@ -100,7 +98,6 @@ export function NewsForm({
         summary: initialData.summary || '',
         content: initialData.content,
         status: initialData.status || 'draft',
-        scheduledPublishAt: initialData.scheduledPublishAt || '',
         youtubeVideoId: initialData.youtubeVideoId || '',
       });
     }
@@ -198,35 +195,12 @@ export function NewsForm({
                   <SelectContent>
                     <SelectItem value="draft">Bản nháp</SelectItem>
                     <SelectItem value="published">Đăng ngay</SelectItem>
-                    <SelectItem value="scheduled">Hẹn giờ đăng</SelectItem>
                   </SelectContent>
                 </Select>
               )}
             />
           </div>
         </div>
-
-        {/* Scheduled Publish Time */}
-        {watchedFields.status === 'scheduled' && (
-          <div className="space-y-2 bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <Label htmlFor="scheduledPublishAt" className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              Thời gian đăng bài
-            </Label>
-            <Input
-              id="scheduledPublishAt"
-              type="datetime-local"
-              {...register('scheduledPublishAt')}
-              className="bg-white"
-            />
-            {errors.scheduledPublishAt && (
-              <p className="text-sm text-red-500">{errors.scheduledPublishAt.message}</p>
-            )}
-            <p className="text-xs text-gray-600">
-              Bài viết sẽ tự động được đăng vào thời gian đã chọn
-            </p>
-          </div>
-        )}
 
         {/* Summary */}
         <div className="space-y-2">
@@ -317,7 +291,6 @@ export function NewsForm({
         youtubeVideoId={watchedFields.youtubeVideoId}
         category={selectedCategory}
         status={watchedFields.status}
-        scheduledPublishAt={watchedFields.scheduledPublishAt}
       />
     </>
   );
