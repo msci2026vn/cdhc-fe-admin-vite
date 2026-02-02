@@ -73,7 +73,7 @@ class ApiClient {
   private async handleResponse<T>(
     response: Response,
     endpoint: string,
-    options: RequestInit
+    options: RequestInit,
   ): Promise<ApiResponse<T>> {
     if (response.status === 401) {
       // Token expired - try to refresh
@@ -86,7 +86,7 @@ class ApiClient {
       try {
         const errorJson = await response.json();
         const rawError = errorJson.message || errorJson.error;
-        errorMessage = typeof rawError === 'string' ? rawError : (rawError?.message || errorMessage);
+        errorMessage = typeof rawError === 'string' ? rawError : rawError?.message || errorMessage;
       } catch {
         // Response body not JSON, use default message
       }
@@ -131,7 +131,8 @@ class ApiClient {
       // Case 2: { success: false, error: '...' } - return error
       if (json.success === false) {
         const rawErr = json.error || json.message || 'Request failed';
-        const errorMessage = typeof rawErr === 'string' ? rawErr : (rawErr?.message || 'Request failed');
+        const errorMessage =
+          typeof rawErr === 'string' ? rawErr : rawErr?.message || 'Request failed';
         authLogger.error('ApiClient', `Backend returned error: ${endpoint}`, {
           error: errorMessage,
         });
@@ -160,7 +161,7 @@ class ApiClient {
 
   private async handleUnauthorized<T>(
     endpoint: string,
-    options: RequestInit
+    options: RequestInit,
   ): Promise<ApiResponse<T>> {
     // Neu dang refresh -> queue request nay lai
     if (isRefreshing) {
@@ -220,15 +221,13 @@ class ApiClient {
     }
   }
 
-  async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     const url = `${API_BASE}${endpoint}`;
 
     // Build headers - NO Authorization header, rely on httpOnly cookies
+    const isFormData = options.body instanceof FormData;
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...(options.headers as Record<string, string>),
     };
 
@@ -321,8 +320,7 @@ export const legacyApi = {
     loginWithGoogle: (idToken: string) =>
       api.post<LegacyAuthResponse>('/api/auth/google', { idToken }),
 
-    logout: () =>
-      api.post('/api/auth/logout'),
+    logout: () => api.post('/api/auth/logout'),
 
     refresh: (refreshToken: string) =>
       api.post<LegacyAuthResponse>('/api/auth/refresh', { refreshToken }),
@@ -355,16 +353,14 @@ export const adminV2Api = {
     verify2FA: (token: string) =>
       api.post<AdminLoginResponse>('/api/admin-v2/auth/verify-2fa', { token }),
 
-    logout: () =>
-      api.post('/api/admin-v2/auth/logout'),
+    logout: () => api.post('/api/admin-v2/auth/logout'),
   },
 
   // ==========================================
   // Current Admin
   // ==========================================
   me: {
-    get: () =>
-      api.get<AdminUser>('/api/admin-v2/me'),
+    get: () => api.get<AdminUser>('/api/admin-v2/me'),
   },
 
   // ==========================================
@@ -378,7 +374,7 @@ export const adminV2Api = {
       if (params?.role) query.set('role', params.role);
       if (params?.active !== undefined) query.set('active', params.active.toString());
       return api.get<{ admins: AdminUser[]; total: number; page: number; limit: number }>(
-        `/api/admin-v2/admins?${query.toString()}`
+        `/api/admin-v2/admins?${query.toString()}`,
       );
     },
 
@@ -388,42 +384,42 @@ export const adminV2Api = {
     update: (id: string, data: UpdateAdminRequest) =>
       api.put<{ admin: AdminUser }>(`/api/admin-v2/admins/${id}`, data),
 
-    delete: (id: string) =>
-      api.delete(`/api/admin-v2/admins/${id}`),
+    delete: (id: string) => api.delete(`/api/admin-v2/admins/${id}`),
   },
 
   // ==========================================
   // Monitoring
   // ==========================================
   monitoring: {
-    getMetrics: () =>
-      api.get<ServerMetrics>('/api/admin-v2/monitoring/metrics'),
+    getMetrics: () => api.get<ServerMetrics>('/api/admin-v2/monitoring/metrics'),
 
-    getProcesses: () =>
-      api.get<{ processes: PM2Process[] }>('/api/admin-v2/monitoring/processes'),
+    getProcesses: () => api.get<{ processes: PM2Process[] }>('/api/admin-v2/monitoring/processes'),
 
-    getDatabase: () =>
-      api.get<{ database: DatabaseStats }>('/api/admin-v2/monitoring/database'),
+    getDatabase: () => api.get<{ database: DatabaseStats }>('/api/admin-v2/monitoring/database'),
 
     getTableData: (tableName: string, params?: { page?: number; limit?: number }) => {
       const query = new URLSearchParams();
       if (params?.page) query.set('page', params.page.toString());
       if (params?.limit) query.set('limit', params.limit.toString());
-      return api.get<{ rows: Record<string, unknown>[]; columns: string[]; total: number; page: number; limit: number }>(
-        `/api/admin-v2/monitoring/database/table/${tableName}?${query.toString()}`
-      );
+      return api.get<{
+        rows: Record<string, unknown>[];
+        columns: string[];
+        total: number;
+        page: number;
+        limit: number;
+      }>(`/api/admin-v2/monitoring/database/table/${tableName}?${query.toString()}`);
     },
 
-    getCache: () =>
-      api.get<{ cache: CacheStats }>('/api/admin-v2/monitoring/cache'),
+    getCache: () => api.get<{ cache: CacheStats }>('/api/admin-v2/monitoring/cache'),
 
     getAlerts: (params?: { limit?: number; severity?: string; acknowledged?: boolean }) => {
       const query = new URLSearchParams();
       if (params?.limit) query.set('limit', params.limit.toString());
       if (params?.severity) query.set('severity', params.severity);
-      if (params?.acknowledged !== undefined) query.set('acknowledged', params.acknowledged.toString());
+      if (params?.acknowledged !== undefined)
+        query.set('acknowledged', params.acknowledged.toString());
       return api.get<{ configurations: AlertConfiguration[]; recentAlerts: AlertHistory[] }>(
-        `/api/admin-v2/monitoring/alerts?${query.toString()}`
+        `/api/admin-v2/monitoring/alerts?${query.toString()}`,
       );
     },
   },
@@ -436,13 +432,13 @@ export const adminV2Api = {
       restart: (processName?: string) =>
         api.post<{ success: boolean; message: string; output: string }>(
           '/api/admin-v2/control/pm2/restart',
-          { processName }
+          { processName },
         ),
 
       reload: (processName?: string) =>
         api.post<{ success: boolean; message: string; output: string }>(
           '/api/admin-v2/control/pm2/reload',
-          { processName }
+          { processName },
         ),
 
       getLogs: (params?: { lines?: number; type?: 'out' | 'error' }) => {
@@ -457,7 +453,7 @@ export const adminV2Api = {
       flush: (pattern?: string) =>
         api.post<{ success: boolean; message: string; keysDeleted?: number }>(
           '/api/admin-v2/control/cache/flush',
-          { pattern }
+          { pattern },
         ),
     },
 
@@ -465,7 +461,7 @@ export const adminV2Api = {
       set: (enabled: boolean, message?: string) =>
         api.post<{ success: boolean; maintenanceMode: boolean; message?: string }>(
           '/api/admin-v2/control/maintenance',
-          { enabled, message }
+          { enabled, message },
         ),
     },
   },
@@ -483,21 +479,19 @@ export const adminV2Api = {
     disable: (token: string) =>
       api.post<{ success: boolean; message: string }>('/api/admin-v2/2fa/disable', { token }),
 
-    getStatus: () =>
-      api.get<{ enabled: boolean; required: boolean }>('/api/admin-v2/2fa/status'),
+    getStatus: () => api.get<{ enabled: boolean; required: boolean }>('/api/admin-v2/2fa/status'),
   },
 
   // ==========================================
   // Backup
   // ==========================================
   backup: {
-    list: () =>
-      api.get<{ backups: Backup[] }>('/api/admin-v2/backup/list'),
+    list: () => api.get<{ backups: Backup[] }>('/api/admin-v2/backup/list'),
 
     create: () =>
-      api.post<{ backup: { id: string; filename: string; size: number; storage_location: string } }>(
-        '/api/admin-v2/backup/create'
-      ),
+      api.post<{
+        backup: { id: string; filename: string; size: number; storage_location: string };
+      }>('/api/admin-v2/backup/create'),
 
     restore: (backupId: string) =>
       api.post<{ message: string }>(`/api/admin-v2/backup/restore/${backupId}`),
@@ -510,10 +504,14 @@ export const adminV2Api = {
   // Security
   // ==========================================
   security: {
-    getOverview: () =>
-      api.get<SecurityOverview>('/api/admin-v2/security/overview'),
+    getOverview: () => api.get<SecurityOverview>('/api/admin-v2/security/overview'),
 
-    getLogs: (params?: { event_type?: string; severity?: string; page?: number; limit?: number }) => {
+    getLogs: (params?: {
+      event_type?: string;
+      severity?: string;
+      page?: number;
+      limit?: number;
+    }) => {
       const query = new URLSearchParams();
       if (params?.event_type) query.set('event_type', params.event_type);
       if (params?.severity) query.set('severity', params.severity);
@@ -522,8 +520,7 @@ export const adminV2Api = {
       return api.get<SecurityLogsResponse>(`/api/admin-v2/security/logs?${query.toString()}`);
     },
 
-    getSessions: () =>
-      api.get<{ sessions: SecuritySession[] }>('/api/admin-v2/security/sessions'),
+    getSessions: () => api.get<{ sessions: SecuritySession[] }>('/api/admin-v2/security/sessions'),
 
     revokeSession: (sessionId: string) =>
       api.delete<{ success: boolean }>(`/api/admin-v2/security/sessions/${sessionId}`),
@@ -542,17 +539,22 @@ export const adminV2Api = {
   // Alerts (under /monitoring/)
   // ==========================================
   alerts: {
-    check: () =>
-      api.get<AlertCheckResponse>('/api/admin-v2/monitoring/alerts/check'),
+    check: () => api.get<AlertCheckResponse>('/api/admin-v2/monitoring/alerts/check'),
 
     getConfigurations: () =>
       api.get<AlertConfigurationsResponse>('/api/admin-v2/monitoring/alerts/configurations'),
 
     createConfiguration: (data: CreateAlertConfigRequest) =>
-      api.post<{ configuration: AlertConfigurationItem }>('/api/admin-v2/monitoring/alerts/configurations', data),
+      api.post<{ configuration: AlertConfigurationItem }>(
+        '/api/admin-v2/monitoring/alerts/configurations',
+        data,
+      ),
 
     updateConfiguration: (id: string, data: Partial<CreateAlertConfigRequest>) =>
-      api.put<{ configuration: AlertConfigurationItem }>(`/api/admin-v2/monitoring/alerts/configurations/${id}`, data),
+      api.put<{ configuration: AlertConfigurationItem }>(
+        `/api/admin-v2/monitoring/alerts/configurations/${id}`,
+        data,
+      ),
 
     deleteConfiguration: (id: string) =>
       api.delete<{ success: boolean }>(`/api/admin-v2/monitoring/alerts/configurations/${id}`),
@@ -561,13 +563,18 @@ export const adminV2Api = {
       api.post<{ success: boolean }>(`/api/admin-v2/monitoring/alerts/${alertId}/acknowledge`),
 
     snooze: (alertId: string, minutes: number) =>
-      api.post<{ success: boolean; snoozed_until: string }>(`/api/admin-v2/monitoring/alerts/${alertId}/snooze`, { minutes }),
+      api.post<{ success: boolean; snoozed_until: string }>(
+        `/api/admin-v2/monitoring/alerts/${alertId}/snooze`,
+        { minutes },
+      ),
 
     getHistory: (params?: { page?: number; limit?: number }) => {
       const query = new URLSearchParams();
       if (params?.page) query.set('page', params.page.toString());
       if (params?.limit) query.set('limit', params.limit.toString());
-      return api.get<AlertHistoryResponseType>(`/api/admin-v2/monitoring/alerts/history?${query.toString()}`);
+      return api.get<AlertHistoryResponseType>(
+        `/api/admin-v2/monitoring/alerts/history?${query.toString()}`,
+      );
     },
   },
 
@@ -581,11 +588,12 @@ export const adminV2Api = {
     getHistory: (hours?: number) => {
       const query = new URLSearchParams();
       if (hours) query.set('hours', hours.toString());
-      return api.get<{ data: MetricsSnapshotData[] }>(`/api/admin-v2/monitoring/metrics/history?${query.toString()}`);
+      return api.get<{ data: MetricsSnapshotData[] }>(
+        `/api/admin-v2/monitoring/metrics/history?${query.toString()}`,
+      );
     },
 
-    capture: () =>
-      api.post<{ success: boolean }>('/api/admin-v2/monitoring/metrics/capture'),
+    capture: () => api.post<{ success: boolean }>('/api/admin-v2/monitoring/metrics/capture'),
   },
 
   // ==========================================
@@ -595,20 +603,26 @@ export const adminV2Api = {
     getSlowQueries: (limit?: number) => {
       const query = new URLSearchParams();
       if (limit) query.set('limit', limit.toString());
-      return api.get<{ queries: SlowQueryData[] }>(`/api/admin-v2/query-analytics/slow-queries?${query.toString()}`);
+      return api.get<{ queries: SlowQueryData[] }>(
+        `/api/admin-v2/query-analytics/slow-queries?${query.toString()}`,
+      );
     },
 
     getFrequentQueries: (limit?: number) => {
       const query = new URLSearchParams();
       if (limit) query.set('limit', limit.toString());
-      return api.get<{ queries: FrequentQueryData[] }>(`/api/admin-v2/query-analytics/frequent-queries?${query.toString()}`);
+      return api.get<{ queries: FrequentQueryData[] }>(
+        `/api/admin-v2/query-analytics/frequent-queries?${query.toString()}`,
+      );
     },
 
     explain: (queryText: string) =>
       api.post<{ plan: unknown }>('/api/admin-v2/query-analytics/explain', { query: queryText }),
 
     getRecommendations: () =>
-      api.get<{ recommendations: QueryRecommendationData[]; count: number }>('/api/admin-v2/query-analytics/recommendations'),
+      api.get<{ recommendations: QueryRecommendationData[]; count: number }>(
+        '/api/admin-v2/query-analytics/recommendations',
+      ),
 
     resetStats: () =>
       api.post<{ success: boolean; message: string }>('/api/admin-v2/query-analytics/reset-stats'),
@@ -618,8 +632,7 @@ export const adminV2Api = {
   // Indexes
   // ==========================================
   indexes: {
-    list: () =>
-      api.get<{ indexes: IndexData[] }>('/api/admin-v2/indexes/list'),
+    list: () => api.get<{ indexes: IndexData[] }>('/api/admin-v2/indexes/list'),
 
     create: (data: { table: string; column: string; name: string }) =>
       api.post<{ success: boolean }>('/api/admin-v2/indexes/create', data),
@@ -630,10 +643,14 @@ export const adminV2Api = {
   // ==========================================
   maintenance: {
     vacuum: (tableName?: string) =>
-      api.post<{ success: boolean; message: string }>('/api/admin-v2/maintenance/vacuum', { tableName }),
+      api.post<{ success: boolean; message: string }>('/api/admin-v2/maintenance/vacuum', {
+        tableName,
+      }),
 
     analyze: (tableName?: string) =>
-      api.post<{ success: boolean; message: string }>('/api/admin-v2/maintenance/analyze', { tableName }),
+      api.post<{ success: boolean; message: string }>('/api/admin-v2/maintenance/analyze', {
+        tableName,
+      }),
   },
 
   // ==========================================
@@ -644,43 +661,49 @@ export const adminV2Api = {
      * Get recovery statistics
      * Lấy thống kê khôi phục
      */
-    getStats: () =>
-      api.get<RecoveryStatsData>('/api/admin-v2/legacy-recovery/stats'),
+    getStats: () => api.get<RecoveryStatsData>('/api/admin-v2/legacy-recovery/stats'),
 
     /**
      * Get detailed summary
      * Lấy tóm tắt chi tiết
      */
-    getSummary: () =>
-      api.get<RecoverySummaryData>('/api/admin-v2/legacy-recovery/summary'),
+    getSummary: () => api.get<RecoverySummaryData>('/api/admin-v2/legacy-recovery/summary'),
 
     /**
      * Get list of restored members
      * Lấy danh sách thành viên đã khôi phục
      */
     getRestored: (page = 1, limit = 20) =>
-      api.get<LegacyMembersData>(`/api/admin-v2/legacy-recovery/restored?page=${page}&limit=${limit}`),
+      api.get<LegacyMembersData>(
+        `/api/admin-v2/legacy-recovery/restored?page=${page}&limit=${limit}`,
+      ),
 
     /**
      * Get list of not restored members
      * Lấy danh sách thành viên chưa khôi phục
      */
     getNotRestored: (page = 1, limit = 20) =>
-      api.get<LegacyMembersData>(`/api/admin-v2/legacy-recovery/not-restored?page=${page}&limit=${limit}`),
+      api.get<LegacyMembersData>(
+        `/api/admin-v2/legacy-recovery/not-restored?page=${page}&limit=${limit}`,
+      ),
 
     /**
      * Search members by email/phone/name
      * Tìm kiếm thành viên theo email/phone/name
      */
     search: (query: string) =>
-      api.get<LegacyMembersData>(`/api/admin-v2/legacy-recovery/search?q=${encodeURIComponent(query)}`),
+      api.get<LegacyMembersData>(
+        `/api/admin-v2/legacy-recovery/search?q=${encodeURIComponent(query)}`,
+      ),
 
     /**
      * Get single member by email
      * Lấy thông tin một thành viên theo email
      */
     getMember: (email: string) =>
-      api.get<LegacyMemberData>(`/api/admin-v2/legacy-recovery/member/${encodeURIComponent(email)}`),
+      api.get<LegacyMemberData>(
+        `/api/admin-v2/legacy-recovery/member/${encodeURIComponent(email)}`,
+      ),
   },
 
   // ==========================================
@@ -691,8 +714,7 @@ export const adminV2Api = {
      * Get asset totals summary
      * Lấy tổng hợp tài sản
      */
-    getTotals: () =>
-      api.get<AssetTotalsData>('/api/admin-v2/top-holders/totals'),
+    getTotals: () => api.get<AssetTotalsData>('/api/admin-v2/top-holders/totals'),
 
     /**
      * Get top holders list
@@ -716,15 +738,16 @@ export const adminV2Api = {
      * Get concentration metrics
      * Lấy chỉ số tập trung
      */
-    getConcentration: () =>
-      api.get<ConcentrationData>('/api/admin-v2/top-holders/concentration'),
+    getConcentration: () => api.get<ConcentrationData>('/api/admin-v2/top-holders/concentration'),
 
     /**
      * Search holders
      * Tìm kiếm holders
      */
     search: (query: string) =>
-      api.get<TopHoldersListData>(`/api/admin-v2/top-holders/search?q=${encodeURIComponent(query)}`),
+      api.get<TopHoldersListData>(
+        `/api/admin-v2/top-holders/search?q=${encodeURIComponent(query)}`,
+      ),
 
     /**
      * Get single holder detail
@@ -753,8 +776,7 @@ export const adminV2Api = {
      * Read file content
      * Đọc nội dung file
      */
-    readFile: (filePath: string) =>
-      api.post<FileContent>('/api/admin-v2/files/read', { filePath }),
+    readFile: (filePath: string) => api.post<FileContent>('/api/admin-v2/files/read', { filePath }),
 
     /**
      * Search files by name or path
@@ -768,7 +790,10 @@ export const adminV2Api = {
      * Cập nhật mô tả tiếng Việt cho file
      */
     updateDescription: (filePath: string, descriptionVi: string) =>
-      api.put<{ success: boolean }>('/api/admin-v2/files/descriptions', { filePath, descriptionVi }),
+      api.put<{ success: boolean }>('/api/admin-v2/files/descriptions', {
+        filePath,
+        descriptionVi,
+      }),
 
     /**
      * Get file stats
@@ -781,8 +806,7 @@ export const adminV2Api = {
      * Get code health report
      * Lấy báo cáo sức khỏe code (large files, heavy files, health score)
      */
-    getHealthReport: () =>
-      api.get<CodeHealthData>('/api/admin-v2/files/health-report'),
+    getHealthReport: () => api.get<CodeHealthData>('/api/admin-v2/files/health-report'),
   },
 };
 

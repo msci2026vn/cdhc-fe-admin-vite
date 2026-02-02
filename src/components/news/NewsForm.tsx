@@ -13,9 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { Eye, Calendar, Clock, User } from 'lucide-react';
+import { Eye, Calendar } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { ThumbnailUpload } from './ThumbnailUpload';
 import { AudioUpload } from './AudioUpload';
@@ -26,7 +24,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNewsCategories } from '@/hooks/useNews';
 import { formatDate } from '@/lib/utils';
-import { NEWS_STATUS_LABELS, NEWS_STATUS_VARIANTS } from '@/types/news';
 import type { News } from '@/types/news';
 import type { NewsTemplate } from './newsTemplates';
 
