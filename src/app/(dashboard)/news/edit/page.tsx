@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NewsForm } from '@/components/news/NewsForm';
+import { AdminCommentsSection } from '@/components/news/AdminCommentsSection';
 import {
   useNewsDetail,
   useUpdateNews,
@@ -119,6 +120,12 @@ export default function NewsEditPage() {
           isAudioUploading={uploadAudio.isPending}
         />
       </div>
+
+      {/* Comments Section */}
+      <AdminCommentsSection
+        newsId={id}
+        commentCount={news.commentCount}
+      />
     </div>
   );
 }

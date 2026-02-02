@@ -1,4 +1,4 @@
-import { MoreHorizontal, Eye, Pencil, Trash2, Globe, GlobeLock } from 'lucide-react';
+import { MoreHorizontal, Eye, Pencil, Trash2, Globe, GlobeLock, Heart, MessageCircle } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -17,7 +17,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDate } from '@/lib/utils';
+
+function formatCompactNumber(num: number): string {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+  return num.toString();
+}
 import type { News } from '@/types/news';
 import { NEWS_STATUS_LABELS, NEWS_STATUS_VARIANTS } from '@/types/news';
 
@@ -46,10 +53,13 @@ export function NewsTable({
             <TableRow>
               <TableHead className="w-16">Ảnh</TableHead>
               <TableHead>Tiêu đề</TableHead>
+              <TableHead>Tác giả</TableHead>
               <TableHead>Danh mục</TableHead>
               <TableHead>Trạng thái</TableHead>
               <TableHead>Lượt xem</TableHead>
-              <TableHead>Ngày tạo</TableHead>
+              <TableHead>Likes</TableHead>
+              <TableHead>Comments</TableHead>
+              <TableHead>Ngày đăng</TableHead>
               <TableHead className="w-12"></TableHead>
             </TableRow>
           </TableHeader>
@@ -66,7 +76,16 @@ export function NewsTable({
                   <Skeleton className="h-4 w-24" />
                 </TableCell>
                 <TableCell>
+                  <Skeleton className="h-4 w-24" />
+                </TableCell>
+                <TableCell>
                   <Skeleton className="h-6 w-20" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-12" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-12" />
                 </TableCell>
                 <TableCell>
                   <Skeleton className="h-4 w-12" />
@@ -100,10 +119,13 @@ export function NewsTable({
           <TableRow>
             <TableHead className="w-16">Ảnh</TableHead>
             <TableHead>Tiêu đề</TableHead>
+            <TableHead>Tác giả</TableHead>
             <TableHead>Danh mục</TableHead>
             <TableHead>Trạng thái</TableHead>
             <TableHead>Lượt xem</TableHead>
-            <TableHead>Ngày tạo</TableHead>
+            <TableHead>Likes</TableHead>
+            <TableHead>Comments</TableHead>
+            <TableHead>Ngày đăng</TableHead>
             <TableHead className="w-12"></TableHead>
           </TableRow>
         </TableHeader>
@@ -129,6 +151,17 @@ export function NewsTable({
                   <p className="text-sm text-gray-500 line-clamp-1">{item.summary}</p>
                 )}
               </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-7 w-7">
+                    <AvatarImage src={item.authorAvatar || ''} />
+                    <AvatarFallback className="text-xs">
+                      {item.authorName?.charAt(0)?.toUpperCase() || 'A'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm">{item.authorName || 'Admin'}</span>
+                </div>
+              </TableCell>
               <TableCell className="text-sm text-gray-600">{item.category?.name || '-'}</TableCell>
               <TableCell>
                 <Badge variant={NEWS_STATUS_VARIANTS[item.status]}>
@@ -136,7 +169,21 @@ export function NewsTable({
                 </Badge>
               </TableCell>
               <TableCell className="text-sm text-gray-500">{item.viewCount}</TableCell>
-              <TableCell className="text-sm text-gray-500">{formatDate(item.createdAt)}</TableCell>
+              <TableCell>
+                <span className="inline-flex items-center gap-1 text-sm text-red-500">
+                  <Heart className="h-3.5 w-3.5" />
+                  {formatCompactNumber(item.likeCount || 0)}
+                </span>
+              </TableCell>
+              <TableCell>
+                <span className="inline-flex items-center gap-1 text-sm text-blue-500">
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  {formatCompactNumber(item.commentCount || 0)}
+                </span>
+              </TableCell>
+              <TableCell className="text-sm text-gray-500">
+                {item.publishedAt ? formatDate(item.publishedAt) : formatDate(item.createdAt)}
+              </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

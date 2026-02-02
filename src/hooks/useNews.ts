@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import type {
   News,
   NewsCategory,
+  NewsComment,
   NewsListParams,
   NewsListResponse,
   CreateNewsData,
@@ -39,7 +40,7 @@ export function useUpdateNewsCategory() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateCategoryData }) =>
-      api.put<NewsCategory>(`${CATEGORIES_BASE}/${id}`, data),
+      api.request<NewsCategory>(`${CATEGORIES_BASE}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news-categories'] });
     },
@@ -96,7 +97,7 @@ export function useUpdateNews() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateNewsData }) =>
-      api.put<News>(`${API_BASE}/${id}`, data),
+      api.request<News>(`${API_BASE}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news'] });
     },
@@ -116,7 +117,7 @@ export function useDeleteNews() {
 export function usePublishNews() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.post<News>(`${API_BASE}/${id}/publish`),
+    mutationFn: (id: string) => api.request<News>(`${API_BASE}/${id}/publish`, { method: 'PATCH' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['news'] });
     },
@@ -126,8 +127,38 @@ export function usePublishNews() {
 export function useUnpublishNews() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.post<News>(`${API_BASE}/${id}/unpublish`),
+    mutationFn: (id: string) => api.request<News>(`${API_BASE}/${id}/unpublish`, { method: 'PATCH' }),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['news'] });
+    },
+  });
+}
+
+// ==========================================
+// Comments (Admin)
+// ==========================================
+
+export function useAdminNewsComments(newsId: string, params?: { page?: number; limit?: number }) {
+  const { page = 1, limit = 20 } = params || {};
+  const query = new URLSearchParams({ page: page.toString(), limit: limit.toString() });
+
+  return useQuery({
+    queryKey: ['news', newsId, 'comments', { page, limit }],
+    queryFn: () =>
+      api.get<{ items: NewsComment[]; pagination: { total: number; totalPages: number } }>(
+        `${API_BASE}/${newsId}/comments?${query.toString()}`
+      ),
+    enabled: !!newsId,
+  });
+}
+
+export function useAdminDeleteComment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ newsId, commentId }: { newsId: string; commentId: string }) =>
+      api.delete(`${API_BASE}/${newsId}/comments/${commentId}`),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['news', variables.newsId, 'comments'] });
       queryClient.invalidateQueries({ queryKey: ['news'] });
     },
   });

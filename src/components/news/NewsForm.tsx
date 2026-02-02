@@ -17,8 +17,13 @@ import { RichTextEditor } from './RichTextEditor';
 import { ThumbnailUpload } from './ThumbnailUpload';
 import { AudioUpload } from './AudioUpload';
 import { YouTubeInput } from './YouTubeInput';
+import { FillTemplateButton } from './FillTemplateButton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNewsCategories } from '@/hooks/useNews';
+import { formatDate } from '@/lib/utils';
 import type { News } from '@/types/news';
+import type { NewsTemplate } from './newsTemplates';
 
 const newsSchema = z.object({
   title: z.string().min(5, 'Tiêu đề tối thiểu 5 ký tự').max(255),
@@ -64,6 +69,7 @@ export function NewsForm({
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<NewsFormValues>({
     resolver: zodResolver(newsSchema),
@@ -90,8 +96,47 @@ export function NewsForm({
     }
   }, [initialData, reset]);
 
+  const handleFillTemplate = (template: NewsTemplate) => {
+    setValue('title', template.title);
+    setValue('summary', template.summary);
+    setValue('content', template.content);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {/* Author Info (read-only, edit mode) */}
+      {initialData && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm">Thong tin tac gia</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src={initialData.authorAvatar || ''} />
+                <AvatarFallback>
+                  {initialData.authorName?.charAt(0)?.toUpperCase() || 'A'}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium text-sm">{initialData.authorName || 'Admin'}</p>
+                {initialData.authorRole && (
+                  <p className="text-xs text-gray-500">{initialData.authorRole}</p>
+                )}
+                <p className="text-xs text-gray-400">
+                  Tao: {formatDate(initialData.createdAt)}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Fill Template Button */}
+      <div className="flex justify-end">
+        <FillTemplateButton onFill={handleFillTemplate} disabled={isSubmitting} />
+      </div>
+
       {/* Title */}
       <div className="space-y-2">
         <Label htmlFor="title">Tiêu đề *</Label>

@@ -7,3 +7,5 @@ export { CategoryFormModal } from './CategoryFormModal';
 export { ThumbnailUpload } from './ThumbnailUpload';
 export { AudioUpload } from './AudioUpload';
 export { YouTubeInput } from './YouTubeInput';
+export { AdminCommentsSection } from './AdminCommentsSection';
+export { FillTemplateButton } from './FillTemplateButton';

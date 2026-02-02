@@ -24,6 +24,11 @@ export interface News {
   status: 'draft' | 'published' | 'archived';
   publishedAt: string | null;
   viewCount: number;
+  likeCount: number;
+  commentCount: number;
+  authorName?: string;
+  authorAvatar?: string;
+  authorRole?: string;
   audioUrl: string | null;
   audioDuration: number | null;
   audioFileSize: number | null;
@@ -43,6 +48,16 @@ export interface NewsListParams {
 
 export interface NewsListResponse {
   news: News[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface NewsCommentListResponse {
+  items: NewsComment[];
   pagination: {
     page: number;
     limit: number;
@@ -71,6 +86,17 @@ export interface CreateCategoryData {
 }
 
 export type UpdateCategoryData = Partial<CreateCategoryData>;
+
+export interface NewsComment {
+  id: string;
+  newsId: string;
+  userId: string;
+  userName: string;
+  userAvatar: string | null;
+  content: string;
+  createdAt: string;
+  likeCount: number;
+}
 
 export const NEWS_STATUS_LABELS: Record<string, string> = {
   draft: 'Bản nháp',
