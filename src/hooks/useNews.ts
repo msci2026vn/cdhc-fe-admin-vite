@@ -86,6 +86,14 @@ export function useNewsDetail(id: string) {
   });
 }
 
+export function useNewsBySlug(slug: string) {
+  return useQuery({
+    queryKey: ['news', 'slug', slug],
+    queryFn: () => api.get<News>(`${API_BASE}/slug/${slug}`),
+    enabled: !!slug,
+  });
+}
+
 export function useCreateNews() {
   const queryClient = useQueryClient();
   return useMutation({
