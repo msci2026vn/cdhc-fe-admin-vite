@@ -32,25 +32,30 @@ export function NewsPreviewModal({
 }: NewsPreviewModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto p-0 gap-0">
-        <DialogHeader className="p-6 border-b sticky top-0 bg-white z-10">
-          <DialogTitle>Xem trước bài viết</DialogTitle>
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto p-0 gap-0 bg-[#faf8f3]">
+        <DialogHeader className="p-6 border-b sticky top-0 bg-white z-10 shadow-sm">
+          <DialogTitle className="text-xl font-semibold">Xem trước bài viết</DialogTitle>
         </DialogHeader>
 
-        <div className="p-8 md:p-12 bg-white">
-          <article className="max-w-4xl mx-auto">
+        <div className="p-6 md:p-10 lg:p-16 bg-[#faf8f3]">
+          <article className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-8 md:p-12">
             {/* Status & Category */}
-            <div className="flex items-center gap-2 mb-6">
-              <Badge variant={NEWS_STATUS_VARIANTS[status]}>{NEWS_STATUS_LABELS[status]}</Badge>
+            <div className="flex items-center gap-3 mb-6">
+              <Badge
+                variant={NEWS_STATUS_VARIANTS[status]}
+                className="text-xs font-bold uppercase tracking-wider"
+              >
+                {NEWS_STATUS_LABELS[status]}
+              </Badge>
               {category && (
-                <Badge variant="outline" className="bg-blue-50">
+                <Badge className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider">
                   {category.name}
                 </Badge>
               )}
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-slate-900 leading-tight tracking-tight mb-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#061a06] leading-[1.2] mb-8">
               {title || 'Chưa có tiêu đề'}
             </h1>
 
@@ -103,7 +108,7 @@ export function NewsPreviewModal({
 
             {/* Summary */}
             {summary && (
-              <div className="text-xl text-slate-600 italic p-6 border-l-4 border-blue-600 bg-blue-50/30 rounded-r-2xl leading-relaxed font-sans mb-10">
+              <div className="text-lg md:text-xl text-gray-700 italic p-6 border-l-4 border-blue-500 bg-blue-50/50 rounded-r-lg leading-[1.8] mb-10 font-medium">
                 {summary}
               </div>
             )}
@@ -134,15 +139,20 @@ export function NewsPreviewModal({
 
             {/* Main Content */}
             <div
-              className="prose prose-lg prose-slate max-w-none
-                prose-headings:font-serif prose-headings:font-bold
-                prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-                prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                prose-p:leading-relaxed prose-p:mb-6
-                prose-ul:my-6 prose-li:my-2
-                prose-strong:text-slate-900 prose-strong:font-semibold"
+              className="prose prose-lg max-w-none
+                prose-headings:font-serif prose-headings:font-bold prose-headings:text-[#061a06]
+                prose-h2:text-3xl prose-h2:leading-[2.25rem] prose-h2:mt-8 prose-h2:mb-4
+                prose-h3:text-2xl prose-h3:leading-8 prose-h3:mt-6 prose-h3:mb-3
+                prose-p:text-lg prose-p:leading-[1.8] prose-p:mb-5 prose-p:text-gray-800
+                prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-5
+                prose-li:mb-2 prose-li:text-gray-800
+                prose-strong:font-bold prose-strong:text-[#061a06]
+                prose-a:text-blue-600 prose-a:underline prose-a:decoration-blue-300 hover:prose-a:decoration-blue-600
+                prose-img:rounded-xl prose-img:shadow-md prose-img:my-8
+                prose-blockquote:border-l-4 prose-blockquote:border-yellow-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700
+                prose-hr:border-gray-200 prose-hr:my-8"
               dangerouslySetInnerHTML={{
-                __html: content || '<p class="text-gray-400">Chưa có nội dung</p>',
+                __html: content || '<p class="text-gray-400 italic">Chưa có nội dung</p>',
               }}
             />
           </article>
