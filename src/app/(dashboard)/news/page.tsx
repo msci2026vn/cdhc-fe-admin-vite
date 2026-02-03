@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { NewsTable } from '@/components/news/NewsTable';
 import { NewsFilters } from '@/components/news/NewsFilters';
+import { NewsPreviewModal } from '@/components/news/NewsPreviewModal';
 import { Pagination } from '@/components/users/Pagination';
 import {
   useNewsList,
@@ -33,6 +34,7 @@ export default function NewsListPage() {
   const [status, setStatus] = useState('all');
   const [categoryId, setCategoryId] = useState('all');
   const [deleteTarget, setDeleteTarget] = useState<News | null>(null);
+  const [previewNews, setPreviewNews] = useState<News | null>(null);
 
   const debouncedSetSearch = useMemo(() => debounce((v: string) => setDebouncedSearch(v), 400), []);
 
@@ -123,6 +125,7 @@ export default function NewsListPage() {
         onDelete={setDeleteTarget}
         onPublish={handlePublish}
         onUnpublish={handleUnpublish}
+        onPreview={setPreviewNews}
       />
 
       <Pagination
@@ -136,6 +139,22 @@ export default function NewsListPage() {
           setPage(1);
         }}
       />
+
+      {/* Preview Modal */}
+      {previewNews && (
+        <NewsPreviewModal
+          open={!!previewNews}
+          onOpenChange={(open) => !open && setPreviewNews(null)}
+          title={previewNews.title}
+          summary={previewNews.summary || undefined}
+          content={previewNews.content}
+          thumbnailUrl={previewNews.thumbnailUrl}
+          audioUrl={previewNews.audioUrl}
+          youtubeVideoId={previewNews.youtubeVideoId || undefined}
+          category={previewNews.category || null}
+          status={previewNews.status}
+        />
+      )}
 
       {/* Delete Confirmation */}
       <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>

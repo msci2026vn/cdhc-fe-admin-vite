@@ -46,6 +46,7 @@ interface NewsTableProps {
   onDelete: (item: News) => void;
   onPublish: (item: News) => void;
   onUnpublish: (item: News) => void;
+  onPreview?: (item: News) => void;
 }
 
 export function NewsTable({
@@ -55,6 +56,7 @@ export function NewsTable({
   onDelete,
   onPublish,
   onUnpublish,
+  onPreview,
 }: NewsTableProps) {
   if (isLoading) {
     return (
@@ -170,7 +172,12 @@ export function NewsTable({
                       {item.authorName?.charAt(0)?.toUpperCase() || 'A'}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm">{item.authorName || 'Admin'}</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">{item.authorName || 'Admin'}</span>
+                    {item.authorRole && (
+                      <span className="text-xs text-gray-500">{item.authorRole}</span>
+                    )}
+                  </div>
                 </div>
               </TableCell>
               <TableCell className="text-sm text-gray-600">
@@ -212,9 +219,7 @@ export function NewsTable({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => window.open(`${PUBLIC_SITE_URL}/news/${item.slug}`, '_blank')}
-                    >
+                    <DropdownMenuItem onClick={() => onPreview?.(item)}>
                       <Eye className="mr-2 h-4 w-4" />
                       Xem trước
                     </DropdownMenuItem>
