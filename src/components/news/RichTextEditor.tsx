@@ -1,4 +1,5 @@
 import { useEditor, EditorContent } from '@tiptap/react';
+import { useEffect } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -81,6 +82,13 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
       onChange(editor.getHTML());
     },
   });
+
+  // Sync external content changes to editor (e.g., when filling template)
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) return null;
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,57 @@ export default function NewsCreatePage() {
 
   const [pendingThumbnail, setPendingThumbnail] = useState<File | null>(null);
   const [pendingAudio, setPendingAudio] = useState<File | null>(null);
+  const [audioDuration, setAudioDuration] = useState<number | null>(null);
+
+  // Create preview URL for thumbnail
+  const thumbnailPreview = useMemo(() => {
+    if (!pendingThumbnail) return null;
+    return URL.createObjectURL(pendingThumbnail);
+  }, [pendingThumbnail]);
+
+  // Create preview URL for audio and load metadata
+  const audioPreview = useMemo(() => {
+    if (!pendingAudio) return null;
+    const url = URL.createObjectURL(pendingAudio);
+
+    // Load audio metadata to get duration
+    const audio = new Audio(url);
+    audio.addEventListener('loadedmetadata', () => {
+      setAudioDuration(Math.floor(audio.duration));
+    });
+
+    return url;
+  }, [pendingAudio]);
+
+  // Handlers with cleanup
+  const handleThumbnailUpload = useCallback((file: File) => {
+    setPendingThumbnail(file);
+  }, []);
+
+  const handleThumbnailDelete = useCallback(() => {
+    setPendingThumbnail(null);
+  }, []);
+
+  const handleAudioUpload = useCallback((file: File) => {
+    setPendingAudio(file);
+    setAudioDuration(null);
+  }, []);
+
+  const handleAudioDelete = useCallback(() => {
+    setPendingAudio(null);
+    setAudioDuration(null);
+  }, []);
+
+  // Create preview data object
+  const previewData = useMemo(() => {
+    if (!thumbnailPreview && !audioPreview) return undefined;
+    return {
+      thumbnailUrl: thumbnailPreview,
+      audioUrl: audioPreview,
+      audioDuration: audioDuration,
+      audioFileSize: pendingAudio?.size || null,
+    } as const;
+  }, [thumbnailPreview, audioPreview, audioDuration, pendingAudio]);
 
   const handleSubmit = async (data: CreateNewsData) => {
     try {
@@ -81,15 +132,17 @@ export default function NewsCreatePage() {
 
       {/* Form Content */}
       <NewsForm
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initialData={previewData as any}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/news')}
         isSubmitting={isSubmitting}
-        onThumbnailUpload={(file) => setPendingThumbnail(file)}
-        onThumbnailDelete={() => setPendingThumbnail(null)}
-        onAudioUpload={(file) => setPendingAudio(file)}
-        onAudioDelete={() => setPendingAudio(null)}
-        isThumbnailUploading={uploadThumbnail.isPending}
-        isAudioUploading={uploadAudio.isPending}
+        onThumbnailUpload={handleThumbnailUpload}
+        onThumbnailDelete={handleThumbnailDelete}
+        onAudioUpload={handleAudioUpload}
+        onAudioDelete={handleAudioDelete}
+        isThumbnailUploading={false}
+        isAudioUploading={false}
       />
     </div>
   );
