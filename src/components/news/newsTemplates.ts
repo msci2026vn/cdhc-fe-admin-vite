@@ -5,39 +5,69 @@ export interface NewsTemplate {
 }
 
 export const DEFAULT_TEMPLATE: NewsTemplate = {
-  title: 'Tiêu đề bài viết mẫu',
+  title: 'Chiến lược quốc gia về kinh tế số: Cơ hội bứt phá cho doanh nghiệp tư nhân',
   summary:
-    'Tóm tắt ngắn gọn nội dung chính của bài viết, thu hút người đọc quan tâm đến chủ đề được trình bày.',
-  content: `<h2>📌 Giới thiệu</h2>
-<p>Đoạn mở đầu giới thiệu chủ đề, đặt vấn đề và thu hút sự chú ý của người đọc. Nêu rõ bài viết sẽ cung cấp thông tin gì có giá trị cho bà con nông dân.</p>
+    'Trong bối cảnh nền kinh tế toàn cầu đang chuyển dịch mạnh mẽ sang hướng số hóa, Chính phủ đã chính thức phê duyệt Chiến lược quốc gia về phát triển kinh tế số và xã hội số đến năm 2025, định hướng đến năm 2030.',
+  content: `<p>Trong bối cảnh nền kinh tế toàn cầu đang chuyển dịch mạnh mẽ sang hướng số hóa, Chính phủ đã chính thức phê duyệt <strong>Chiến lược quốc gia về phát triển kinh tế số và xã hội số đến năm 2025, định hướng đến năm 2030</strong>. Đây được xem là "cú hích" quan trọng, mở ra không gian phát triển mới cho cộng đồng doanh nghiệp tư nhân Việt Nam.</p>
 
-<h2>📋 Nội dung chính</h2>
+<p>Kinh tế số không còn là xu hướng mà đã trở thành động lực tăng trưởng bắt buộc. Theo báo cáo mới nhất từ Google, Temasek và Bain & Company, nền kinh tế số Việt Nam dự kiến đạt <strong>45 tỷ USD</strong> vào năm 2025. Sự tham gia của các doanh nghiệp tư nhân đóng vai trò then chốt trong việc hiện thực hóa mục tiêu này.</p>
 
-<h3>1. Điểm quan trọng thứ nhất</h3>
-<p>Trình bày chi tiết về điểm đầu tiên. Sử dụng số liệu, ví dụ cụ thể để minh họa cho bà con dễ hiểu.</p>
+<h2>Định hình lại mô hình kinh doanh truyền thống</h2>
+
+<p>Chuyển đổi số không chỉ đơn thuần là áp dụng công nghệ vào quy trình vận hành, mà là sự thay đổi toàn diện về tư duy chiến lược. Đối với các doanh nghiệp vừa và nhỏ (SMEs), đây là cơ hội để tối ưu hóa chi phí, nâng cao trải nghiệm khách hàng và mở rộng thị trường ra ngoài biên giới quốc gia một cách nhanh chóng nhất.</p>
+
+<figure style="margin: 2rem 0;">
+  <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=2070" alt="Hội thảo chuyển đổi số doanh nghiệp" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" />
+  <figcaption style="text-align: center; font-style: italic; color: #64748b; font-size: 0.9em; margin-top: 0.75rem;">Hội thảo chuyển đổi số: Doanh nghiệp tiếp cận công nghệ mới</figcaption>
+</figure>
+
+<h2>Những trụ cột chính trong chiến lược mới</h2>
+
+<p>Chiến lược quốc gia tập trung vào ba trụ cột chính mà doanh nghiệp cần đặc biệt lưu ý:</p>
+
 <ul>
-  <li>Ý phụ 1: Giải thích thêm chi tiết</li>
-  <li>Ý phụ 2: Bổ sung thông tin liên quan</li>
-  <li>Ý phụ 3: Ví dụ minh họa thực tế</li>
+  <li><strong>Hạ tầng số:</strong> Phát triển mạng lưới 5G và điện toán đám mây làm nền tảng cho mọi hoạt động kết nối.</li>
+  <li><strong>Nhân lực số:</strong> Đào tạo và thu hút nhân tài có kỹ năng công nghệ cao, giải quyết bài toán thiếu hụt nhân sự chất lượng.</li>
+  <li><strong>An toàn thông tin:</strong> Xây dựng hàng rào bảo mật vững chắc để bảo vệ dữ liệu doanh nghiệp và khách hàng trong môi trường mạng.</li>
 </ul>
 
-<h3>2. Điểm quan trọng thứ hai</h3>
-<p>Tiếp tục phát triển nội dung với điểm thứ hai. Có thể thêm hình ảnh, bảng biểu nếu cần thiết.</p>
+<figure style="margin: 2rem 0;">
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2015" alt="Phân tích dữ liệu kinh doanh" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" />
+  <figcaption style="text-align: center; font-style: italic; color: #64748b; font-size: 0.9em; margin-top: 0.75rem;">Phân tích dữ liệu giúp doanh nghiệp đưa ra quyết định chính xác hơn</figcaption>
+</figure>
 
-<h3>3. Điểm quan trọng thứ ba</h3>
-<p>Hoàn thiện nội dung với điểm cuối cùng. Đảm bảo logic mạch lạc và dễ theo dõi.</p>
+<h2>Thách thức song hành cùng cơ hội</h2>
 
-<h2>💡 Khuyến cáo</h2>
-<p>Đưa ra các lời khuyên thực tế, hữu ích cho bà con có thể áp dụng ngay:</p>
-<ol>
-  <li><strong>Khuyến cáo 1:</strong> Mô tả chi tiết cách thực hiện</li>
-  <li><strong>Khuyến cáo 2:</strong> Lưu ý quan trọng cần nhớ</li>
-  <li><strong>Khuyến cáo 3:</strong> Điều cần tránh khi áp dụng</li>
-</ol>
+<p>Tuy nhiên, con đường chuyển đổi không trải đầy hoa hồng. Rào cản lớn nhất hiện nay vẫn là chi phí đầu tư ban đầu và sự thay đổi văn hóa doanh nghiệp. Nhiều lãnh đạo vẫn còn e ngại rủi ro khi thay đổi quy trình đã vận hành ổn định nhiều năm.</p>
 
-<h2>📝 Kết luận</h2>
-<p>Tổng kết lại các điểm chính đã trình bày. Nhấn mạnh giá trị bài viết mang lại và kêu gọi bà con chủ động áp dụng vào thực tế sản xuất.</p>
+<blockquote>
+  <p>"Chuyển đổi số là một cuộc cách mạng về tư duy hơn là công nghệ. Công nghệ có thể mua được, nhưng tư duy đổi mới sáng tạo thì cần được nuôi dưỡng từ người đứng đầu."</p>
+  <footer>— TS. Nguyễn Văn A, Diễn đàn CDHC 2024</footer>
+</blockquote>
 
-<hr>
-<p><em>Bài viết được biên soạn bởi đội ngũ CDHC. Mọi thắc mắc xin liên hệ để được hỗ trợ.</em></p>`,
+<div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 24px 0; border-radius: 8px;">
+  <h3 style="margin-top: 0; color: #92400e; font-size: 1.1em;">📌 Điểm nhấn quan trọng</h3>
+  <ul style="color: #78350f; margin-bottom: 0;">
+    <li>Kinh tế số là động lực tăng trưởng mới, dự kiến đạt 45 tỷ USD năm 2025.</li>
+    <li>Doanh nghiệp cần tái cấu trúc mô hình kinh doanh dựa trên dữ liệu.</li>
+    <li>Đầu tư vào nhân lực và an ninh mạng là yếu tố sống còn.</li>
+  </ul>
+</div>
+
+<h2>Cơ hội từ thương mại điện tử</h2>
+
+<p>Một trong những lĩnh vực phát triển mạnh nhất trong kinh tế số chính là thương mại điện tử. Với hơn 70 triệu người dùng internet tại Việt Nam, tiềm năng phát triển kinh doanh online là vô cùng lớn.</p>
+
+<figure style="margin: 2rem 0;">
+  <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=2070" alt="Thương mại điện tử" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" />
+  <figcaption style="text-align: center; font-style: italic; color: #64748b; font-size: 0.9em; margin-top: 0.75rem;">Thương mại điện tử đang bùng nổ tại Việt Nam</figcaption>
+</figure>
+
+<h2>Kết luận</h2>
+
+<p>Chiến lược quốc gia về kinh tế số là tấm bản đồ chỉ đường, nhưng việc đi nhanh hay chậm phụ thuộc vào sự chủ động của mỗi doanh nghiệp. Đã đến lúc cộng đồng doanh nghiệp tư nhân cần nắm bắt thời cơ, <strong>"bứt phá"</strong> để vươn mình ra biển lớn.</p>
+
+<hr />
+
+<p style="font-style: italic; color: #64748b; font-size: 0.9em;">Bài viết được biên soạn bởi đội ngũ CDHC. Mọi thắc mắc xin vui lòng liên hệ để được hỗ trợ.</p>`,
 };

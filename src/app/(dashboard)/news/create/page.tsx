@@ -67,30 +67,30 @@ export default function NewsCreatePage() {
   const isSubmitting = createNews.isPending || uploadThumbnail.isPending || uploadAudio.isPending;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/news')}>
+    <div className="space-y-6 pb-8">
+      {/* Page Header */}
+      <div className="flex items-start gap-4">
+        <Button variant="ghost" size="icon" onClick={() => navigate('/news')} className="mt-1">
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold">Tạo bài viết mới</h1>
-          <p className="text-gray-500">Soạn và đăng bài viết tin tức</p>
+          <h1 className="text-3xl font-bold text-gray-900">Tạo bài viết mới</h1>
+          <p className="text-sm text-gray-600 mt-1">Điền thông tin bài viết và nhấn Tạo bài viết</p>
         </div>
       </div>
 
-      <div className="rounded-lg border bg-white p-6">
-        <NewsForm
-          onSubmit={handleSubmit}
-          onCancel={() => navigate('/news')}
-          isSubmitting={isSubmitting}
-          onThumbnailUpload={(file) => setPendingThumbnail(file)}
-          onThumbnailDelete={() => setPendingThumbnail(null)}
-          onAudioUpload={(file) => setPendingAudio(file)}
-          onAudioDelete={() => setPendingAudio(null)}
-          isThumbnailUploading={uploadThumbnail.isPending}
-          isAudioUploading={uploadAudio.isPending}
-        />
-      </div>
+      {/* Form Content */}
+      <NewsForm
+        onSubmit={handleSubmit}
+        onCancel={() => navigate('/news')}
+        isSubmitting={isSubmitting}
+        onThumbnailUpload={(file) => setPendingThumbnail(file)}
+        onThumbnailDelete={() => setPendingThumbnail(null)}
+        onAudioUpload={(file) => setPendingAudio(file)}
+        onAudioDelete={() => setPendingAudio(null)}
+        isThumbnailUploading={uploadThumbnail.isPending}
+        isAudioUploading={uploadAudio.isPending}
+      />
     </div>
   );
 }

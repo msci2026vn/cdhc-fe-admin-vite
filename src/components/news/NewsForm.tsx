@@ -133,204 +133,316 @@ export function NewsForm({
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* Author Info (read-only, edit mode) */}
-        {initialData && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Thông tin tác giả</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={initialData.authorAvatar || ''} />
-                  <AvatarFallback>
-                    {initialData.authorName?.charAt(0)?.toUpperCase() || 'A'}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium text-sm">{initialData.authorName || 'Admin'}</p>
-                  {initialData.authorRole && (
-                    <p className="text-xs text-gray-500">{initialData.authorRole}</p>
-                  )}
-                  <p className="text-xs text-gray-400">Tạo: {formatDate(initialData.createdAt)}</p>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content - Left Column */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Header with Actions */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">Thông tin chi tiết</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <FillTemplateButton onFill={handleFillTemplate} disabled={isSubmitting} />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowPreview(true)}
+                    >
+                      <Eye className="w-4 h-4 mr-2" />
+                      Xem trước
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Title */}
+                <div className="space-y-2">
+                  <Label htmlFor="title">Tiêu đề *</Label>
+                  <Input id="title" {...register('title')} placeholder="Nhập tiêu đề bài viết" />
+                  {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+                </div>
 
-        {/* Action Buttons */}
-        <div className="flex justify-between items-center">
-          <FillTemplateButton onFill={handleFillTemplate} disabled={isSubmitting} />
-          <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(true)}>
-            <Eye className="w-4 h-4 mr-2" />
-            Xem trước
-          </Button>
-        </div>
+                {/* Slug - Auto-generated hint */}
+                <div className="space-y-2">
+                  <Label htmlFor="slug">Slug (URL) *</Label>
+                  <Input
+                    id="slug"
+                    value={
+                      watchedFields.title
+                        ?.toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/đ/g, 'd')
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '') || 'tu-dong-tao-tu-tieu-de'
+                    }
+                    disabled
+                    className="bg-gray-50"
+                  />
+                  <p className="text-xs text-gray-500">Chỉ dùng chữ thường, số và dấu gạch ngang</p>
+                </div>
 
-        {/* Title */}
-        <div className="space-y-2">
-          <Label htmlFor="title">Tiêu đề *</Label>
-          <Input id="title" {...register('title')} placeholder="Nhập tiêu đề bài viết" />
-          {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
-        </div>
+                {/* Summary */}
+                <div className="space-y-2">
+                  <Label htmlFor="summary">Tóm tắt</Label>
+                  <Textarea
+                    id="summary"
+                    {...register('summary')}
+                    placeholder="Mô tả ngắn gọn về bài viết (hiển thị trong danh sách)"
+                    rows={3}
+                  />
+                  {errors.summary && (
+                    <p className="text-sm text-red-500">{errors.summary.message}</p>
+                  )}
+                </div>
 
-        {/* Category + Status */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <Label>Danh mục</Label>
-            <Controller
-              name="categoryId"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  value={field.value || 'none'}
-                  onValueChange={(v) => field.onChange(v === 'none' ? undefined : v)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Chọn danh mục" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">Không chọn</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
+                {/* Content */}
+                <div className="space-y-2">
+                  <Label>Nội dung *</Label>
+                  <Controller
+                    name="content"
+                    control={control}
+                    render={({ field }) => (
+                      <RichTextEditor content={field.value} onChange={field.onChange} />
+                    )}
+                  />
+                  {errors.content && (
+                    <p className="text-sm text-red-500">{errors.content.message}</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* SEO Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">SEO (Tối ưu hóa công cụ tìm kiếm)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="metaTitle">Meta Title</Label>
+                    <Input
+                      id="metaTitle"
+                      placeholder="Tiêu đề hiển thị trên Google (tối đa 60 ký tự)"
+                      maxLength={60}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="metaDescription">Meta Description</Label>
+                    <Textarea
+                      id="metaDescription"
+                      placeholder="Mô tả hiển thị trên Google (tối đa 160 ký tự)"
+                      rows={3}
+                      maxLength={160}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Additional Media (Audio, YouTube) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Media bổ sung</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Audio */}
+                <div className="space-y-2">
+                  <Label>Audio (MP3)</Label>
+                  <AudioUpload
+                    currentUrl={initialData?.audioUrl || null}
+                    audioDuration={initialData?.audioDuration || null}
+                    audioFileSize={initialData?.audioFileSize || null}
+                    onUpload={onAudioUpload || (() => {})}
+                    onDelete={onAudioDelete || (() => {})}
+                    isUploading={isAudioUploading}
+                  />
+                </div>
+
+                {/* YouTube */}
+                <div className="space-y-2">
+                  <Label>Video YouTube</Label>
+                  <Controller
+                    name="youtubeVideoId"
+                    control={control}
+                    render={({ field }) => (
+                      <YouTubeInput value={field.value || ''} onChange={field.onChange} />
+                    )}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          <div className="space-y-2">
-            <Label>Trạng thái</Label>
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Bản nháp</SelectItem>
-                    <SelectItem value="published">Đăng ngay</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          </div>
-        </div>
+          {/* Sidebar - Right Column */}
+          <div className="space-y-6">
+            {/* Status Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Trạng thái</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          value="draft"
+                          checked={field.value === 'draft'}
+                          onChange={() => field.onChange('draft')}
+                          className="w-4 h-4 text-blue-600"
+                        />
+                        <div>
+                          <p className="font-medium text-sm">Nháp</p>
+                          <p className="text-xs text-gray-500">
+                            Lưu nháp, chưa công khai trên website
+                          </p>
+                        </div>
+                      </label>
+                      <label className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          value="published"
+                          checked={field.value === 'published'}
+                          onChange={() => field.onChange('published')}
+                          className="w-4 h-4 text-blue-600"
+                        />
+                        <div>
+                          <p className="font-medium text-sm">Xuất bản</p>
+                          <p className="text-xs text-gray-500">Hiển thị công khai trên website</p>
+                        </div>
+                      </label>
+                    </div>
+                  )}
+                />
 
-        {/* Scheduled Publish */}
-        <div className="space-y-2">
-          <Label htmlFor="scheduledPublishAt" className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            Lên lịch đăng bài
-          </Label>
-          <Input
-            id="scheduledPublishAt"
-            type="datetime-local"
-            {...register('scheduledPublishAt')}
-            min={new Date().toISOString().slice(0, 16)}
-          />
-          <p className="text-xs text-gray-500">
-            Để trống nếu muốn đăng ngay hoặc lưu nháp. Khi đặt lịch, bài sẽ tự động đăng khi đến
-            giờ.
-          </p>
-          {watchedFields.scheduledPublishAt && (
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
-                <Clock className="h-3 w-3" />
-                Đã lên lịch: {new Date(watchedFields.scheduledPublishAt).toLocaleString('vi-VN')}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-6 text-xs text-red-500 hover:text-red-700"
-                onClick={() => setValue('scheduledPublishAt', '')}
-              >
-                Hủy lịch
-              </Button>
-            </div>
-          )}
-        </div>
+                {/* Scheduled Publish */}
+                <div className="space-y-2 pt-3 border-t">
+                  <Label htmlFor="scheduledPublishAt" className="flex items-center gap-2 text-sm">
+                    <Clock className="h-4 w-4" />
+                    Lên lịch đăng bài
+                  </Label>
+                  <Input
+                    id="scheduledPublishAt"
+                    type="datetime-local"
+                    {...register('scheduledPublishAt')}
+                    min={new Date().toISOString().slice(0, 16)}
+                    className="text-sm"
+                  />
+                  {watchedFields.scheduledPublishAt && (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                        <Clock className="h-3 w-3" />
+                        {new Date(watchedFields.scheduledPublishAt).toLocaleString('vi-VN')}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 text-xs text-red-500 hover:text-red-700"
+                        onClick={() => setValue('scheduledPublishAt', '')}
+                      >
+                        Hủy
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Summary */}
-        <div className="space-y-2">
-          <Label htmlFor="summary">Tóm tắt</Label>
-          <Textarea
-            id="summary"
-            {...register('summary')}
-            placeholder="Tóm tắt ngắn gọn..."
-            rows={3}
-          />
-          {errors.summary && <p className="text-sm text-red-500">{errors.summary.message}</p>}
-        </div>
+            {/* Category Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Danh mục</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Controller
+                  name="categoryId"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      value={field.value || 'none'}
+                      onValueChange={(v) => field.onChange(v === 'none' ? undefined : v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Không phân loại" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">Không phân loại</SelectItem>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </CardContent>
+            </Card>
 
-        {/* Content */}
-        <div className="space-y-2">
-          <Label>Nội dung *</Label>
-          <Controller
-            name="content"
-            control={control}
-            render={({ field }) => (
-              <RichTextEditor content={field.value} onChange={field.onChange} />
+            {/* Featured Image Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Ảnh đại diện</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ThumbnailUpload
+                  currentUrl={initialData?.thumbnailUrl || null}
+                  onUpload={onThumbnailUpload || (() => {})}
+                  onDelete={onThumbnailDelete || (() => {})}
+                  isUploading={isThumbnailUploading}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Author Info (only in edit mode) */}
+            {initialData && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Thông tin tác giả</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={initialData.authorAvatar || ''} />
+                      <AvatarFallback>
+                        {initialData.authorName?.charAt(0)?.toUpperCase() || 'A'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium text-sm">{initialData.authorName || 'Admin'}</p>
+                      {initialData.authorRole && (
+                        <p className="text-xs text-gray-500">{initialData.authorRole}</p>
+                      )}
+                      <p className="text-xs text-gray-400">
+                        Tạo: {formatDate(initialData.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             )}
-          />
-          {errors.content && <p className="text-sm text-red-500">{errors.content.message}</p>}
-        </div>
-
-        {/* Media Section */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold border-b pb-2">Media</h3>
-
-          {/* Thumbnail */}
-          <div className="space-y-2">
-            <Label>Ảnh đại diện</Label>
-            <ThumbnailUpload
-              currentUrl={initialData?.thumbnailUrl || null}
-              onUpload={onThumbnailUpload || (() => {})}
-              onDelete={onThumbnailDelete || (() => {})}
-              isUploading={isThumbnailUploading}
-            />
-          </div>
-
-          {/* Audio */}
-          <div className="space-y-2">
-            <Label>Audio (MP3)</Label>
-            <AudioUpload
-              currentUrl={initialData?.audioUrl || null}
-              audioDuration={initialData?.audioDuration || null}
-              audioFileSize={initialData?.audioFileSize || null}
-              onUpload={onAudioUpload || (() => {})}
-              onDelete={onAudioDelete || (() => {})}
-              isUploading={isAudioUploading}
-            />
-          </div>
-
-          {/* YouTube */}
-          <div className="space-y-2">
-            <Label>Video YouTube</Label>
-            <Controller
-              name="youtubeVideoId"
-              control={control}
-              render={({ field }) => (
-                <YouTubeInput value={field.value || ''} onChange={field.onChange} />
-              )}
-            />
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3 border-t pt-4">
+        {/* Actions - Bottom */}
+        <div className="flex items-center justify-end gap-3 border-t pt-6 mt-6">
+          <p className="text-sm text-gray-500 mr-auto">
+            {watchedFields.status === 'draft'
+              ? 'Bài viết sẽ được lưu nháp'
+              : 'Bài viết sẽ được xuất bản ngay'}
+          </p>
           <Button type="button" variant="outline" onClick={onCancel}>
             Hủy
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="bg-green-600 hover:bg-green-700">
             {isSubmitting ? 'Đang lưu...' : initialData ? 'Cập nhật' : 'Tạo bài viết'}
           </Button>
         </div>

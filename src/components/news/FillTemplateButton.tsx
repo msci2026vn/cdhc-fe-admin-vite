@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -28,10 +28,10 @@ export function FillTemplateButton({ onFill, disabled }: FillTemplateButtonProps
         variant="outline"
         size="sm"
         disabled={disabled}
-        className="gap-2 border-amber-300 text-amber-700 hover:bg-amber-50"
+        className="gap-2 border-blue-200 text-blue-600 hover:bg-blue-50"
         onClick={() => setShowConfirm(true)}
       >
-        <Sparkles className="h-4 w-4" />
+        <FileText className="h-4 w-4" />
         Dùng bài mẫu
       </Button>
 
@@ -47,9 +47,9 @@ export function FillTemplateButton({ onFill, disabled }: FillTemplateButtonProps
             <AlertDialogCancel>Hủy</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => onFill(DEFAULT_TEMPLATE)}
-              className="bg-amber-500 hover:bg-amber-600"
+              className="bg-blue-600 hover:bg-blue-700"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
+              <FileText className="h-4 w-4 mr-2" />
               Điền mẫu
             </AlertDialogAction>
           </AlertDialogFooter>
