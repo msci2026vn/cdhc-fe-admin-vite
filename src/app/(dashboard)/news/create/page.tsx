@@ -20,17 +20,25 @@ export default function NewsCreatePage() {
     try {
       // 1. Create the news article
       const result = await createNews.mutateAsync(data);
-      const newsId = result.data?.id;
 
+      if (!result.success) {
+        toast.error(result.error?.message || 'Tạo bài viết thất bại');
+        return;
+      }
+
+      const newsId = result.data?.id;
       if (!newsId) {
-        toast.error('Tạo bài viết thất bại');
+        toast.error('Tạo bài viết thất bại - không nhận được ID');
         return;
       }
 
       // 2. Upload thumbnail if selected
       if (pendingThumbnail) {
         try {
-          await uploadThumbnail.mutateAsync({ newsId, file: pendingThumbnail });
+          const thumbResult = await uploadThumbnail.mutateAsync({ newsId, file: pendingThumbnail });
+          if (!thumbResult.success) {
+            toast.error(thumbResult.error?.message || 'Lỗi tải ảnh đại diện');
+          }
         } catch {
           toast.error('Tạo bài thành công nhưng lỗi tải ảnh đại diện');
         }
@@ -39,7 +47,10 @@ export default function NewsCreatePage() {
       // 3. Upload audio if selected
       if (pendingAudio) {
         try {
-          await uploadAudio.mutateAsync({ newsId, file: pendingAudio });
+          const audioResult = await uploadAudio.mutateAsync({ newsId, file: pendingAudio });
+          if (!audioResult.success) {
+            toast.error(audioResult.error?.message || 'Lỗi tải audio');
+          }
         } catch {
           toast.error('Tạo bài thành công nhưng lỗi tải audio');
         }
@@ -47,8 +58,9 @@ export default function NewsCreatePage() {
 
       toast.success('Đã tạo bài viết');
       navigate('/news');
-    } catch {
-      toast.error('Có lỗi xảy ra khi tạo bài viết');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Có lỗi xảy ra khi tạo bài viết';
+      toast.error(message);
     }
   };
 

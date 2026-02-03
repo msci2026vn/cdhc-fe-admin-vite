@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Eye } from 'lucide-react';
+import { Eye, Clock } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { ThumbnailUpload } from './ThumbnailUpload';
 import { AudioUpload } from './AudioUpload';
@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNewsCategories } from '@/hooks/useNews';
 import { formatDate } from '@/lib/utils';
-import type { News } from '@/types/news';
+import type { News, CreateNewsData } from '@/types/news';
 import type { NewsTemplate } from './newsTemplates';
 
 const newsSchema = z.object({
@@ -32,15 +32,16 @@ const newsSchema = z.object({
   categoryId: z.string().optional(),
   summary: z.string().max(500).optional(),
   content: z.string().min(10, 'Nội dung tối thiểu 10 ký tự'),
-  status: z.enum(['draft', 'published', 'archived']),
+  status: z.enum(['draft', 'published']),
   youtubeVideoId: z.string().max(20).optional(),
+  scheduledPublishAt: z.string().optional(),
 });
 
 type NewsFormValues = z.infer<typeof newsSchema>;
 
 interface NewsFormProps {
   initialData?: News;
-  onSubmit: (data: NewsFormValues) => void;
+  onSubmit: (data: CreateNewsData) => void;
   onCancel: () => void;
   isSubmitting?: boolean;
   onThumbnailUpload?: (file: File) => void;
@@ -49,6 +50,15 @@ interface NewsFormProps {
   onAudioDelete?: () => void;
   isThumbnailUploading?: boolean;
   isAudioUploading?: boolean;
+}
+
+/** Convert ISO string to datetime-local input value (YYYY-MM-DDTHH:mm) */
+function toDatetimeLocal(iso: string | null | undefined): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export function NewsForm({
@@ -82,8 +92,9 @@ export function NewsForm({
       categoryId: initialData?.categoryId || undefined,
       summary: initialData?.summary || '',
       content: initialData?.content || '',
-      status: initialData?.status || 'draft',
+      status: (initialData?.status === 'archived' ? 'draft' : initialData?.status) || 'draft',
       youtubeVideoId: initialData?.youtubeVideoId || '',
+      scheduledPublishAt: toDatetimeLocal(initialData?.scheduledPublishAt),
     },
   });
 
@@ -97,8 +108,9 @@ export function NewsForm({
         categoryId: initialData.categoryId || undefined,
         summary: initialData.summary || '',
         content: initialData.content,
-        status: initialData.status || 'draft',
+        status: (initialData.status === 'archived' ? 'draft' : initialData.status) || 'draft',
         youtubeVideoId: initialData.youtubeVideoId || '',
+        scheduledPublishAt: toDatetimeLocal(initialData.scheduledPublishAt),
       });
     }
   }, [initialData, reset]);
@@ -109,9 +121,19 @@ export function NewsForm({
     setValue('content', template.content);
   };
 
+  const handleFormSubmit = (data: NewsFormValues) => {
+    const submitData: CreateNewsData = {
+      ...data,
+      scheduledPublishAt: data.scheduledPublishAt
+        ? new Date(data.scheduledPublishAt).toISOString()
+        : null,
+    };
+    onSubmit(submitData);
+  };
+
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         {/* Author Info (read-only, edit mode) */}
         {initialData && (
           <Card>
@@ -200,6 +222,41 @@ export function NewsForm({
               )}
             />
           </div>
+        </div>
+
+        {/* Scheduled Publish */}
+        <div className="space-y-2">
+          <Label htmlFor="scheduledPublishAt" className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            Lên lịch đăng bài
+          </Label>
+          <Input
+            id="scheduledPublishAt"
+            type="datetime-local"
+            {...register('scheduledPublishAt')}
+            min={new Date().toISOString().slice(0, 16)}
+          />
+          <p className="text-xs text-gray-500">
+            Để trống nếu muốn đăng ngay hoặc lưu nháp. Khi đặt lịch, bài sẽ tự động đăng khi đến
+            giờ.
+          </p>
+          {watchedFields.scheduledPublishAt && (
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                <Clock className="h-3 w-3" />
+                Đã lên lịch: {new Date(watchedFields.scheduledPublishAt).toLocaleString('vi-VN')}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-6 text-xs text-red-500 hover:text-red-700"
+                onClick={() => setValue('scheduledPublishAt', '')}
+              >
+                Hủy lịch
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Summary */}

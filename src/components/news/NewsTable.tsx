@@ -171,11 +171,20 @@ export function NewsTable({
                   <span className="text-sm">{item.authorName || 'Admin'}</span>
                 </div>
               </TableCell>
-              <TableCell className="text-sm text-gray-600">{item.category?.name || '-'}</TableCell>
+              <TableCell className="text-sm text-gray-600">
+                {item.categoryName || item.category?.name || '-'}
+              </TableCell>
               <TableCell>
-                <Badge variant={NEWS_STATUS_VARIANTS[item.status]}>
-                  {NEWS_STATUS_LABELS[item.status]}
-                </Badge>
+                <div className="flex flex-col gap-1">
+                  <Badge variant={NEWS_STATUS_VARIANTS[item.status]}>
+                    {NEWS_STATUS_LABELS[item.status]}
+                  </Badge>
+                  {item.scheduledPublishAt && item.status === 'draft' && (
+                    <span className="text-[10px] text-blue-600">
+                      Lịch: {formatDate(item.scheduledPublishAt)}
+                    </span>
+                  )}
+                </div>
               </TableCell>
               <TableCell className="text-sm text-gray-500">{item.viewCount}</TableCell>
               <TableCell>

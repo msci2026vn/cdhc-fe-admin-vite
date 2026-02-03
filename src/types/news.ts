@@ -26,6 +26,7 @@ export interface News {
   thumbnailUrl: string | null;
   status: NewsStatus;
   publishedAt: string | null;
+  scheduledPublishAt: string | null;
   viewCount: number;
   likeCount: number;
   commentCount: number;
@@ -75,8 +76,9 @@ export interface CreateNewsData {
   slug?: string;
   summary?: string;
   content: string;
-  status?: NewsStatus;
+  status?: 'draft' | 'published';
   youtubeVideoId?: string;
+  scheduledPublishAt?: string | null;
 }
 
 export type UpdateNewsData = Partial<CreateNewsData>;
