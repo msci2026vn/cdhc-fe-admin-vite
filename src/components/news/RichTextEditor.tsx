@@ -44,6 +44,9 @@ import {
   Table as TableIcon,
   SeparatorHorizontal,
   FileCode,
+  Info,
+  AlertTriangle,
+  CheckCircle2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -224,6 +227,48 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
     }
   };
 
+  const handleInsertInfoBox = (type: 'info' | 'warning' | 'success') => {
+    const boxConfig = {
+      info: {
+        icon: '💡',
+        bgColor: '#eff6ff',
+        borderColor: '#3b82f6',
+        textColor: '#1e40af',
+        title: 'Thông tin',
+        placeholder: 'Nhập nội dung thông tin quan trọng tại đây...',
+      },
+      warning: {
+        icon: '⚠️',
+        bgColor: '#fffbeb',
+        borderColor: '#f59e0b',
+        textColor: '#92400e',
+        title: 'Lưu ý',
+        placeholder: 'Nhập nội dung cần lưu ý tại đây...',
+      },
+      success: {
+        icon: '✅',
+        bgColor: '#f0fdf4',
+        borderColor: '#22c55e',
+        textColor: '#166534',
+        title: 'Mẹo',
+        placeholder: 'Nhập mẹo hữu ích tại đây...',
+      },
+    };
+
+    const config = boxConfig[type];
+    const html = `
+      <div style="background-color: ${config.bgColor}; border-left: 4px solid ${config.borderColor}; padding: 1rem 1.25rem; border-radius: 0.5rem; margin: 1.5rem 0;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 1.25rem;">${config.icon}</span>
+          <strong style="color: ${config.textColor}; font-size: 1.125rem; font-weight: 600;">${config.title}</strong>
+        </div>
+        <p style="color: ${config.textColor}; line-height: 1.6; margin: 0;">${config.placeholder}</p>
+      </div>
+    `;
+
+    editor.chain().focus().insertContent(html).run();
+  };
+
   return (
     <>
       <div className="rounded-lg border bg-white shadow-sm">
@@ -234,14 +279,14 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().undo().run()}
               disabled={!editor.can().undo()}
-              title="Hoàn tác (Ctrl+Z)"
+              title="Hoàn tác (Ctrl+Z): Quay lại thao tác vừa thực hiện, giúp khôi phục nội dung đã xóa hoặc sửa nhầm"
             >
               <Undo className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().redo().run()}
               disabled={!editor.can().redo()}
-              title="Làm lại (Ctrl+Y)"
+              title="Làm lại (Ctrl+Y): Thực hiện lại thao tác vừa hoàn tác, dùng khi bạn muốn khôi phục lại thay đổi"
             >
               <Redo className="h-4 w-4" />
             </ToolbarButton>
@@ -254,35 +299,35 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleBold().run()}
               isActive={editor.isActive('bold')}
-              title="In đậm (Ctrl+B)"
+              title="In đậm (Ctrl+B): Làm chữ đậm hơn để nhấn mạnh nội dung quan trọng, thu hút sự chú ý của người đọc"
             >
               <Bold className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleItalic().run()}
               isActive={editor.isActive('italic')}
-              title="In nghiêng (Ctrl+I)"
+              title="In nghiêng (Ctrl+I): Làm chữ nghiêng, thường dùng cho trích dẫn, tên tác phẩm, hoặc từ ngữ cần nhấn mạnh nhẹ"
             >
               <Italic className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               isActive={editor.isActive('underline')}
-              title="Gạch chân (Ctrl+U)"
+              title="Gạch chân (Ctrl+U): Thêm gạch chân vào văn bản để làm nổi bật hoặc nhấn mạnh phần quan trọng"
             >
               <UnderlineIcon className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleStrike().run()}
               isActive={editor.isActive('strike')}
-              title="Gạch ngang"
+              title="Gạch ngang: Tạo đường gạch xuyên qua chữ, dùng để thể hiện nội dung đã bị xóa hoặc không còn giá trị"
             >
               <Strikethrough className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleCode().run()}
               isActive={editor.isActive('code')}
-              title="Code inline"
+              title="Code inline: Định dạng văn bản dạng mã lệnh, thường dùng cho tên biến, hàm, lệnh kỹ thuật hoặc từ khóa lập trình"
             >
               <Code className="h-4 w-4" />
             </ToolbarButton>
@@ -299,7 +344,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                   variant="ghost"
                   size="icon"
                   className="h-9 w-9"
-                  title="Màu chữ"
+                  title="Màu chữ: Thay đổi màu sắc của văn bản để làm nổi bật hoặc phân loại nội dung theo ý nghĩa"
                 >
                   <div className="flex flex-col items-center gap-0.5">
                     <span className="text-sm font-bold">A</span>
@@ -346,7 +391,7 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
                   variant="ghost"
                   size="icon"
                   className="h-9 w-9"
-                  title="Highlight"
+                  title="Highlight: Tô màu nền cho văn bản như bút dạ quang, giúp làm nổi bật thông tin quan trọng cần ghi nhớ"
                 >
                   <Highlighter className="h-4 w-4" />
                 </Button>
@@ -384,21 +429,21 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               isActive={editor.isActive('heading', { level: 1 })}
-              title="Heading 1"
+              title="Heading 1: Tiêu đề chính lớn nhất, dùng cho tiêu đề phần quan trọng nhất trong bài viết"
             >
               <Heading1 className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
               isActive={editor.isActive('heading', { level: 2 })}
-              title="Heading 2"
+              title="Heading 2: Tiêu đề phụ cấp 2, dùng cho các phần nội dung chính trong bài viết"
             >
               <Heading2 className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
               isActive={editor.isActive('heading', { level: 3 })}
-              title="Heading 3"
+              title="Heading 3: Tiêu đề cấp 3, dùng cho các mục con hoặc tiểu mục trong bài viết"
             >
               <Heading3 className="h-4 w-4" />
             </ToolbarButton>
@@ -411,14 +456,14 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               isActive={editor.isActive('bulletList')}
-              title="Danh sách gạch đầu dòng"
+              title="Danh sách gạch đầu dòng: Tạo danh sách các mục với dấu chấm tròn, dùng khi thứ tự không quan trọng"
             >
               <List className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               isActive={editor.isActive('orderedList')}
-              title="Danh sách đánh số"
+              title="Danh sách đánh số: Tạo danh sách được đánh số thứ tự 1, 2, 3... dùng cho các bước thực hiện hoặc khi thứ tự quan trọng"
             >
               <ListOrdered className="h-4 w-4" />
             </ToolbarButton>
@@ -431,28 +476,28 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().setTextAlign('left').run()}
               isActive={editor.isActive({ textAlign: 'left' })}
-              title="Căn trái"
+              title="Căn trái: Căn văn bản về phía bên trái, định dạng phổ biến nhất cho các đoạn văn thông thường"
             >
               <AlignLeft className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().setTextAlign('center').run()}
               isActive={editor.isActive({ textAlign: 'center' })}
-              title="Căn giữa"
+              title="Căn giữa: Căn văn bản vào chính giữa, thường dùng cho tiêu đề, trích dẫn hoặc chú thích ảnh"
             >
               <AlignCenter className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().setTextAlign('right').run()}
               isActive={editor.isActive({ textAlign: 'right' })}
-              title="Căn phải"
+              title="Căn phải: Căn văn bản về phía bên phải, thường dùng cho chữ ký hoặc ghi chú đặc biệt"
             >
               <AlignRight className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().setTextAlign('justify').run()}
               isActive={editor.isActive({ textAlign: 'justify' })}
-              title="Căn đều hai bên"
+              title="Căn đều hai bên: Căn chỉnh văn bản sao cho hai cạnh trái phải đều thẳng hàng, tạo bố cục chuyên nghiệp"
             >
               <AlignJustify className="h-4 w-4" />
             </ToolbarButton>
@@ -465,28 +510,28 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleBlockquote().run()}
               isActive={editor.isActive('blockquote')}
-              title="Trích dẫn"
+              title="Trích dẫn: Tạo khối trích dẫn với viền màu vàng bên trái, dùng để trích lời nói hoặc đoạn văn từ nguồn khác"
             >
               <Quote className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleCodeBlock().run()}
               isActive={editor.isActive('codeBlock')}
-              title="Code block"
+              title="Code block: Tạo khối mã lệnh đa dòng với nền tối, dùng để hiển thị code hoặc lệnh kỹ thuật nhiều dòng"
             >
               <FileCode className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleSubscript().run()}
               isActive={editor.isActive('subscript')}
-              title="Chỉ số dưới"
+              title="Chỉ số dưới: Chuyển văn bản thành chỉ số dưới như H₂O, dùng cho công thức hóa học hoặc toán học"
             >
               <SubscriptIcon className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().toggleSuperscript().run()}
               isActive={editor.isActive('superscript')}
-              title="Chỉ số trên"
+              title="Chỉ số trên: Chuyển văn bản thành chỉ số trên như x², dùng cho số mũ, chú thích, hoặc công thức toán"
             >
               <SuperscriptIcon className="h-4 w-4" />
             </ToolbarButton>
@@ -496,25 +541,49 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
 
           {/* Insert */}
           <div className="flex items-center gap-0.5">
-            <ToolbarButton onClick={() => setLinkDialogOpen(true)} title="Chèn liên kết">
+            <ToolbarButton
+              onClick={() => setLinkDialogOpen(true)}
+              title="Chèn liên kết: Thêm đường link dẫn đến trang web khác, giúp người đọc truy cập thêm thông tin liên quan"
+            >
               <LinkIcon className="h-4 w-4" />
             </ToolbarButton>
-            <ToolbarButton onClick={() => setImageDialogOpen(true)} title="Chèn ảnh">
+            <ToolbarButton
+              onClick={() => setImageDialogOpen(true)}
+              title="Chèn ảnh: Thêm hình ảnh vào bài viết từ URL, có thể thêm chú thích mô tả cho ảnh"
+            >
               <ImageIcon className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() =>
                 editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
               }
-              title="Chèn bảng"
+              title="Chèn bảng: Tạo bảng 3x3 để trình bày dữ liệu có cấu trúc, so sánh thông tin hoặc liệt kê dữ liệu"
             >
               <TableIcon className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
               onClick={() => editor.chain().focus().setHorizontalRule().run()}
-              title="Đường kẻ ngang"
+              title="Đường kẻ ngang: Chèn đường kẻ ngang để phân tách các phần nội dung khác nhau trong bài viết"
             >
               <SeparatorHorizontal className="h-4 w-4" />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => handleInsertInfoBox('info')}
+              title="Hộp thông tin: Chèn khung thông tin màu xanh dương để làm nổi bật thông tin quan trọng hoặc lưu ý đặc biệt"
+            >
+              <Info className="h-4 w-4 text-blue-600" />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => handleInsertInfoBox('warning')}
+              title="Hộp cảnh báo: Chèn khung cảnh báo màu vàng để nhắc nhở người đọc về điều cần lưu ý hoặc thận trọng"
+            >
+              <AlertTriangle className="h-4 w-4 text-amber-600" />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => handleInsertInfoBox('success')}
+              title="Hộp mẹo: Chèn khung mẹo màu xanh lá để chia sẻ bí quyết, lời khuyên hữu ích cho người đọc"
+            >
+              <CheckCircle2 className="h-4 w-4 text-green-600" />
             </ToolbarButton>
           </div>
         </div>
