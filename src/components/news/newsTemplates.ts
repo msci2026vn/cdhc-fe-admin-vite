@@ -2,12 +2,22 @@ export interface NewsTemplate {
   title: string;
   summary: string;
   content: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  categoryName?: string;
+  thumbnailUrl?: string;
 }
 
 export const DEFAULT_TEMPLATE: NewsTemplate = {
   title: 'Chiến lược quốc gia về kinh tế số: Cơ hội bứt phá cho doanh nghiệp tư nhân',
   summary:
     'Trong bối cảnh nền kinh tế toàn cầu đang chuyển dịch mạnh mẽ sang hướng số hóa, Chính phủ đã chính thức phê duyệt Chiến lược quốc gia về phát triển kinh tế số và xã hội số đến năm 2025, định hướng đến năm 2030.',
+  metaTitle: 'Chiến lược kinh tế số 2025 - Cơ hội cho doanh nghiệp',
+  metaDescription:
+    'Chiến lược quốc gia về phát triển kinh tế số đến 2025, định hướng 2030 mở ra cơ hội bứt phá cho doanh nghiệp tư nhân Việt Nam trong thời đại số.',
+  categoryName: 'Chính Sách',
+  thumbnailUrl:
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2015',
   content: `<p>Trong bối cảnh nền kinh tế toàn cầu đang chuyển dịch mạnh mẽ sang hướng số hóa, Chính phủ đã chính thức phê duyệt <strong>Chiến lược quốc gia về phát triển kinh tế số và xã hội số đến năm 2025, định hướng đến năm 2030</strong>. Đây được xem là "cú hích" quan trọng, mở ra không gian phát triển mới cho cộng đồng doanh nghiệp tư nhân Việt Nam.</p>
 
 <p>Kinh tế số không còn là xu hướng mà đã trở thành động lực tăng trưởng bắt buộc. Theo báo cáo mới nhất từ Google, Temasek và Bain & Company, nền kinh tế số Việt Nam dự kiến đạt <strong>45 tỷ USD</strong> vào năm 2025. Sự tham gia của các doanh nghiệp tư nhân đóng vai trò then chốt trong việc hiện thực hóa mục tiêu này.</p>

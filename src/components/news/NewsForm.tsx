@@ -35,6 +35,8 @@ const newsSchema = z.object({
   status: z.enum(['draft', 'published']),
   youtubeVideoId: z.string().max(20).optional(),
   scheduledPublishAt: z.string().optional(),
+  metaTitle: z.string().max(60).optional(),
+  metaDescription: z.string().max(160).optional(),
 });
 
 type NewsFormValues = z.infer<typeof newsSchema>;
@@ -95,6 +97,8 @@ export function NewsForm({
       status: (initialData?.status === 'archived' ? 'draft' : initialData?.status) || 'draft',
       youtubeVideoId: initialData?.youtubeVideoId || '',
       scheduledPublishAt: toDatetimeLocal(initialData?.scheduledPublishAt),
+      metaTitle: initialData?.metaTitle || '',
+      metaDescription: initialData?.metaDescription || '',
     },
   });
 
@@ -111,6 +115,8 @@ export function NewsForm({
         status: (initialData.status === 'archived' ? 'draft' : initialData.status) || 'draft',
         youtubeVideoId: initialData.youtubeVideoId || '',
         scheduledPublishAt: toDatetimeLocal(initialData.scheduledPublishAt),
+        metaTitle: initialData.metaTitle || '',
+        metaDescription: initialData.metaDescription || '',
       });
     }
   }, [initialData, reset]);
@@ -119,6 +125,24 @@ export function NewsForm({
     setValue('title', template.title);
     setValue('summary', template.summary);
     setValue('content', template.content);
+
+    // Fill SEO fields if provided
+    if (template.metaTitle) {
+      setValue('metaTitle', template.metaTitle);
+    }
+    if (template.metaDescription) {
+      setValue('metaDescription', template.metaDescription);
+    }
+
+    // Try to match category by name if provided
+    if (template.categoryName) {
+      const matchedCategory = categories.find(
+        (cat) => cat.name.toLowerCase() === template.categoryName?.toLowerCase(),
+      );
+      if (matchedCategory) {
+        setValue('categoryId', matchedCategory.id);
+      }
+    }
   };
 
   const handleFormSubmit = (data: NewsFormValues) => {
@@ -226,18 +250,26 @@ export function NewsForm({
                     <Label htmlFor="metaTitle">Meta Title</Label>
                     <Input
                       id="metaTitle"
+                      {...register('metaTitle')}
                       placeholder="Tiêu đề hiển thị trên Google (tối đa 60 ký tự)"
                       maxLength={60}
                     />
+                    <p className="text-xs text-gray-500">
+                      {watchedFields.metaTitle?.length || 0}/60 ký tự
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="metaDescription">Meta Description</Label>
                     <Textarea
                       id="metaDescription"
+                      {...register('metaDescription')}
                       placeholder="Mô tả hiển thị trên Google (tối đa 160 ký tự)"
                       rows={3}
                       maxLength={160}
                     />
+                    <p className="text-xs text-gray-500">
+                      {watchedFields.metaDescription?.length || 0}/160 ký tự
+                    </p>
                   </div>
                 </div>
               </CardContent>

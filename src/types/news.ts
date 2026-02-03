@@ -24,6 +24,8 @@ export interface News {
   summary: string | null;
   content: string;
   thumbnailUrl: string | null;
+  metaTitle: string | null;
+  metaDescription: string | null;
   status: NewsStatus;
   publishedAt: string | null;
   scheduledPublishAt: string | null;
@@ -76,6 +78,8 @@ export interface CreateNewsData {
   slug?: string;
   summary?: string;
   content: string;
+  metaTitle?: string;
+  metaDescription?: string;
   status?: 'draft' | 'published';
   youtubeVideoId?: string;
   scheduledPublishAt?: string | null;

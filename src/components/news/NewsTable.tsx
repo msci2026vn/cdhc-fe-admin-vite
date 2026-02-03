@@ -37,6 +37,8 @@ function formatCompactNumber(num: number): string {
 import type { News } from '@/types/news';
 import { NEWS_STATUS_LABELS, NEWS_STATUS_VARIANTS } from '@/types/news';
 
+const PUBLIC_SITE_URL = import.meta.env.VITE_PUBLIC_SITE_URL || 'https://sta.cdhc.vn';
+
 interface NewsTableProps {
   news: News[];
   isLoading: boolean;
@@ -210,7 +212,9 @@ export function NewsTable({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => window.open(`/news/${item.slug}`, '_blank')}>
+                    <DropdownMenuItem
+                      onClick={() => window.open(`${PUBLIC_SITE_URL}/news/${item.slug}`, '_blank')}
+                    >
                       <Eye className="mr-2 h-4 w-4" />
                       Xem trước
                     </DropdownMenuItem>

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Music, Trash2, Play, Pause, Upload } from 'lucide-react';
+import { Music, Trash2, Play, Pause, Upload, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AudioUploadProps {
@@ -66,13 +66,23 @@ export function AudioUpload({
         onChange={handleChange}
       />
 
-      {currentUrl ? (
-        <div className="flex items-center gap-3 rounded-lg border bg-gray-50 p-3">
-          <audio ref={audioRef} src={currentUrl} onEnded={() => setIsPlaying(false)} />
-          <Music className="h-5 w-5 text-gray-500" />
+      {isUploading ? (
+        <div className="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
+          <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
           <div className="flex-1">
-            <p className="text-sm font-medium">Audio</p>
-            <p className="text-xs text-gray-500">
+            <p className="text-sm font-medium text-blue-900">Đang tải lên...</p>
+            <p className="text-xs text-blue-600">Vui lòng đợi</p>
+          </div>
+        </div>
+      ) : currentUrl ? (
+        <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-3">
+          <audio ref={audioRef} src={currentUrl} onEnded={() => setIsPlaying(false)} />
+          <CheckCircle2 className="h-5 w-5 text-green-600" />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-green-900 flex items-center gap-2">
+              Audio đã tải lên
+            </p>
+            <p className="text-xs text-green-600">
               {audioDuration ? formatDuration(audioDuration) : '--:--'}
               {audioFileSize ? ` - ${formatFileSize(audioFileSize)}` : ''}
             </p>
@@ -81,7 +91,7 @@ export function AudioUpload({
             type="button"
             variant="outline"
             size="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 border-green-300"
             onClick={togglePlay}
           >
             {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
@@ -90,7 +100,7 @@ export function AudioUpload({
             type="button"
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-red-500"
+            className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
             onClick={onDelete}
           >
             <Trash2 className="h-4 w-4" />
@@ -101,11 +111,11 @@ export function AudioUpload({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={isUploading}
-          className="flex h-20 w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 text-gray-400 hover:border-gray-400 hover:text-gray-500 transition-colors"
+          className="flex h-20 w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 text-gray-400 hover:border-gray-400 hover:text-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Upload className="h-5 w-5" />
           <div className="text-left">
-            <p className="text-sm">{isUploading ? 'Đang tải...' : 'Chọn file MP3'}</p>
+            <p className="text-sm">Chọn file MP3</p>
             <p className="text-xs">MP3, M4A - Tối đa 20MB</p>
           </div>
         </button>
