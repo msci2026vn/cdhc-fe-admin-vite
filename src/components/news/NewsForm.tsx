@@ -86,6 +86,7 @@ export function NewsForm({
     reset,
     setValue,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<NewsFormValues>({
     resolver: zodResolver(newsSchema),
@@ -484,14 +485,14 @@ export function NewsForm({
       <NewsPreviewModal
         open={showPreview}
         onOpenChange={setShowPreview}
-        title={watchedFields.title}
-        summary={watchedFields.summary}
-        content={watchedFields.content}
+        title={getValues('title')}
+        summary={getValues('summary')}
+        content={getValues('content')}
         thumbnailUrl={initialData?.thumbnailUrl}
         audioUrl={initialData?.audioUrl}
-        youtubeVideoId={watchedFields.youtubeVideoId}
+        youtubeVideoId={getValues('youtubeVideoId')}
         category={selectedCategory}
-        status={watchedFields.status}
+        status={getValues('status')}
       />
     </>
   );
