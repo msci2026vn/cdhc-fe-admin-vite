@@ -20,6 +20,7 @@ import {
   usePublishNews,
   useUnpublishNews,
   useNewsCategories,
+  useNewsDetail,
 } from '@/hooks/useNews';
 import { toast } from 'sonner';
 import { debounce } from '@/lib/utils';
@@ -34,7 +35,7 @@ export default function NewsListPage() {
   const [status, setStatus] = useState('all');
   const [categoryId, setCategoryId] = useState('all');
   const [deleteTarget, setDeleteTarget] = useState<News | null>(null);
-  const [previewNews, setPreviewNews] = useState<News | null>(null);
+  const [previewNewsId, setPreviewNewsId] = useState<string | null>(null);
 
   const debouncedSetSearch = useMemo(() => debounce((v: string) => setDebouncedSearch(v), 400), []);
 
@@ -52,6 +53,7 @@ export default function NewsListPage() {
     categoryId,
   });
   const { data: categoriesData } = useNewsCategories();
+  const { data: previewData } = useNewsDetail(previewNewsId || '');
   const deleteNews = useDeleteNews();
   const publishNews = usePublishNews();
   const unpublishNews = useUnpublishNews();
@@ -59,6 +61,7 @@ export default function NewsListPage() {
   const newsList = data?.data?.news || [];
   const pagination = data?.data?.pagination || { page: 1, limit: 20, total: 0, totalPages: 1 };
   const categories = categoriesData?.data || [];
+  const previewNews = previewData?.data || null;
 
   const handlePublish = async (item: News) => {
     try {
@@ -125,7 +128,7 @@ export default function NewsListPage() {
         onDelete={setDeleteTarget}
         onPublish={handlePublish}
         onUnpublish={handleUnpublish}
-        onPreview={setPreviewNews}
+        onPreview={(item) => setPreviewNewsId(item.id)}
       />
 
       <Pagination
@@ -143,8 +146,8 @@ export default function NewsListPage() {
       {/* Preview Modal */}
       {previewNews && (
         <NewsPreviewModal
-          open={!!previewNews}
-          onOpenChange={(open) => !open && setPreviewNews(null)}
+          open={!!previewNewsId}
+          onOpenChange={(open) => !open && setPreviewNewsId(null)}
           title={previewNews.title}
           summary={previewNews.summary || undefined}
           content={previewNews.content}
