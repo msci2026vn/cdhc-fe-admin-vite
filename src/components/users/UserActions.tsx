@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +18,7 @@ import {
   useActivateUser,
   useDeleteUser,
 } from '@/hooks/useUsers';
+import { ROLE_LABELS } from '@/types/user';
 import type { User } from '@/types/user';
 
 type ActionType = 'approve' | 'reject' | 'suspend' | 'activate' | 'delete' | null;
@@ -54,7 +53,14 @@ export function UserActionsDialog({ user, action, onClose }: UserActionsDialogPr
       switch (action) {
         case 'approve':
           await approveUser.mutateAsync({ id: user.id, note });
-          toast.success('Đã duyệt thành viên thành công');
+          // Phân biệt duyệt user mới vs duyệt nâng cấp
+          if (user.pendingRole) {
+            toast.success(
+              `Đã duyệt nâng cấp: ${ROLE_LABELS[user.role] || user.role} → ${ROLE_LABELS[user.pendingRole] || user.pendingRole}`,
+            );
+          } else {
+            toast.success('Đã duyệt thành viên');
+          }
           break;
         case 'reject':
           if (!reason.trim()) {
@@ -62,7 +68,14 @@ export function UserActionsDialog({ user, action, onClose }: UserActionsDialogPr
             return;
           }
           await rejectUser.mutateAsync({ id: user.id, reason });
-          toast.success('Đã từ chối thành viên');
+          // Phân biệt từ chối user mới vs từ chối nâng cấp
+          if (user.pendingRole) {
+            toast.success(
+              `Đã từ chối nâng cấp "${ROLE_LABELS[user.pendingRole] || user.pendingRole}"`,
+            );
+          } else {
+            toast.success('Đã từ chối thành viên');
+          }
           break;
         case 'suspend':
           if (!reason.trim()) {
@@ -92,6 +105,17 @@ export function UserActionsDialog({ user, action, onClose }: UserActionsDialogPr
   const getDialogContent = () => {
     switch (action) {
       case 'approve':
+        // Phân biệt duyệt user mới vs duyệt nâng cấp
+        if (user?.pendingRole) {
+          return {
+            title: 'Duyệt nâng cấp vai trò',
+            description: `Duyệt nâng cấp "${user?.name || user?.email}" từ "${ROLE_LABELS[user.role] || user.role}" → "${ROLE_LABELS[user.pendingRole] || user.pendingRole}"?`,
+            showNote: true,
+            showReason: false,
+            confirmText: 'Duyệt nâng cấp',
+            confirmVariant: 'default' as const,
+          };
+        }
         return {
           title: 'Duyệt thành viên',
           description: `Bạn có chắc muốn duyệt thành viên "${user?.name || user?.email}"?`,
@@ -101,6 +125,17 @@ export function UserActionsDialog({ user, action, onClose }: UserActionsDialogPr
           confirmVariant: 'default' as const,
         };
       case 'reject':
+        // Phân biệt từ chối user mới vs từ chối nâng cấp
+        if (user?.pendingRole) {
+          return {
+            title: 'Từ chối nâng cấp vai trò',
+            description: `Từ chối yêu cầu nâng cấp "${ROLE_LABELS[user.pendingRole] || user.pendingRole}" của "${user?.name || user?.email}"?`,
+            showNote: false,
+            showReason: true,
+            confirmText: 'Từ chối',
+            confirmVariant: 'destructive' as const,
+          };
+        }
         return {
           title: 'Từ chối thành viên',
           description: `Bạn có chắc muốn từ chối thành viên "${user?.name || user?.email}"?`,
@@ -182,11 +217,7 @@ export function UserActionsDialog({ user, action, onClose }: UserActionsDialogPr
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Hủy
           </Button>
-          <Button
-            variant={content.confirmVariant}
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
+          <Button variant={content.confirmVariant} onClick={handleSubmit} disabled={isLoading}>
             {isLoading ? 'Đang xử lý...' : content.confirmText}
           </Button>
         </DialogFooter>

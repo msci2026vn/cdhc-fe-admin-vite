@@ -1,5 +1,3 @@
-
-
 import { Link } from 'react-router-dom';
 import { MoreHorizontal, Eye, CheckCircle, XCircle, Pause, Play, Trash2 } from 'lucide-react';
 import {
@@ -23,7 +21,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatDate, getInitials } from '@/lib/utils';
-import { ROLE_LABELS, STATUS_LABELS, STATUS_COLORS } from '@/types/user';
+import {
+  ROLE_LABELS,
+  STATUS_LABELS,
+  STATUS_COLORS,
+  ORG_TYPE_LABELS,
+  ORG_TYPE_COLORS,
+} from '@/types/user';
 import type { User } from '@/types/user';
 import { usePermission } from '@/hooks/usePermission';
 
@@ -66,6 +70,8 @@ export function UserTable({
               </TableHead>
               <TableHead>Thành viên</TableHead>
               <TableHead>Vai trò</TableHead>
+              <TableHead>Loại TK</TableHead>
+              <TableHead>Chờ nâng cấp</TableHead>
               <TableHead>Trạng thái</TableHead>
               <TableHead>Ngày đăng ký</TableHead>
               <TableHead>Hoạt động</TableHead>
@@ -75,7 +81,9 @@ export function UserTable({
           <TableBody>
             {[...Array(5)].map((_, i) => (
               <TableRow key={i}>
-                <TableCell><Skeleton className="h-4 w-4" /></TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-4" />
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <Skeleton className="h-10 w-10 rounded-full" />
@@ -85,11 +93,27 @@ export function UserTable({
                     </div>
                   </div>
                 </TableCell>
-                <TableCell><Skeleton className="h-6 w-20" /></TableCell>
-                <TableCell><Skeleton className="h-6 w-20" /></TableCell>
-                <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                <TableCell><Skeleton className="h-8 w-8" /></TableCell>
+                <TableCell>
+                  <Skeleton className="h-6 w-20" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-6 w-16" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-6 w-20" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-6 w-20" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-28" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-28" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-8 w-8" />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -119,7 +143,8 @@ export function UserTable({
                 checked={allSelected}
                 ref={(el) => {
                   if (el) {
-                    (el as HTMLButtonElement & { indeterminate: boolean }).indeterminate = someSelected;
+                    (el as HTMLButtonElement & { indeterminate: boolean }).indeterminate =
+                      someSelected;
                   }
                 }}
                 onCheckedChange={onSelectAll}
@@ -127,6 +152,8 @@ export function UserTable({
             </TableHead>
             <TableHead>Thành viên</TableHead>
             <TableHead>Vai trò</TableHead>
+            <TableHead>Loại TK</TableHead>
+            <TableHead>Chờ nâng cấp</TableHead>
             <TableHead>Trạng thái</TableHead>
             <TableHead>Ngày đăng ký</TableHead>
             <TableHead>Hoạt động</TableHead>
@@ -160,18 +187,41 @@ export function UserTable({
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant="secondary">
-                  {ROLE_LABELS[user.role] || user.role}
-                </Badge>
+                <div className="flex flex-col gap-1">
+                  <Badge variant="secondary">{ROLE_LABELS[user.role] || user.role}</Badge>
+                  {user.pendingRole && (
+                    <span className="text-xs text-yellow-600 flex items-center gap-1">
+                      → {ROLE_LABELS[user.pendingRole] || user.pendingRole}
+                    </span>
+                  )}
+                </div>
               </TableCell>
               <TableCell>
-                <Badge className={STATUS_COLORS[user.status]}>
-                  {STATUS_LABELS[user.status]}
-                </Badge>
+                {user.orgType ? (
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      ORG_TYPE_COLORS[user.orgType] || 'bg-gray-100 text-gray-800'
+                    }`}
+                  >
+                    {user.orgType === 'organization' ? '🏢' : '👤'} {ORG_TYPE_LABELS[user.orgType]}
+                  </span>
+                ) : (
+                  <span className="text-gray-400 text-xs">—</span>
+                )}
               </TableCell>
-              <TableCell className="text-sm text-gray-500">
-                {formatDate(user.createdAt)}
+              <TableCell>
+                {user.pendingRole ? (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    ⏳ {ROLE_LABELS[user.pendingRole] || user.pendingRole}
+                  </span>
+                ) : (
+                  <span className="text-gray-400 text-xs">—</span>
+                )}
               </TableCell>
+              <TableCell>
+                <Badge className={STATUS_COLORS[user.status]}>{STATUS_LABELS[user.status]}</Badge>
+              </TableCell>
+              <TableCell className="text-sm text-gray-500">{formatDate(user.createdAt)}</TableCell>
               <TableCell className="text-sm text-gray-500">
                 {formatDate(user.lastActiveAt)}
               </TableCell>
@@ -194,7 +244,8 @@ export function UserTable({
                       <>
                         <DropdownMenuSeparator />
 
-                        {user.status === 'pending' && (
+                        {/* Duyệt user mới */}
+                        {user.status === 'pending' && !user.pendingRole && (
                           <>
                             <DropdownMenuItem onClick={() => onApprove(user)}>
                               <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
@@ -207,7 +258,27 @@ export function UserTable({
                           </>
                         )}
 
-                        {user.status === 'approved' && (
+                        {/* Duyệt nâng cấp role */}
+                        {user.pendingRole && (
+                          <>
+                            <DropdownMenuItem
+                              onClick={() => onApprove(user)}
+                              className="text-green-600"
+                            >
+                              <CheckCircle className="mr-2 h-4 w-4" />
+                              Duyệt nâng cấp → {ROLE_LABELS[user.pendingRole] || user.pendingRole}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => onReject(user)}
+                              className="text-red-600"
+                            >
+                              <XCircle className="mr-2 h-4 w-4" />
+                              Từ chối nâng cấp
+                            </DropdownMenuItem>
+                          </>
+                        )}
+
+                        {user.status === 'approved' && !user.pendingRole && (
                           <DropdownMenuItem onClick={() => onSuspend(user)}>
                             <Pause className="mr-2 h-4 w-4 text-yellow-600" />
                             Đình chỉ
@@ -222,10 +293,7 @@ export function UserTable({
                         )}
 
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => onDelete(user)}
-                          className="text-red-600"
-                        >
+                        <DropdownMenuItem onClick={() => onDelete(user)} className="text-red-600">
                           <Trash2 className="mr-2 h-4 w-4" />
                           Xóa
                         </DropdownMenuItem>

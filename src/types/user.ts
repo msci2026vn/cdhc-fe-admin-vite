@@ -1,12 +1,14 @@
 export type UserRole =
   | 'farmer'
   | 'community'
+  | 'student'
   | 'business'
   | 'coop'
   | 'shop'
   | 'expert'
   | 'kol'
   | 'koc'
+  | 'department'
   | 'super_admin'
   | 'admin'
   | 'editor';
@@ -32,6 +34,8 @@ export interface User {
   rejectionReason?: string | null;
   suspendedAt?: string | null;
   suspensionReason?: string | null;
+  orgType?: 'individual' | 'organization' | null;
+  pendingRole?: UserRole | null;
 }
 
 export interface UserProfile extends User {
@@ -56,17 +60,21 @@ export interface UserFilters {
   search?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
+  orgType?: 'individual' | 'organization';
+  hasPendingRole?: boolean;
 }
 
 export const ROLE_LABELS: Record<UserRole, string> = {
   farmer: 'Nhà nông',
   community: 'Cộng đồng',
+  student: 'Sinh viên',
   business: 'Doanh nghiệp',
   coop: 'Hợp tác xã',
   shop: 'Cửa hàng',
   expert: 'Chuyên gia',
   kol: 'KOL',
   koc: 'KOC',
+  department: 'Khoa/Bộ môn',
   super_admin: 'Super Admin',
   admin: 'Admin',
   editor: 'Editor',
@@ -84,4 +92,14 @@ export const STATUS_COLORS: Record<UserStatus, string> = {
   approved: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
   suspended: 'bg-gray-100 text-gray-800',
+};
+
+export const ORG_TYPE_LABELS: Record<'individual' | 'organization', string> = {
+  individual: 'Cá nhân',
+  organization: 'Tổ chức',
+};
+
+export const ORG_TYPE_COLORS: Record<'individual' | 'organization', string> = {
+  individual: 'bg-blue-100 text-blue-800',
+  organization: 'bg-purple-100 text-purple-800',
 };

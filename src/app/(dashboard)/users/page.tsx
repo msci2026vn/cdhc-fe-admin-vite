@@ -1,5 +1,3 @@
-
-
 import { useState, useCallback, useMemo } from 'react';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,6 +25,8 @@ export default function UsersPage() {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [role, setRole] = useState('all');
   const [status, setStatus] = useState('all');
+  const [orgType, setOrgType] = useState('all');
+  const [hasPendingRole, setHasPendingRole] = useState(false);
 
   // Selection
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -38,14 +38,17 @@ export default function UsersPage() {
   // Debounced search
   const debouncedSetSearch = useMemo(
     () => debounce((value: string) => setDebouncedSearch(value), 300),
-    []
+    [],
   );
 
-  const handleSearchChange = useCallback((value: string) => {
-    setSearch(value);
-    debouncedSetSearch(value);
-    setPage(1);
-  }, [debouncedSetSearch]);
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearch(value);
+      debouncedSetSearch(value);
+      setPage(1);
+    },
+    [debouncedSetSearch],
+  );
 
   const handleRoleChange = useCallback((value: string) => {
     setRole(value);
@@ -57,6 +60,16 @@ export default function UsersPage() {
     setPage(1);
   }, []);
 
+  const handleOrgTypeChange = useCallback((value: string) => {
+    setOrgType(value);
+    setPage(1);
+  }, []);
+
+  const handleHasPendingRoleChange = useCallback((value: boolean) => {
+    setHasPendingRole(value);
+    setPage(1);
+  }, []);
+
   // Fetch users
   const { data, isLoading } = useUsers({
     page,
@@ -64,19 +77,24 @@ export default function UsersPage() {
     search: debouncedSearch || undefined,
     role: role !== 'all' ? role : undefined,
     status: status !== 'all' ? status : undefined,
+    orgType: orgType !== 'all' ? (orgType as 'individual' | 'organization') : undefined,
+    hasPendingRole: hasPendingRole || undefined,
   });
 
   const users = useMemo(() => data?.data || [], [data?.data]);
   const pagination = data?.pagination || { page: 1, limit: 20, total: 0, totalPages: 0 };
 
   // Selection handlers
-  const handleSelectAll = useCallback((checked: boolean) => {
-    if (checked) {
-      setSelectedIds(users.map((u) => u.id));
-    } else {
-      setSelectedIds([]);
-    }
-  }, [users]);
+  const handleSelectAll = useCallback(
+    (checked: boolean) => {
+      if (checked) {
+        setSelectedIds(users.map((u) => u.id));
+      } else {
+        setSelectedIds([]);
+      }
+    },
+    [users],
+  );
 
   const handleSelectOne = useCallback((id: string, checked: boolean) => {
     if (checked) {
@@ -103,11 +121,13 @@ export default function UsersPage() {
       const params = new URLSearchParams();
       if (role !== 'all') params.set('role', role);
       if (status !== 'all') params.set('status', status);
+      if (orgType !== 'all') params.set('orgType', orgType);
+      if (hasPendingRole) params.set('hasPendingRole', 'true');
       if (debouncedSearch) params.set('search', debouncedSearch);
 
       await api.downloadFile(
         `/api/admin/export/users?${params.toString()}`,
-        `users_${new Date().toISOString().split('T')[0]}.xlsx`
+        `users_${new Date().toISOString().split('T')[0]}.xlsx`,
       );
       toast.success('Đã xuất file Excel thành công');
     } catch {
@@ -120,9 +140,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Quản lý thành viên</h1>
-          <p className="text-gray-500">
-            Quản lý tất cả thành viên trong hệ thống
-          </p>
+          <p className="text-gray-500">Quản lý tất cả thành viên trong hệ thống</p>
         </div>
         {canExport() && (
           <Button variant="outline" onClick={handleExport}>
@@ -136,15 +154,16 @@ export default function UsersPage() {
         search={search}
         role={role}
         status={status}
+        orgType={orgType}
+        hasPendingRole={hasPendingRole}
         onSearchChange={handleSearchChange}
         onRoleChange={handleRoleChange}
         onStatusChange={handleStatusChange}
+        onOrgTypeChange={handleOrgTypeChange}
+        onHasPendingRoleChange={handleHasPendingRoleChange}
       />
 
-      <BulkActions
-        selectedIds={selectedIds}
-        onClearSelection={() => setSelectedIds([])}
-      />
+      <BulkActions selectedIds={selectedIds} onClearSelection={() => setSelectedIds([])} />
 
       <UserTable
         users={users}
@@ -173,11 +192,7 @@ export default function UsersPage() {
         />
       )}
 
-      <UserActionsDialog
-        user={selectedUser}
-        action={actionType}
-        onClose={closeAction}
-      />
+      <UserActionsDialog user={selectedUser} action={actionType} onClose={closeAction} />
     </div>
   );
 }
