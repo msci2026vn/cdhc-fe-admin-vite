@@ -15,7 +15,12 @@
       "Bash(npm run type-check:*)",
       "Bash(npm run lint)",
       "Bash(npm run build:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cd:*)",
+      "Bash(timeout:*)",
+      "Bash(dung\" even though content existed in the editor.\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(dung\" when opened from the news list page.\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

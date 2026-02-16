@@ -758,6 +758,40 @@ export const adminV2Api = {
   },
 
   // ==========================================
+  // Email Changes (Quản lý khôi phục email)
+  // ==========================================
+  emailChanges: {
+    getStats: () => api.get<EmailChangesStatsData>('/api/admin-v2/email-changes/stats'),
+
+    getList: (params?: EmailChangesListParams) => {
+      const query = new URLSearchParams();
+      if (params?.page) query.set('page', params.page.toString());
+      if (params?.limit) query.set('limit', params.limit.toString());
+      if (params?.status && params.status !== 'all') query.set('status', params.status);
+      if (params?.search) query.set('search', params.search);
+      if (params?.from) query.set('from', params.from);
+      if (params?.to) query.set('to', params.to);
+      if (params?.sortBy) query.set('sortBy', params.sortBy);
+      if (params?.sortOrder) query.set('sortOrder', params.sortOrder);
+      return api.get<EmailChangeRequest[]>(`/api/admin-v2/email-changes?${query.toString()}`);
+    },
+
+    getDetail: (id: number) => api.get<EmailChangeDetailData>(`/api/admin-v2/email-changes/${id}`),
+
+    dispute: (id: number, reason: string) =>
+      api.post<{ message: string }>(`/api/admin-v2/email-changes/${id}/dispute`, { reason }),
+
+    cancel: (id: number, note?: string) =>
+      api.post<{ message: string }>(`/api/admin-v2/email-changes/${id}/cancel`, { note }),
+
+    getLockedAttempts: () =>
+      api.get<LockedAttemptData[]>('/api/admin-v2/email-changes/locked-attempts'),
+
+    unlock: (phone: string) =>
+      api.post<{ message: string }>(`/api/admin-v2/email-changes/unlock/${phone}`),
+  },
+
+  // ==========================================
   // File Manager (Quản lý file source code)
   // ==========================================
   files: {
@@ -1142,4 +1176,90 @@ export interface CodeHealthData {
     healthScore: number;
     healthLabel: string;
   };
+}
+
+// ============================================
+// Email Changes Types
+// ============================================
+
+export type EmailChangeStatus = 'pending' | 'completed' | 'disputed' | 'cancelled';
+
+export interface EmailChangeRequest {
+  id: number;
+  legacyEmail: string | null;
+  oldEmail: string;
+  newEmail: string;
+  verifiedByCccd: string;
+  phone: string;
+  userName: string | null;
+  status: EmailChangeStatus;
+  ipAddress: string | null;
+  userAgent: string | null;
+  requestedAt: string;
+  effectiveAt: string | null;
+  completedAt: string | null;
+  disputedAt: string | null;
+  disputeReason: string | null;
+  adminNote: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface EmailChangesListParams {
+  page?: number;
+  limit?: number;
+  status?: string;
+  search?: string;
+  from?: string;
+  to?: string;
+  sortBy?: string;
+  sortOrder?: string;
+}
+
+export interface EmailChangesStatsData {
+  total: number;
+  pending: number;
+  completed: number;
+  disputed: number;
+  cancelled: number;
+  lockedPhones: number;
+  todayRequests: number;
+  thisWeekRequests: number;
+}
+
+export interface EmailChangeDetailData extends EmailChangeRequest {
+  legacyUserData: {
+    name: string;
+    phone: string;
+    dob: string;
+    pid: string;
+    email: string;
+    rank: string;
+    shares: number;
+    ogn: number;
+    tor: number;
+    f1_total: number;
+  } | null;
+  timeline: Array<{
+    time: string;
+    event: string;
+    detail: string;
+  }>;
+  verifyAttempts: Array<{
+    attemptedAt: string;
+    success: boolean;
+    ipAddress: string | null;
+  }>;
+}
+
+export interface LockedAttemptData {
+  phone: string;
+  ipAddress: string | null;
+  attemptCount: number;
+  firstAttempt: string;
+  lastAttempt: string;
+  attempts: Array<{
+    attemptedAt: string;
+    ipAddress: string | null;
+  }>;
 }

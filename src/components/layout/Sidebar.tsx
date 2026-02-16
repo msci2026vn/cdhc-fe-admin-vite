@@ -18,6 +18,7 @@ import {
   TrendingUp,
   FolderCode,
   Newspaper,
+  MailCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -96,6 +97,13 @@ const navigation = [
     name: 'Top Holders',
     href: '/top-holders',
     icon: TrendingUp,
+    permission: 'users.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Khôi phục Email',
+    href: '/email-changes',
+    icon: MailCheck,
     permission: 'users.view',
     superAdminOnly: true,
   },

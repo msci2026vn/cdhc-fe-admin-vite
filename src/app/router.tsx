@@ -23,6 +23,7 @@ const SecurityPage = lazy(() => import('./(dashboard)/monitoring/security/page')
 const NotificationsPage = lazy(() => import('./(dashboard)/notifications/page'));
 const SettingsPage = lazy(() => import('./(dashboard)/settings/page'));
 const TopHoldersPage = lazy(() => import('./(dashboard)/top-holders/page'));
+const EmailChangesPage = lazy(() => import('./(dashboard)/email-changes/page'));
 const NewsListPage = lazy(() => import('./(dashboard)/news/page'));
 const NewsCreatePage = lazy(() => import('./(dashboard)/news/create/page'));
 const NewsEditPage = lazy(() => import('./(dashboard)/news/edit/page'));
@@ -63,6 +64,7 @@ export function AppRouter() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/top-holders" element={<TopHoldersPage />} />
+          <Route path="/email-changes" element={<EmailChangesPage />} />
           <Route path="/news" element={<NewsListPage />} />
           <Route path="/news/create" element={<NewsCreatePage />} />
           <Route path="/news/:id/edit" element={<NewsEditPage />} />
