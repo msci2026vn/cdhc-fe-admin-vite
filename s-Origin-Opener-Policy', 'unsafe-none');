@@ -1,0 +1,1120 @@
+[33m3753c9b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: fetch full news detail for preview from list page
+ src/app/(dashboard)/news/page.tsx | 11 [32m+++++++[m[31m----[m
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+[33m40edc38[m fix: news preview modal not showing content
+ src/components/news/NewsForm.tsx | 11 [32m++++++[m[31m-----[m
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+[33m9a56241[m fix: improve news preview and author display
+ src/app/(dashboard)/news/page.tsx | 19 [32m+++++++++++++++++++[m
+ src/components/news/NewsTable.tsx | 13 [32m+++++++++[m[31m----[m
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+[33m0a0ca8e[m fix: correct TipTap extension imports and add Popover component
+ package-lock.json                      | 56 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  1 [32m+[m
+ src/components/news/RichTextEditor.tsx | 10 [32m+++++[m[31m-----[m
+ src/components/ui/popover.tsx          | 29 [32m+++++++++++++++++++++++++++++[m
+ 4 files changed, 91 insertions(+), 5 deletions(-)
+[33m48353ba[m feat: add info boxes and enhance tooltips in rich text editor
+ src/components/news/RichTextEditor.tsx | 121 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------[m
+ 1 file changed, 95 insertions(+), 26 deletions(-)
+[33m74ba1e3[m feat: upgrade RichTextEditor with professional Word-like features
+ package-lock.json                      | 137 [32m++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  11 [32m+++[m
+ src/components/news/RichTextEditor.tsx | 626 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------[m
+ 3 files changed, 652 insertions(+), 122 deletions(-)
+[33m912a406[m fix: improve news preview modal design and Vietnamese font support
+ index.html                               |  8 [32m++++++++[m
+ src/components/news/NewsPreviewModal.tsx | 46 [32m++++++++++++++++++++++++++++[m[31m------------------[m
+ tailwind.config.ts                       | 70 [32m++++++++++++++++++++++++++++++++++[m[31m------------------------------------[m
+ 3 files changed, 70 insertions(+), 54 deletions(-)
+[33m627df89[m fix: enable template content fill and audio/thumbnail preview in create page
+ src/app/(dashboard)/news/create/page.tsx | 67 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------[m
+ src/components/news/RichTextEditor.tsx   |  8 [32m++++++++[m
+ 2 files changed, 68 insertions(+), 7 deletions(-)
+[33m701b908[m fix: improve news form template and audio upload UX
+ .env.example                         |  3 [32m+++[m
+ src/components/news/AudioUpload.tsx  | 30 [32m++++++++++++++++++++[m[31m----------[m
+ src/components/news/NewsForm.tsx     | 32 [32m++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx    |  6 [32m+++++[m[31m-[m
+ src/components/news/newsTemplates.ts | 10 [32m++++++++++[m
+ src/types/news.ts                    |  4 [32m++++[m
+ 6 files changed, 74 insertions(+), 11 deletions(-)
+[33mfcad358[m feat: redesign news creation UI with VAPEC-inspired layout
+ src/app/(dashboard)/news/create/page.tsx   |  36 [32m++++++[m[31m-------[m
+ src/components/news/FillTemplateButton.tsx |  10 [32m++[m[31m--[m
+ src/components/news/NewsForm.tsx           | 472 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------[m
+ src/components/news/newsTemplates.ts       |  80 [32m++++++++++++++++++[m[31m---------[m
+ 4 files changed, 370 insertions(+), 228 deletions(-)
+[33md15f131[m feat: enhance news functionality with better error handling and scheduling
+ src/app/(dashboard)/news/create/page.tsx   |  24 [32m+++++++++++[m[31m----[m
+ src/components/news/FillTemplateButton.tsx |  84 [32m+++++++++++++[m[31m---------------------------------------[m
+ src/components/news/NewsForm.tsx           |  71 [32m+++++++++++++++++++++++++++++++++++++++[m[31m-----[m
+ src/components/news/NewsTable.tsx          |  17 [32m++++++++[m[31m---[m
+ src/components/news/newsTemplates.ts       | 259 [32m++++++++++++++++[m[31m------------------------------------------------------------------------------------------------------------------------------------------------[m
+ src/types/news.ts                          |   4 [32m++[m[31m-[m
+ 6 files changed, 144 insertions(+), 315 deletions(-)
+[33mb5dea3c[m feat: improve news functionality
+ .claude/settings.local.json              |  3 [32m++[m[31m-[m
+ src/app/(dashboard)/news/create/page.tsx | 48 [32m++++++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ src/components/news/NewsForm.tsx         | 31 [32m++[m[31m-----------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 12 [32m++[m[31m----------[m
+ src/types/news.ts                        | 11 [32m+++++[m[31m------[m
+ 5 files changed, 55 insertions(+), 50 deletions(-)
+[33m88e4a84[m chore: clean up unused imports and fix FormData handling
+ src/app/(dashboard)/news/[slug]/page.tsx |    2 [32m+[m[31m-[m
+ src/components/news/NewsForm.tsx         |    5 [32m+[m[31m-[m
+ src/lib/api.ts                           | 2266 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------------------------------------------------------[m
+ 3 files changed, 1147 insertions(+), 1126 deletions(-)
+[33md536896[m feat: add preview modal and scheduled publishing for news
+ src/components/news/NewsForm.tsx         | 343 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 161 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/index.ts             |   1 [32m+[m
+ src/types/news.ts                        |  19 [32m+++++[m[31m----[m
+ 4 files changed, 375 insertions(+), 149 deletions(-)
+[33m8542cdd[m fix: add news detail page route for preview functionality
+ src/app/(dashboard)/news/[slug]/page.tsx | 196 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/useNews.ts                     |   8 [32m+++++++[m
+ 2 files changed, 204 insertions(+)
+[33maeaaeb8[m chore: format code with prettier after pre-commit hook
+ src/app/(dashboard)/news/edit/page.tsx       |  5 [32m+[m[31m----[m
+ src/components/news/AdminCommentsSection.tsx | 20 [32m++++++++[m[31m------------[m
+ src/components/news/FillTemplateButton.tsx   |  9 [32m+++[m[31m------[m
+ src/components/news/NewsForm.tsx             |  4 [32m+[m[31m---[m
+ src/components/news/NewsTable.tsx            | 11 [32m++++++++++[m[31m-[m
+ src/components/news/newsTemplates.ts         | 15 [32m++++++++++[m[31m-----[m
+ src/hooks/useNews.ts                         | 10 [32m+++++++[m[31m---[m
+ 7 files changed, 40 insertions(+), 34 deletions(-)
+[33md1fd813[m feat: enhance news module with author info, engagement metrics, and templates
+ .claude/settings.local.json                  |    14 [32m+[m[31m-[m
+ .husky/commit-msg                            |     2 [32m+[m[31m-[m
+ .husky/pre-commit                            |     2 [32m+[m[31m-[m
+ package-lock.json                            | 10779 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx       |     7 [32m+[m
+ src/components/news/AdminCommentsSection.tsx |   154 [32m+++[m
+ src/components/news/FillTemplateButton.tsx   |   105 [32m++[m
+ src/components/news/NewsForm.tsx             |    45 [32m+[m
+ src/components/news/NewsTable.tsx            |    55 [32m+[m[31m-[m
+ src/components/news/index.ts                 |     2 [32m+[m
+ src/components/news/newsTemplates.ts         |   247 [32m++++[m
+ src/hooks/useNews.ts                         |    39 [32m+[m[31m-[m
+ src/types/news.ts                            |    26 [32m+[m
+ 13 files changed, 11466 insertions(+), 11 deletions(-)
+[33mf5f9b66[m feat: add news management module and fix ESLint errors
+ bun.lock                                              | 141 [32m+++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ package.json                                          |   9 [32m+++[m
+ src/app/(auth)/login/page.tsx                         | 480 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------------------------------------------------------------------------[m
+ src/app/(auth)/verify-2fa/page.tsx                    |  10 [32m+[m[31m---[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx |  83 [32m+++++++++++++[m[31m-------------[m
+ src/app/(dashboard)/layout.tsx                        |   7 [32m++[m[31m-[m
+ src/app/(dashboard)/news/categories/page.tsx          | 128 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/create/page.tsx              |  44 [32m++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx                | 124 [32m+++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/page.tsx                     | 162 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/router.tsx                                    |   8 [32m+++[m
+ src/components/layout/Sidebar.tsx                     | 383 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------------------------------------------------[m
+ src/components/news/AudioUpload.tsx                   | 115 [32m++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoriesTable.tsx               | 132 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoryFormModal.tsx             | 131 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsFilters.tsx                   |  71 [32m++++++++++++++++++++++[m
+ src/components/news/NewsForm.tsx                      | 225 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx                     | 181 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/RichTextEditor.tsx                | 215 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/ThumbnailUpload.tsx               |  80 [32m+++++++++++++++++++++++++[m
+ src/components/news/YouTubeInput.tsx                  |  56 [32m++++++++++++++++++[m
+ src/components/news/index.ts                          |   9 [32m+++[m
+ src/hooks/index.ts                                    |   1 [32m+[m
+ src/hooks/useNews.ts                                  | 194 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/index.ts                                    |   1 [32m+[m
+ src/types/news.ts                                     |  85 [32m+++++++++++++++++++++++++++[m
+ 26 files changed, 2591 insertions(+), 484 deletions(-)
+[33m3c9a69d[m Fix React #31 error: ensure API error messages are always strings
+ src/lib/api.ts | 6 [32m++++[m[31m--[m
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+[33m159a314[m Improve API error handling: move non-OK response handling into handleResponse
+ src/lib/api.ts | 34 [32m+++++++++++++++++++[m[31m---------------[m
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+[33m9dc9c65[m Fix TS2451: resolve duplicate 'rows' variable declarations
+ src/app/(dashboard)/dashboard/database/table/page.tsx | 18 [32m+++++++++[m[31m---------[m
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+[33m7906a19[m Initial commit: CDHC Admin Vite project
+ .claude/settings.local.json                             |    8 [32m+[m
+ .env.example                                            |    7 [32m+[m
+ .gitignore                                              |   16 [32m++[m
+ .husky/commit-msg                                       |    1 [32m+[m
+ .husky/pre-commit                                       |    1 [32m+[m
+ .prettierignore                                         |    4 [32m+[m
+ README.md                                               |   73 [32m+++++++[m
+ bun.lock                                                | 1665 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ commitlint.config.js                                    |    3 [32m+[m
+ cspell.json                                             |   31 [32m+++[m
+ eslint.config.js                                        |   42 [32m++++[m
+ index.html                                              |   14 [32m++[m
+ knip.json                                               |    7 [32m+[m
+ migration-report.md                                     |  172 [32m+++++++++++++++[m
+ migration-todo.md                                       |   47 [32m+++++[m
+ package.json                                            |   90 [32m++++++++[m
+ postcss.config.js                                       |    6 [32m+[m
+ prettier.config.js                                      |   11 [32m+[m
+ public/_headers                                         |    3 [32m+[m
+ public/_redirects                                       |    1 [32m+[m
+ public/_routes.json                                     |    5 [32m+[m
+ public/file.svg                                         |    1 [32m+[m
+ public/globe.svg                                        |    1 [32m+[m
+ public/next.svg                                         |    1 [32m+[m
+ public/vercel.svg                                       |    1 [32m+[m
+ public/vite.svg                                         |    1 [32m+[m
+ public/window.svg                                       |    1 [32m+[m
+ src/app/(auth)/login/page.tsx                           |  243 [32m++++++++++++++++++++++[m
+ src/app/(auth)/verify-2fa/page.tsx                      |  164 [32m+++++++++++++++[m
+ src/app/(dashboard)/activity-logs/page.tsx              |  225 [32m++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/page.tsx         |  236 [32m+++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx   |  455 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/page.tsx                  |  101 [32m+++++++++[m
+ src/app/(dashboard)/file-manager/page.tsx               |  278 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/layout.tsx                          |   84 [32m++++++++[m
+ src/app/(dashboard)/legacy-recovery/page.tsx            |  174 [32m++++++++++++++++[m
+ src/app/(dashboard)/legacy-recovery/restored/page.tsx   |  264 [32m+++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/alerts/page.tsx          |  384 [32m++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/backup/page.tsx          |  404 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/metrics/page.tsx         |  402 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/query-analytics/page.tsx |  312 [32m++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/security/page.tsx        |  585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/notifications/page.tsx              |  323 [32m+++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/settings/page.tsx                   |   69 [32m+++++++[m
+ src/app/(dashboard)/staff/page.tsx                      |  194 [32m+++++++++++++++++[m
+ src/app/(dashboard)/top-holders/page.tsx                |   87 [32m++++++++[m
+ src/app/(dashboard)/users/detail/page.tsx               |  280 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/users/page.tsx                      |  183 [32m++++++++++++++++[m
+ src/app/favicon.ico                                     |  Bin [31m0[m -> [32m25931[m bytes
+ src/app/globals.css                                     |   84 [32m++++++++[m
+ src/app/page.tsx                                        |  161 [32m+++++++++++++++[m
+ src/app/providers.tsx                                   |   35 [32m++++[m
+ src/app/router.tsx                                      |   66 [32m++++++[m
+ src/components/file-manager/Breadcrumb.tsx              |   58 [32m++++++[m
+ src/components/file-manager/CodeHealthReport.tsx        |  324 [32m+++++++++++++++++++++++++++++[m
+ src/components/file-manager/CodeViewer.tsx              |  264 [32m+++++++++++++++++++++++[m
+ src/components/file-manager/FileInfoPanel.tsx           |  129 [32m++++++++++++[m
+ src/components/file-manager/FileTree.tsx                |  136 [32m++++++++++++[m
+ src/components/layout/Header.tsx                        |   77 [32m+++++++[m
+ src/components/layout/Sidebar.tsx                       |  186 [32m+++++++++++++++++[m
+ src/components/layout/index.ts                          |    2 [32m+[m
+ src/components/legacy-recovery/NotRestoredTable.tsx     |  209 [32m+++++++++++++++++++[m
+ src/components/legacy-recovery/RecoveryStatsCards.tsx   |  161 [32m+++++++++++++++[m
+ src/components/legacy-recovery/index.ts                 |    2 [32m+[m
+ src/components/monitoring/AlertConfigDialog.tsx         |  230 [32m+++++++++++++++++++++[m
+ src/components/monitoring/AlertsList.tsx                |  108 [32m++++++++++[m
+ src/components/monitoring/CacheStats.tsx                |  195 [32m+++++++++++++++++[m
+ src/components/monitoring/DatabaseStats.tsx             |  134 [32m++++++++++++[m
+ src/components/monitoring/MetricsCard.tsx               |   63 [32m++++++[m
+ src/components/monitoring/ProcessTable.tsx              |  224 [32m++++++++++++++++++++[m
+ src/components/monitoring/ServerMetrics.tsx             |   93 [32m+++++++++[m
+ src/components/monitoring/index.ts                      |    6 [32m+[m
+ src/components/staff/StaffForm.tsx                      |  223 [32m++++++++++++++++++++[m
+ src/components/staff/StaffTable.tsx                     |  191 [32m+++++++++++++++++[m
+ src/components/staff/index.ts                           |    2 [32m+[m
+ src/components/stats/OnlineStats.tsx                    |   80 [32m+++++++[m
+ src/components/stats/RegistrationChart.tsx              |   59 [32m++++++[m
+ src/components/stats/RoleChart.tsx                      |   86 [32m++++++++[m
+ src/components/stats/StatsCards.tsx                     |   96 [32m+++++++++[m
+ src/components/stats/index.ts                           |    4 [32m+[m
+ src/components/top-holders/AssetStatsCards.tsx          |  160 [32m++++++++++++++[m
+ src/components/top-holders/ConcentrationCard.tsx        |  177 [32m++++++++++++++++[m
+ src/components/top-holders/TopHoldersTable.tsx          |  206 [32m++++++++++++++++++[m
+ src/components/top-holders/index.ts                     |    3 [32m+[m
+ src/components/ui/alert-dialog.tsx                      |  141 [32m+++++++++++++[m
+ src/components/ui/alert.tsx                             |   58 [32m++++++[m
+ src/components/ui/avatar.tsx                            |   49 [32m+++++[m
+ src/components/ui/badge.tsx                             |   41 [32m++++[m
+ src/components/ui/button.tsx                            |   56 [32m+++++[m
+ src/components/ui/card.tsx                              |   75 [32m+++++++[m
+ src/components/ui/checkbox.tsx                          |   29 [32m+++[m
+ src/components/ui/collapsible.tsx                       |   11 [32m+[m
+ src/components/ui/dialog.tsx                            |  121 [32m+++++++++++[m
+ src/components/ui/dropdown-menu.tsx                     |  200 [32m++++++++++++++++++[m
+ src/components/ui/index.ts                              |   13 [32m++[m
+ src/components/ui/input.tsx                             |   23 [32m+++[m
+ src/components/ui/label.tsx                             |   25 [32m+++[m
+ src/components/ui/progress.tsx                          |   28 [32m+++[m
+ src/components/ui/select.tsx                            |  158 [32m++++++++++++++[m
+ src/components/ui/skeleton.tsx                          |   15 [32m++[m
+ src/components/ui/table.tsx                             |  119 [32m+++++++++++[m
+ src/components/ui/tabs.tsx                              |   55 [32m+++++[m
+ src/components/ui/textarea.tsx                          |   22 [32m++[m
+ src/components/users/BulkActions.tsx                    |  191 [32m+++++++++++++++++[m
+ src/components/users/Pagination.tsx                     |  105 [32m++++++++++[m
+ src/components/users/UserActions.tsx                    |  196 [32m++++++++++++++++++[m
+ src/components/users/UserFilters.tsx                    |   75 [32m+++++++[m
+ src/components/users/UserTable.tsx                      |  243 [32m++++++++++++++++++++++[m
+ src/components/users/index.ts                           |    5 [32m+[m
+ src/hooks/index.ts                                      |    6 [32m+[m
+ src/hooks/use2FA.ts                                     |  103 [32m+++++++++[m
+ src/hooks/useActivityLogs.ts                            |   67 [32m++++++[m
+ src/hooks/useAuth.ts                                    |  234 [32m+++++++++++++++++++++[m
+ src/hooks/useLegacyRecovery.ts                          |  125 [32m+++++++++++[m
+ src/hooks/useMonitoring.ts                              | 1291 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/usePermission.ts                              |   20 [32m++[m
+ src/hooks/useStaff.ts                                   |  105 [32m++++++++++[m
+ src/hooks/useStats.ts                                   |   77 [32m+++++++[m
+ src/hooks/useTopHolders.ts                              |  150 [32m++++++++++++++[m
+ src/hooks/useUsers.ts                                   |  117 [32m+++++++++++[m
+ src/lib/api.ts                                          | 1115 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/lib/auth-logger.ts                                  |  164 [32m+++++++++++++++[m
+ src/lib/oauth-debug.ts                                  |  203 [32m++++++++++++++++++[m
+ src/lib/permissions.ts                                  |   41 [32m++++[m
+ src/lib/utils.ts                                        |   53 [32m+++++[m
+ src/main.tsx                                            |   16 [32m++[m
+ src/stores/authStore.ts                                 |  155 [32m++++++++++++++[m
+ src/types/admin-v2.ts                                   |  644 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/api.ts                                        |  109 [32m++++++++++[m
+ src/types/index.ts                                      |    4 [32m+[m
+ src/types/legacy-recovery.ts                            |   82 [32m++++++++[m
+ src/types/stats.ts                                      |   50 [32m+++++[m
+ src/types/top-holders.ts                                |  100 [32m+++++++++[m
+ src/types/user.ts                                       |   87 [32m++++++++[m
+ src/vite-env.d.ts                                       |   10 [32m+[m
+ tailwind.config.ts                                      |   72 [32m+++++++[m
+ tsconfig.app.json                                       |   36 [32m++++[m
+ tsconfig.json                                           |    7 [32m+[m
+ tsconfig.node.json                                      |   26 [32m+++[m
+ vite.config.ts                                          |   25 [32m+++[m
+ 140 files changed, 19242 insertions(+)
+[33m3753c9b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: fetch full news detail for preview from list page
+ src/app/(dashboard)/news/page.tsx | 11 [32m+++++++[m[31m----[m
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+[33m40edc38[m fix: news preview modal not showing content
+ src/components/news/NewsForm.tsx | 11 [32m++++++[m[31m-----[m
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+[33m9a56241[m fix: improve news preview and author display
+ src/app/(dashboard)/news/page.tsx | 19 [32m+++++++++++++++++++[m
+ src/components/news/NewsTable.tsx | 13 [32m+++++++++[m[31m----[m
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+[33m0a0ca8e[m fix: correct TipTap extension imports and add Popover component
+ package-lock.json                      | 56 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  1 [32m+[m
+ src/components/news/RichTextEditor.tsx | 10 [32m+++++[m[31m-----[m
+ src/components/ui/popover.tsx          | 29 [32m+++++++++++++++++++++++++++++[m
+ 4 files changed, 91 insertions(+), 5 deletions(-)
+[33m48353ba[m feat: add info boxes and enhance tooltips in rich text editor
+ src/components/news/RichTextEditor.tsx | 121 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------[m
+ 1 file changed, 95 insertions(+), 26 deletions(-)
+[33m74ba1e3[m feat: upgrade RichTextEditor with professional Word-like features
+ package-lock.json                      | 137 [32m++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  11 [32m+++[m
+ src/components/news/RichTextEditor.tsx | 626 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------[m
+ 3 files changed, 652 insertions(+), 122 deletions(-)
+[33m912a406[m fix: improve news preview modal design and Vietnamese font support
+ index.html                               |  8 [32m++++++++[m
+ src/components/news/NewsPreviewModal.tsx | 46 [32m++++++++++++++++++++++++++++[m[31m------------------[m
+ tailwind.config.ts                       | 70 [32m++++++++++++++++++++++++++++++++++[m[31m------------------------------------[m
+ 3 files changed, 70 insertions(+), 54 deletions(-)
+[33m627df89[m fix: enable template content fill and audio/thumbnail preview in create page
+ src/app/(dashboard)/news/create/page.tsx | 67 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------[m
+ src/components/news/RichTextEditor.tsx   |  8 [32m++++++++[m
+ 2 files changed, 68 insertions(+), 7 deletions(-)
+[33m701b908[m fix: improve news form template and audio upload UX
+ .env.example                         |  3 [32m+++[m
+ src/components/news/AudioUpload.tsx  | 30 [32m++++++++++++++++++++[m[31m----------[m
+ src/components/news/NewsForm.tsx     | 32 [32m++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx    |  6 [32m+++++[m[31m-[m
+ src/components/news/newsTemplates.ts | 10 [32m++++++++++[m
+ src/types/news.ts                    |  4 [32m++++[m
+ 6 files changed, 74 insertions(+), 11 deletions(-)
+[33mfcad358[m feat: redesign news creation UI with VAPEC-inspired layout
+ src/app/(dashboard)/news/create/page.tsx   |  36 [32m++++++[m[31m-------[m
+ src/components/news/FillTemplateButton.tsx |  10 [32m++[m[31m--[m
+ src/components/news/NewsForm.tsx           | 472 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------[m
+ src/components/news/newsTemplates.ts       |  80 [32m++++++++++++++++++[m[31m---------[m
+ 4 files changed, 370 insertions(+), 228 deletions(-)
+[33md15f131[m feat: enhance news functionality with better error handling and scheduling
+ src/app/(dashboard)/news/create/page.tsx   |  24 [32m+++++++++++[m[31m----[m
+ src/components/news/FillTemplateButton.tsx |  84 [32m+++++++++++++[m[31m---------------------------------------[m
+ src/components/news/NewsForm.tsx           |  71 [32m+++++++++++++++++++++++++++++++++++++++[m[31m-----[m
+ src/components/news/NewsTable.tsx          |  17 [32m++++++++[m[31m---[m
+ src/components/news/newsTemplates.ts       | 259 [32m++++++++++++++++[m[31m------------------------------------------------------------------------------------------------------------------------------------------------[m
+ src/types/news.ts                          |   4 [32m++[m[31m-[m
+ 6 files changed, 144 insertions(+), 315 deletions(-)
+[33mb5dea3c[m feat: improve news functionality
+ .claude/settings.local.json              |  3 [32m++[m[31m-[m
+ src/app/(dashboard)/news/create/page.tsx | 48 [32m++++++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ src/components/news/NewsForm.tsx         | 31 [32m++[m[31m-----------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 12 [32m++[m[31m----------[m
+ src/types/news.ts                        | 11 [32m+++++[m[31m------[m
+ 5 files changed, 55 insertions(+), 50 deletions(-)
+[33m88e4a84[m chore: clean up unused imports and fix FormData handling
+ src/app/(dashboard)/news/[slug]/page.tsx |    2 [32m+[m[31m-[m
+ src/components/news/NewsForm.tsx         |    5 [32m+[m[31m-[m
+ src/lib/api.ts                           | 2266 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------------------------------------------------------[m
+ 3 files changed, 1147 insertions(+), 1126 deletions(-)
+[33md536896[m feat: add preview modal and scheduled publishing for news
+ src/components/news/NewsForm.tsx         | 343 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 161 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/index.ts             |   1 [32m+[m
+ src/types/news.ts                        |  19 [32m+++++[m[31m----[m
+ 4 files changed, 375 insertions(+), 149 deletions(-)
+[33m8542cdd[m fix: add news detail page route for preview functionality
+ src/app/(dashboard)/news/[slug]/page.tsx | 196 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/useNews.ts                     |   8 [32m+++++++[m
+ 2 files changed, 204 insertions(+)
+[33maeaaeb8[m chore: format code with prettier after pre-commit hook
+ src/app/(dashboard)/news/edit/page.tsx       |  5 [32m+[m[31m----[m
+ src/components/news/AdminCommentsSection.tsx | 20 [32m++++++++[m[31m------------[m
+ src/components/news/FillTemplateButton.tsx   |  9 [32m+++[m[31m------[m
+ src/components/news/NewsForm.tsx             |  4 [32m+[m[31m---[m
+ src/components/news/NewsTable.tsx            | 11 [32m++++++++++[m[31m-[m
+ src/components/news/newsTemplates.ts         | 15 [32m++++++++++[m[31m-----[m
+ src/hooks/useNews.ts                         | 10 [32m+++++++[m[31m---[m
+ 7 files changed, 40 insertions(+), 34 deletions(-)
+[33md1fd813[m feat: enhance news module with author info, engagement metrics, and templates
+ .claude/settings.local.json                  |    14 [32m+[m[31m-[m
+ .husky/commit-msg                            |     2 [32m+[m[31m-[m
+ .husky/pre-commit                            |     2 [32m+[m[31m-[m
+ package-lock.json                            | 10779 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx       |     7 [32m+[m
+ src/components/news/AdminCommentsSection.tsx |   154 [32m+++[m
+ src/components/news/FillTemplateButton.tsx   |   105 [32m++[m
+ src/components/news/NewsForm.tsx             |    45 [32m+[m
+ src/components/news/NewsTable.tsx            |    55 [32m+[m[31m-[m
+ src/components/news/index.ts                 |     2 [32m+[m
+ src/components/news/newsTemplates.ts         |   247 [32m++++[m
+ src/hooks/useNews.ts                         |    39 [32m+[m[31m-[m
+ src/types/news.ts                            |    26 [32m+[m
+ 13 files changed, 11466 insertions(+), 11 deletions(-)
+[33mf5f9b66[m feat: add news management module and fix ESLint errors
+ bun.lock                                              | 141 [32m+++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ package.json                                          |   9 [32m+++[m
+ src/app/(auth)/login/page.tsx                         | 480 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------------------------------------------------------------------------[m
+ src/app/(auth)/verify-2fa/page.tsx                    |  10 [32m+[m[31m---[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx |  83 [32m+++++++++++++[m[31m-------------[m
+ src/app/(dashboard)/layout.tsx                        |   7 [32m++[m[31m-[m
+ src/app/(dashboard)/news/categories/page.tsx          | 128 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/create/page.tsx              |  44 [32m++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx                | 124 [32m+++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/page.tsx                     | 162 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/router.tsx                                    |   8 [32m+++[m
+ src/components/layout/Sidebar.tsx                     | 383 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------------------------------------------------[m
+ src/components/news/AudioUpload.tsx                   | 115 [32m++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoriesTable.tsx               | 132 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoryFormModal.tsx             | 131 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsFilters.tsx                   |  71 [32m++++++++++++++++++++++[m
+ src/components/news/NewsForm.tsx                      | 225 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx                     | 181 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/RichTextEditor.tsx                | 215 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/ThumbnailUpload.tsx               |  80 [32m+++++++++++++++++++++++++[m
+ src/components/news/YouTubeInput.tsx                  |  56 [32m++++++++++++++++++[m
+ src/components/news/index.ts                          |   9 [32m+++[m
+ src/hooks/index.ts                                    |   1 [32m+[m
+ src/hooks/useNews.ts                                  | 194 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/index.ts                                    |   1 [32m+[m
+ src/types/news.ts                                     |  85 [32m+++++++++++++++++++++++++++[m
+ 26 files changed, 2591 insertions(+), 484 deletions(-)
+[33m3c9a69d[m Fix React #31 error: ensure API error messages are always strings
+ src/lib/api.ts | 6 [32m++++[m[31m--[m
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+[33m159a314[m Improve API error handling: move non-OK response handling into handleResponse
+ src/lib/api.ts | 34 [32m+++++++++++++++++++[m[31m---------------[m
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+[33m9dc9c65[m Fix TS2451: resolve duplicate 'rows' variable declarations
+ src/app/(dashboard)/dashboard/database/table/page.tsx | 18 [32m+++++++++[m[31m---------[m
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+[33m7906a19[m Initial commit: CDHC Admin Vite project
+ .claude/settings.local.json                             |    8 [32m+[m
+ .env.example                                            |    7 [32m+[m
+ .gitignore                                              |   16 [32m++[m
+ .husky/commit-msg                                       |    1 [32m+[m
+ .husky/pre-commit                                       |    1 [32m+[m
+ .prettierignore                                         |    4 [32m+[m
+ README.md                                               |   73 [32m+++++++[m
+ bun.lock                                                | 1665 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ commitlint.config.js                                    |    3 [32m+[m
+ cspell.json                                             |   31 [32m+++[m
+ eslint.config.js                                        |   42 [32m++++[m
+ index.html                                              |   14 [32m++[m
+ knip.json                                               |    7 [32m+[m
+ migration-report.md                                     |  172 [32m+++++++++++++++[m
+ migration-todo.md                                       |   47 [32m+++++[m
+ package.json                                            |   90 [32m++++++++[m
+ postcss.config.js                                       |    6 [32m+[m
+ prettier.config.js                                      |   11 [32m+[m
+ public/_headers                                         |    3 [32m+[m
+ public/_redirects                                       |    1 [32m+[m
+ public/_routes.json                                     |    5 [32m+[m
+ public/file.svg                                         |    1 [32m+[m
+ public/globe.svg                                        |    1 [32m+[m
+ public/next.svg                                         |    1 [32m+[m
+ public/vercel.svg                                       |    1 [32m+[m
+ public/vite.svg                                         |    1 [32m+[m
+ public/window.svg                                       |    1 [32m+[m
+ src/app/(auth)/login/page.tsx                           |  243 [32m++++++++++++++++++++++[m
+ src/app/(auth)/verify-2fa/page.tsx                      |  164 [32m+++++++++++++++[m
+ src/app/(dashboard)/activity-logs/page.tsx              |  225 [32m++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/page.tsx         |  236 [32m+++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx   |  455 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/page.tsx                  |  101 [32m+++++++++[m
+ src/app/(dashboard)/file-manager/page.tsx               |  278 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/layout.tsx                          |   84 [32m++++++++[m
+ src/app/(dashboard)/legacy-recovery/page.tsx            |  174 [32m++++++++++++++++[m
+ src/app/(dashboard)/legacy-recovery/restored/page.tsx   |  264 [32m+++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/alerts/page.tsx          |  384 [32m++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/backup/page.tsx          |  404 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/metrics/page.tsx         |  402 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/query-analytics/page.tsx |  312 [32m++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/security/page.tsx        |  585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/notifications/page.tsx              |  323 [32m+++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/settings/page.tsx                   |   69 [32m+++++++[m
+ src/app/(dashboard)/staff/page.tsx                      |  194 [32m+++++++++++++++++[m
+ src/app/(dashboard)/top-holders/page.tsx                |   87 [32m++++++++[m
+ src/app/(dashboard)/users/detail/page.tsx               |  280 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/users/page.tsx                      |  183 [32m++++++++++++++++[m
+ src/app/favicon.ico                                     |  Bin [31m0[m -> [32m25931[m bytes
+ src/app/globals.css                                     |   84 [32m++++++++[m
+ src/app/page.tsx                                        |  161 [32m+++++++++++++++[m
+ src/app/providers.tsx                                   |   35 [32m++++[m
+ src/app/router.tsx                                      |   66 [32m++++++[m
+ src/components/file-manager/Breadcrumb.tsx              |   58 [32m++++++[m
+ src/components/file-manager/CodeHealthReport.tsx        |  324 [32m+++++++++++++++++++++++++++++[m
+ src/components/file-manager/CodeViewer.tsx              |  264 [32m+++++++++++++++++++++++[m
+ src/components/file-manager/FileInfoPanel.tsx           |  129 [32m++++++++++++[m
+ src/components/file-manager/FileTree.tsx                |  136 [32m++++++++++++[m
+ src/components/layout/Header.tsx                        |   77 [32m+++++++[m
+ src/components/layout/Sidebar.tsx                       |  186 [32m+++++++++++++++++[m
+ src/components/layout/index.ts                          |    2 [32m+[m
+ src/components/legacy-recovery/NotRestoredTable.tsx     |  209 [32m+++++++++++++++++++[m
+ src/components/legacy-recovery/RecoveryStatsCards.tsx   |  161 [32m+++++++++++++++[m
+ src/components/legacy-recovery/index.ts                 |    2 [32m+[m
+ src/components/monitoring/AlertConfigDialog.tsx         |  230 [32m+++++++++++++++++++++[m
+ src/components/monitoring/AlertsList.tsx                |  108 [32m++++++++++[m
+ src/components/monitoring/CacheStats.tsx                |  195 [32m+++++++++++++++++[m
+ src/components/monitoring/DatabaseStats.tsx             |  134 [32m++++++++++++[m
+ src/components/monitoring/MetricsCard.tsx               |   63 [32m++++++[m
+ src/components/monitoring/ProcessTable.tsx              |  224 [32m++++++++++++++++++++[m
+ src/components/monitoring/ServerMetrics.tsx             |   93 [32m+++++++++[m
+ src/components/monitoring/index.ts                      |    6 [32m+[m
+ src/components/staff/StaffForm.tsx                      |  223 [32m++++++++++++++++++++[m
+ src/components/staff/StaffTable.tsx                     |  191 [32m+++++++++++++++++[m
+ src/components/staff/index.ts                           |    2 [32m+[m
+ src/components/stats/OnlineStats.tsx                    |   80 [32m+++++++[m
+ src/components/stats/RegistrationChart.tsx              |   59 [32m++++++[m
+ src/components/stats/RoleChart.tsx                      |   86 [32m++++++++[m
+ src/components/stats/StatsCards.tsx                     |   96 [32m+++++++++[m
+ src/components/stats/index.ts                           |    4 [32m+[m
+ src/components/top-holders/AssetStatsCards.tsx          |  160 [32m++++++++++++++[m
+ src/components/top-holders/ConcentrationCard.tsx        |  177 [32m++++++++++++++++[m
+ src/components/top-holders/TopHoldersTable.tsx          |  206 [32m++++++++++++++++++[m
+ src/components/top-holders/index.ts                     |    3 [32m+[m
+ src/components/ui/alert-dialog.tsx                      |  141 [32m+++++++++++++[m
+ src/components/ui/alert.tsx                             |   58 [32m++++++[m
+ src/components/ui/avatar.tsx                            |   49 [32m+++++[m
+ src/components/ui/badge.tsx                             |   41 [32m++++[m
+ src/components/ui/button.tsx                            |   56 [32m+++++[m
+ src/components/ui/card.tsx                              |   75 [32m+++++++[m
+ src/components/ui/checkbox.tsx                          |   29 [32m+++[m
+ src/components/ui/collapsible.tsx                       |   11 [32m+[m
+ src/components/ui/dialog.tsx                            |  121 [32m+++++++++++[m
+ src/components/ui/dropdown-menu.tsx                     |  200 [32m++++++++++++++++++[m
+ src/components/ui/index.ts                              |   13 [32m++[m
+ src/components/ui/input.tsx                             |   23 [32m+++[m
+ src/components/ui/label.tsx                             |   25 [32m+++[m
+ src/components/ui/progress.tsx                          |   28 [32m+++[m
+ src/components/ui/select.tsx                            |  158 [32m++++++++++++++[m
+ src/components/ui/skeleton.tsx                          |   15 [32m++[m
+ src/components/ui/table.tsx                             |  119 [32m+++++++++++[m
+ src/components/ui/tabs.tsx                              |   55 [32m+++++[m
+ src/components/ui/textarea.tsx                          |   22 [32m++[m
+ src/components/users/BulkActions.tsx                    |  191 [32m+++++++++++++++++[m
+ src/components/users/Pagination.tsx                     |  105 [32m++++++++++[m
+ src/components/users/UserActions.tsx                    |  196 [32m++++++++++++++++++[m
+ src/components/users/UserFilters.tsx                    |   75 [32m+++++++[m
+ src/components/users/UserTable.tsx                      |  243 [32m++++++++++++++++++++++[m
+ src/components/users/index.ts                           |    5 [32m+[m
+ src/hooks/index.ts                                      |    6 [32m+[m
+ src/hooks/use2FA.ts                                     |  103 [32m+++++++++[m
+ src/hooks/useActivityLogs.ts                            |   67 [32m++++++[m
+ src/hooks/useAuth.ts                                    |  234 [32m+++++++++++++++++++++[m
+ src/hooks/useLegacyRecovery.ts                          |  125 [32m+++++++++++[m
+ src/hooks/useMonitoring.ts                              | 1291 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/usePermission.ts                              |   20 [32m++[m
+ src/hooks/useStaff.ts                                   |  105 [32m++++++++++[m
+ src/hooks/useStats.ts                                   |   77 [32m+++++++[m
+ src/hooks/useTopHolders.ts                              |  150 [32m++++++++++++++[m
+ src/hooks/useUsers.ts                                   |  117 [32m+++++++++++[m
+ src/lib/api.ts                                          | 1115 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/lib/auth-logger.ts                                  |  164 [32m+++++++++++++++[m
+ src/lib/oauth-debug.ts                                  |  203 [32m++++++++++++++++++[m
+ src/lib/permissions.ts                                  |   41 [32m++++[m
+ src/lib/utils.ts                                        |   53 [32m+++++[m
+ src/main.tsx                                            |   16 [32m++[m
+ src/stores/authStore.ts                                 |  155 [32m++++++++++++++[m
+ src/types/admin-v2.ts                                   |  644 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/api.ts                                        |  109 [32m++++++++++[m
+ src/types/index.ts                                      |    4 [32m+[m
+ src/types/legacy-recovery.ts                            |   82 [32m++++++++[m
+ src/types/stats.ts                                      |   50 [32m+++++[m
+ src/types/top-holders.ts                                |  100 [32m+++++++++[m
+ src/types/user.ts                                       |   87 [32m++++++++[m
+ src/vite-env.d.ts                                       |   10 [32m+[m
+ tailwind.config.ts                                      |   72 [32m+++++++[m
+ tsconfig.app.json                                       |   36 [32m++++[m
+ tsconfig.json                                           |    7 [32m+[m
+ tsconfig.node.json                                      |   26 [32m+++[m
+ vite.config.ts                                          |   25 [32m+++[m
+ 140 files changed, 19242 insertions(+)
+[33m3753c9b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: fetch full news detail for preview from list page
+ src/app/(dashboard)/news/page.tsx | 11 [32m+++++++[m[31m----[m
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+[33m40edc38[m fix: news preview modal not showing content
+ src/components/news/NewsForm.tsx | 11 [32m++++++[m[31m-----[m
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+[33m9a56241[m fix: improve news preview and author display
+ src/app/(dashboard)/news/page.tsx | 19 [32m+++++++++++++++++++[m
+ src/components/news/NewsTable.tsx | 13 [32m+++++++++[m[31m----[m
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+[33m0a0ca8e[m fix: correct TipTap extension imports and add Popover component
+ package-lock.json                      | 56 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  1 [32m+[m
+ src/components/news/RichTextEditor.tsx | 10 [32m+++++[m[31m-----[m
+ src/components/ui/popover.tsx          | 29 [32m+++++++++++++++++++++++++++++[m
+ 4 files changed, 91 insertions(+), 5 deletions(-)
+[33m48353ba[m feat: add info boxes and enhance tooltips in rich text editor
+ src/components/news/RichTextEditor.tsx | 121 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------[m
+ 1 file changed, 95 insertions(+), 26 deletions(-)
+[33m74ba1e3[m feat: upgrade RichTextEditor with professional Word-like features
+ package-lock.json                      | 137 [32m++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  11 [32m+++[m
+ src/components/news/RichTextEditor.tsx | 626 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------[m
+ 3 files changed, 652 insertions(+), 122 deletions(-)
+[33m912a406[m fix: improve news preview modal design and Vietnamese font support
+ index.html                               |  8 [32m++++++++[m
+ src/components/news/NewsPreviewModal.tsx | 46 [32m++++++++++++++++++++++++++++[m[31m------------------[m
+ tailwind.config.ts                       | 70 [32m++++++++++++++++++++++++++++++++++[m[31m------------------------------------[m
+ 3 files changed, 70 insertions(+), 54 deletions(-)
+[33m627df89[m fix: enable template content fill and audio/thumbnail preview in create page
+ src/app/(dashboard)/news/create/page.tsx | 67 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------[m
+ src/components/news/RichTextEditor.tsx   |  8 [32m++++++++[m
+ 2 files changed, 68 insertions(+), 7 deletions(-)
+[33m701b908[m fix: improve news form template and audio upload UX
+ .env.example                         |  3 [32m+++[m
+ src/components/news/AudioUpload.tsx  | 30 [32m++++++++++++++++++++[m[31m----------[m
+ src/components/news/NewsForm.tsx     | 32 [32m++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx    |  6 [32m+++++[m[31m-[m
+ src/components/news/newsTemplates.ts | 10 [32m++++++++++[m
+ src/types/news.ts                    |  4 [32m++++[m
+ 6 files changed, 74 insertions(+), 11 deletions(-)
+[33mfcad358[m feat: redesign news creation UI with VAPEC-inspired layout
+ src/app/(dashboard)/news/create/page.tsx   |  36 [32m++++++[m[31m-------[m
+ src/components/news/FillTemplateButton.tsx |  10 [32m++[m[31m--[m
+ src/components/news/NewsForm.tsx           | 472 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------[m
+ src/components/news/newsTemplates.ts       |  80 [32m++++++++++++++++++[m[31m---------[m
+ 4 files changed, 370 insertions(+), 228 deletions(-)
+[33md15f131[m feat: enhance news functionality with better error handling and scheduling
+ src/app/(dashboard)/news/create/page.tsx   |  24 [32m+++++++++++[m[31m----[m
+ src/components/news/FillTemplateButton.tsx |  84 [32m+++++++++++++[m[31m---------------------------------------[m
+ src/components/news/NewsForm.tsx           |  71 [32m+++++++++++++++++++++++++++++++++++++++[m[31m-----[m
+ src/components/news/NewsTable.tsx          |  17 [32m++++++++[m[31m---[m
+ src/components/news/newsTemplates.ts       | 259 [32m++++++++++++++++[m[31m------------------------------------------------------------------------------------------------------------------------------------------------[m
+ src/types/news.ts                          |   4 [32m++[m[31m-[m
+ 6 files changed, 144 insertions(+), 315 deletions(-)
+[33mb5dea3c[m feat: improve news functionality
+ .claude/settings.local.json              |  3 [32m++[m[31m-[m
+ src/app/(dashboard)/news/create/page.tsx | 48 [32m++++++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ src/components/news/NewsForm.tsx         | 31 [32m++[m[31m-----------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 12 [32m++[m[31m----------[m
+ src/types/news.ts                        | 11 [32m+++++[m[31m------[m
+ 5 files changed, 55 insertions(+), 50 deletions(-)
+[33m88e4a84[m chore: clean up unused imports and fix FormData handling
+ src/app/(dashboard)/news/[slug]/page.tsx |    2 [32m+[m[31m-[m
+ src/components/news/NewsForm.tsx         |    5 [32m+[m[31m-[m
+ src/lib/api.ts                           | 2266 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------------------------------------------------------[m
+ 3 files changed, 1147 insertions(+), 1126 deletions(-)
+[33md536896[m feat: add preview modal and scheduled publishing for news
+ src/components/news/NewsForm.tsx         | 343 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 161 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/index.ts             |   1 [32m+[m
+ src/types/news.ts                        |  19 [32m+++++[m[31m----[m
+ 4 files changed, 375 insertions(+), 149 deletions(-)
+[33m8542cdd[m fix: add news detail page route for preview functionality
+ src/app/(dashboard)/news/[slug]/page.tsx | 196 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/useNews.ts                     |   8 [32m+++++++[m
+ 2 files changed, 204 insertions(+)
+[33maeaaeb8[m chore: format code with prettier after pre-commit hook
+ src/app/(dashboard)/news/edit/page.tsx       |  5 [32m+[m[31m----[m
+ src/components/news/AdminCommentsSection.tsx | 20 [32m++++++++[m[31m------------[m
+ src/components/news/FillTemplateButton.tsx   |  9 [32m+++[m[31m------[m
+ src/components/news/NewsForm.tsx             |  4 [32m+[m[31m---[m
+ src/components/news/NewsTable.tsx            | 11 [32m++++++++++[m[31m-[m
+ src/components/news/newsTemplates.ts         | 15 [32m++++++++++[m[31m-----[m
+ src/hooks/useNews.ts                         | 10 [32m+++++++[m[31m---[m
+ 7 files changed, 40 insertions(+), 34 deletions(-)
+[33md1fd813[m feat: enhance news module with author info, engagement metrics, and templates
+ .claude/settings.local.json                  |    14 [32m+[m[31m-[m
+ .husky/commit-msg                            |     2 [32m+[m[31m-[m
+ .husky/pre-commit                            |     2 [32m+[m[31m-[m
+ package-lock.json                            | 10779 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx       |     7 [32m+[m
+ src/components/news/AdminCommentsSection.tsx |   154 [32m+++[m
+ src/components/news/FillTemplateButton.tsx   |   105 [32m++[m
+ src/components/news/NewsForm.tsx             |    45 [32m+[m
+ src/components/news/NewsTable.tsx            |    55 [32m+[m[31m-[m
+ src/components/news/index.ts                 |     2 [32m+[m
+ src/components/news/newsTemplates.ts         |   247 [32m++++[m
+ src/hooks/useNews.ts                         |    39 [32m+[m[31m-[m
+ src/types/news.ts                            |    26 [32m+[m
+ 13 files changed, 11466 insertions(+), 11 deletions(-)
+[33mf5f9b66[m feat: add news management module and fix ESLint errors
+ bun.lock                                              | 141 [32m+++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ package.json                                          |   9 [32m+++[m
+ src/app/(auth)/login/page.tsx                         | 480 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------------------------------------------------------------------------[m
+ src/app/(auth)/verify-2fa/page.tsx                    |  10 [32m+[m[31m---[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx |  83 [32m+++++++++++++[m[31m-------------[m
+ src/app/(dashboard)/layout.tsx                        |   7 [32m++[m[31m-[m
+ src/app/(dashboard)/news/categories/page.tsx          | 128 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/create/page.tsx              |  44 [32m++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx                | 124 [32m+++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/page.tsx                     | 162 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/router.tsx                                    |   8 [32m+++[m
+ src/components/layout/Sidebar.tsx                     | 383 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------------------------------------------------[m
+ src/components/news/AudioUpload.tsx                   | 115 [32m++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoriesTable.tsx               | 132 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoryFormModal.tsx             | 131 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsFilters.tsx                   |  71 [32m++++++++++++++++++++++[m
+ src/components/news/NewsForm.tsx                      | 225 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx                     | 181 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/RichTextEditor.tsx                | 215 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/ThumbnailUpload.tsx               |  80 [32m+++++++++++++++++++++++++[m
+ src/components/news/YouTubeInput.tsx                  |  56 [32m++++++++++++++++++[m
+ src/components/news/index.ts                          |   9 [32m+++[m
+ src/hooks/index.ts                                    |   1 [32m+[m
+ src/hooks/useNews.ts                                  | 194 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/index.ts                                    |   1 [32m+[m
+ src/types/news.ts                                     |  85 [32m+++++++++++++++++++++++++++[m
+ 26 files changed, 2591 insertions(+), 484 deletions(-)
+[33m3c9a69d[m Fix React #31 error: ensure API error messages are always strings
+ src/lib/api.ts | 6 [32m++++[m[31m--[m
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+[33m159a314[m Improve API error handling: move non-OK response handling into handleResponse
+ src/lib/api.ts | 34 [32m+++++++++++++++++++[m[31m---------------[m
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+[33m9dc9c65[m Fix TS2451: resolve duplicate 'rows' variable declarations
+ src/app/(dashboard)/dashboard/database/table/page.tsx | 18 [32m+++++++++[m[31m---------[m
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+[33m7906a19[m Initial commit: CDHC Admin Vite project
+ .claude/settings.local.json                             |    8 [32m+[m
+ .env.example                                            |    7 [32m+[m
+ .gitignore                                              |   16 [32m++[m
+ .husky/commit-msg                                       |    1 [32m+[m
+ .husky/pre-commit                                       |    1 [32m+[m
+ .prettierignore                                         |    4 [32m+[m
+ README.md                                               |   73 [32m+++++++[m
+ bun.lock                                                | 1665 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ commitlint.config.js                                    |    3 [32m+[m
+ cspell.json                                             |   31 [32m+++[m
+ eslint.config.js                                        |   42 [32m++++[m
+ index.html                                              |   14 [32m++[m
+ knip.json                                               |    7 [32m+[m
+ migration-report.md                                     |  172 [32m+++++++++++++++[m
+ migration-todo.md                                       |   47 [32m+++++[m
+ package.json                                            |   90 [32m++++++++[m
+ postcss.config.js                                       |    6 [32m+[m
+ prettier.config.js                                      |   11 [32m+[m
+ public/_headers                                         |    3 [32m+[m
+ public/_redirects                                       |    1 [32m+[m
+ public/_routes.json                                     |    5 [32m+[m
+ public/file.svg                                         |    1 [32m+[m
+ public/globe.svg                                        |    1 [32m+[m
+ public/next.svg                                         |    1 [32m+[m
+ public/vercel.svg                                       |    1 [32m+[m
+ public/vite.svg                                         |    1 [32m+[m
+ public/window.svg                                       |    1 [32m+[m
+ src/app/(auth)/login/page.tsx                           |  243 [32m++++++++++++++++++++++[m
+ src/app/(auth)/verify-2fa/page.tsx                      |  164 [32m+++++++++++++++[m
+ src/app/(dashboard)/activity-logs/page.tsx              |  225 [32m++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/page.tsx         |  236 [32m+++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx   |  455 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/page.tsx                  |  101 [32m+++++++++[m
+ src/app/(dashboard)/file-manager/page.tsx               |  278 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/layout.tsx                          |   84 [32m++++++++[m
+ src/app/(dashboard)/legacy-recovery/page.tsx            |  174 [32m++++++++++++++++[m
+ src/app/(dashboard)/legacy-recovery/restored/page.tsx   |  264 [32m+++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/alerts/page.tsx          |  384 [32m++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/backup/page.tsx          |  404 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/metrics/page.tsx         |  402 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/query-analytics/page.tsx |  312 [32m++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/security/page.tsx        |  585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/notifications/page.tsx              |  323 [32m+++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/settings/page.tsx                   |   69 [32m+++++++[m
+ src/app/(dashboard)/staff/page.tsx                      |  194 [32m+++++++++++++++++[m
+ src/app/(dashboard)/top-holders/page.tsx                |   87 [32m++++++++[m
+ src/app/(dashboard)/users/detail/page.tsx               |  280 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/users/page.tsx                      |  183 [32m++++++++++++++++[m
+ src/app/favicon.ico                                     |  Bin [31m0[m -> [32m25931[m bytes
+ src/app/globals.css                                     |   84 [32m++++++++[m
+ src/app/page.tsx                                        |  161 [32m+++++++++++++++[m
+ src/app/providers.tsx                                   |   35 [32m++++[m
+ src/app/router.tsx                                      |   66 [32m++++++[m
+ src/components/file-manager/Breadcrumb.tsx              |   58 [32m++++++[m
+ src/components/file-manager/CodeHealthReport.tsx        |  324 [32m+++++++++++++++++++++++++++++[m
+ src/components/file-manager/CodeViewer.tsx              |  264 [32m+++++++++++++++++++++++[m
+ src/components/file-manager/FileInfoPanel.tsx           |  129 [32m++++++++++++[m
+ src/components/file-manager/FileTree.tsx                |  136 [32m++++++++++++[m
+ src/components/layout/Header.tsx                        |   77 [32m+++++++[m
+ src/components/layout/Sidebar.tsx                       |  186 [32m+++++++++++++++++[m
+ src/components/layout/index.ts                          |    2 [32m+[m
+ src/components/legacy-recovery/NotRestoredTable.tsx     |  209 [32m+++++++++++++++++++[m
+ src/components/legacy-recovery/RecoveryStatsCards.tsx   |  161 [32m+++++++++++++++[m
+ src/components/legacy-recovery/index.ts                 |    2 [32m+[m
+ src/components/monitoring/AlertConfigDialog.tsx         |  230 [32m+++++++++++++++++++++[m
+ src/components/monitoring/AlertsList.tsx                |  108 [32m++++++++++[m
+ src/components/monitoring/CacheStats.tsx                |  195 [32m+++++++++++++++++[m
+ src/components/monitoring/DatabaseStats.tsx             |  134 [32m++++++++++++[m
+ src/components/monitoring/MetricsCard.tsx               |   63 [32m++++++[m
+ src/components/monitoring/ProcessTable.tsx              |  224 [32m++++++++++++++++++++[m
+ src/components/monitoring/ServerMetrics.tsx             |   93 [32m+++++++++[m
+ src/components/monitoring/index.ts                      |    6 [32m+[m
+ src/components/staff/StaffForm.tsx                      |  223 [32m++++++++++++++++++++[m
+ src/components/staff/StaffTable.tsx                     |  191 [32m+++++++++++++++++[m
+ src/components/staff/index.ts                           |    2 [32m+[m
+ src/components/stats/OnlineStats.tsx                    |   80 [32m+++++++[m
+ src/components/stats/RegistrationChart.tsx              |   59 [32m++++++[m
+ src/components/stats/RoleChart.tsx                      |   86 [32m++++++++[m
+ src/components/stats/StatsCards.tsx                     |   96 [32m+++++++++[m
+ src/components/stats/index.ts                           |    4 [32m+[m
+ src/components/top-holders/AssetStatsCards.tsx          |  160 [32m++++++++++++++[m
+ src/components/top-holders/ConcentrationCard.tsx        |  177 [32m++++++++++++++++[m
+ src/components/top-holders/TopHoldersTable.tsx          |  206 [32m++++++++++++++++++[m
+ src/components/top-holders/index.ts                     |    3 [32m+[m
+ src/components/ui/alert-dialog.tsx                      |  141 [32m+++++++++++++[m
+ src/components/ui/alert.tsx                             |   58 [32m++++++[m
+ src/components/ui/avatar.tsx                            |   49 [32m+++++[m
+ src/components/ui/badge.tsx                             |   41 [32m++++[m
+ src/components/ui/button.tsx                            |   56 [32m+++++[m
+ src/components/ui/card.tsx                              |   75 [32m+++++++[m
+ src/components/ui/checkbox.tsx                          |   29 [32m+++[m
+ src/components/ui/collapsible.tsx                       |   11 [32m+[m
+ src/components/ui/dialog.tsx                            |  121 [32m+++++++++++[m
+ src/components/ui/dropdown-menu.tsx                     |  200 [32m++++++++++++++++++[m
+ src/components/ui/index.ts                              |   13 [32m++[m
+ src/components/ui/input.tsx                             |   23 [32m+++[m
+ src/components/ui/label.tsx                             |   25 [32m+++[m
+ src/components/ui/progress.tsx                          |   28 [32m+++[m
+ src/components/ui/select.tsx                            |  158 [32m++++++++++++++[m
+ src/components/ui/skeleton.tsx                          |   15 [32m++[m
+ src/components/ui/table.tsx                             |  119 [32m+++++++++++[m
+ src/components/ui/tabs.tsx                              |   55 [32m+++++[m
+ src/components/ui/textarea.tsx                          |   22 [32m++[m
+ src/components/users/BulkActions.tsx                    |  191 [32m+++++++++++++++++[m
+ src/components/users/Pagination.tsx                     |  105 [32m++++++++++[m
+ src/components/users/UserActions.tsx                    |  196 [32m++++++++++++++++++[m
+ src/components/users/UserFilters.tsx                    |   75 [32m+++++++[m
+ src/components/users/UserTable.tsx                      |  243 [32m++++++++++++++++++++++[m
+ src/components/users/index.ts                           |    5 [32m+[m
+ src/hooks/index.ts                                      |    6 [32m+[m
+ src/hooks/use2FA.ts                                     |  103 [32m+++++++++[m
+ src/hooks/useActivityLogs.ts                            |   67 [32m++++++[m
+ src/hooks/useAuth.ts                                    |  234 [32m+++++++++++++++++++++[m
+ src/hooks/useLegacyRecovery.ts                          |  125 [32m+++++++++++[m
+ src/hooks/useMonitoring.ts                              | 1291 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/usePermission.ts                              |   20 [32m++[m
+ src/hooks/useStaff.ts                                   |  105 [32m++++++++++[m
+ src/hooks/useStats.ts                                   |   77 [32m+++++++[m
+ src/hooks/useTopHolders.ts                              |  150 [32m++++++++++++++[m
+ src/hooks/useUsers.ts                                   |  117 [32m+++++++++++[m
+ src/lib/api.ts                                          | 1115 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/lib/auth-logger.ts                                  |  164 [32m+++++++++++++++[m
+ src/lib/oauth-debug.ts                                  |  203 [32m++++++++++++++++++[m
+ src/lib/permissions.ts                                  |   41 [32m++++[m
+ src/lib/utils.ts                                        |   53 [32m+++++[m
+ src/main.tsx                                            |   16 [32m++[m
+ src/stores/authStore.ts                                 |  155 [32m++++++++++++++[m
+ src/types/admin-v2.ts                                   |  644 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/api.ts                                        |  109 [32m++++++++++[m
+ src/types/index.ts                                      |    4 [32m+[m
+ src/types/legacy-recovery.ts                            |   82 [32m++++++++[m
+ src/types/stats.ts                                      |   50 [32m+++++[m
+ src/types/top-holders.ts                                |  100 [32m+++++++++[m
+ src/types/user.ts                                       |   87 [32m++++++++[m
+ src/vite-env.d.ts                                       |   10 [32m+[m
+ tailwind.config.ts                                      |   72 [32m+++++++[m
+ tsconfig.app.json                                       |   36 [32m++++[m
+ tsconfig.json                                           |    7 [32m+[m
+ tsconfig.node.json                                      |   26 [32m+++[m
+ vite.config.ts                                          |   25 [32m+++[m
+ 140 files changed, 19242 insertions(+)
+[33m3753c9b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: fetch full news detail for preview from list page
+ src/app/(dashboard)/news/page.tsx | 11 [32m+++++++[m[31m----[m
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+[33m40edc38[m fix: news preview modal not showing content
+ src/components/news/NewsForm.tsx | 11 [32m++++++[m[31m-----[m
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+[33m9a56241[m fix: improve news preview and author display
+ src/app/(dashboard)/news/page.tsx | 19 [32m+++++++++++++++++++[m
+ src/components/news/NewsTable.tsx | 13 [32m+++++++++[m[31m----[m
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+[33m0a0ca8e[m fix: correct TipTap extension imports and add Popover component
+ package-lock.json                      | 56 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  1 [32m+[m
+ src/components/news/RichTextEditor.tsx | 10 [32m+++++[m[31m-----[m
+ src/components/ui/popover.tsx          | 29 [32m+++++++++++++++++++++++++++++[m
+ 4 files changed, 91 insertions(+), 5 deletions(-)
+[33m48353ba[m feat: add info boxes and enhance tooltips in rich text editor
+ src/components/news/RichTextEditor.tsx | 121 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------[m
+ 1 file changed, 95 insertions(+), 26 deletions(-)
+[33m74ba1e3[m feat: upgrade RichTextEditor with professional Word-like features
+ package-lock.json                      | 137 [32m++++++++++++++++++++++++++++++++++++[m
+ package.json                           |  11 [32m+++[m
+ src/components/news/RichTextEditor.tsx | 626 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------[m
+ 3 files changed, 652 insertions(+), 122 deletions(-)
+[33m912a406[m fix: improve news preview modal design and Vietnamese font support
+ index.html                               |  8 [32m++++++++[m
+ src/components/news/NewsPreviewModal.tsx | 46 [32m++++++++++++++++++++++++++++[m[31m------------------[m
+ tailwind.config.ts                       | 70 [32m++++++++++++++++++++++++++++++++++[m[31m------------------------------------[m
+ 3 files changed, 70 insertions(+), 54 deletions(-)
+[33m627df89[m fix: enable template content fill and audio/thumbnail preview in create page
+ src/app/(dashboard)/news/create/page.tsx | 67 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------[m
+ src/components/news/RichTextEditor.tsx   |  8 [32m++++++++[m
+ 2 files changed, 68 insertions(+), 7 deletions(-)
+[33m701b908[m fix: improve news form template and audio upload UX
+ .env.example                         |  3 [32m+++[m
+ src/components/news/AudioUpload.tsx  | 30 [32m++++++++++++++++++++[m[31m----------[m
+ src/components/news/NewsForm.tsx     | 32 [32m++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx    |  6 [32m+++++[m[31m-[m
+ src/components/news/newsTemplates.ts | 10 [32m++++++++++[m
+ src/types/news.ts                    |  4 [32m++++[m
+ 6 files changed, 74 insertions(+), 11 deletions(-)
+[33mfcad358[m feat: redesign news creation UI with VAPEC-inspired layout
+ src/app/(dashboard)/news/create/page.tsx   |  36 [32m++++++[m[31m-------[m
+ src/components/news/FillTemplateButton.tsx |  10 [32m++[m[31m--[m
+ src/components/news/NewsForm.tsx           | 472 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------[m
+ src/components/news/newsTemplates.ts       |  80 [32m++++++++++++++++++[m[31m---------[m
+ 4 files changed, 370 insertions(+), 228 deletions(-)
+[33md15f131[m feat: enhance news functionality with better error handling and scheduling
+ src/app/(dashboard)/news/create/page.tsx   |  24 [32m+++++++++++[m[31m----[m
+ src/components/news/FillTemplateButton.tsx |  84 [32m+++++++++++++[m[31m---------------------------------------[m
+ src/components/news/NewsForm.tsx           |  71 [32m+++++++++++++++++++++++++++++++++++++++[m[31m-----[m
+ src/components/news/NewsTable.tsx          |  17 [32m++++++++[m[31m---[m
+ src/components/news/newsTemplates.ts       | 259 [32m++++++++++++++++[m[31m------------------------------------------------------------------------------------------------------------------------------------------------[m
+ src/types/news.ts                          |   4 [32m++[m[31m-[m
+ 6 files changed, 144 insertions(+), 315 deletions(-)
+[33mb5dea3c[m feat: improve news functionality
+ .claude/settings.local.json              |  3 [32m++[m[31m-[m
+ src/app/(dashboard)/news/create/page.tsx | 48 [32m++++++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ src/components/news/NewsForm.tsx         | 31 [32m++[m[31m-----------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 12 [32m++[m[31m----------[m
+ src/types/news.ts                        | 11 [32m+++++[m[31m------[m
+ 5 files changed, 55 insertions(+), 50 deletions(-)
+[33m88e4a84[m chore: clean up unused imports and fix FormData handling
+ src/app/(dashboard)/news/[slug]/page.tsx |    2 [32m+[m[31m-[m
+ src/components/news/NewsForm.tsx         |    5 [32m+[m[31m-[m
+ src/lib/api.ts                           | 2266 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------------------------------------------------------------[m
+ 3 files changed, 1147 insertions(+), 1126 deletions(-)
+[33md536896[m feat: add preview modal and scheduled publishing for news
+ src/components/news/NewsForm.tsx         | 343 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-------------------------------------------------------------------[m
+ src/components/news/NewsPreviewModal.tsx | 161 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/index.ts             |   1 [32m+[m
+ src/types/news.ts                        |  19 [32m+++++[m[31m----[m
+ 4 files changed, 375 insertions(+), 149 deletions(-)
+[33m8542cdd[m fix: add news detail page route for preview functionality
+ src/app/(dashboard)/news/[slug]/page.tsx | 196 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/useNews.ts                     |   8 [32m+++++++[m
+ 2 files changed, 204 insertions(+)
+[33maeaaeb8[m chore: format code with prettier after pre-commit hook
+ src/app/(dashboard)/news/edit/page.tsx       |  5 [32m+[m[31m----[m
+ src/components/news/AdminCommentsSection.tsx | 20 [32m++++++++[m[31m------------[m
+ src/components/news/FillTemplateButton.tsx   |  9 [32m+++[m[31m------[m
+ src/components/news/NewsForm.tsx             |  4 [32m+[m[31m---[m
+ src/components/news/NewsTable.tsx            | 11 [32m++++++++++[m[31m-[m
+ src/components/news/newsTemplates.ts         | 15 [32m++++++++++[m[31m-----[m
+ src/hooks/useNews.ts                         | 10 [32m+++++++[m[31m---[m
+ 7 files changed, 40 insertions(+), 34 deletions(-)
+[33md1fd813[m feat: enhance news module with author info, engagement metrics, and templates
+ .claude/settings.local.json                  |    14 [32m+[m[31m-[m
+ .husky/commit-msg                            |     2 [32m+[m[31m-[m
+ .husky/pre-commit                            |     2 [32m+[m[31m-[m
+ package-lock.json                            | 10779 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx       |     7 [32m+[m
+ src/components/news/AdminCommentsSection.tsx |   154 [32m+++[m
+ src/components/news/FillTemplateButton.tsx   |   105 [32m++[m
+ src/components/news/NewsForm.tsx             |    45 [32m+[m
+ src/components/news/NewsTable.tsx            |    55 [32m+[m[31m-[m
+ src/components/news/index.ts                 |     2 [32m+[m
+ src/components/news/newsTemplates.ts         |   247 [32m++++[m
+ src/hooks/useNews.ts                         |    39 [32m+[m[31m-[m
+ src/types/news.ts                            |    26 [32m+[m
+ 13 files changed, 11466 insertions(+), 11 deletions(-)
+[33mf5f9b66[m feat: add news management module and fix ESLint errors
+ bun.lock                                              | 141 [32m+++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ package.json                                          |   9 [32m+++[m
+ src/app/(auth)/login/page.tsx                         | 480 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------------------------------------------------------------------------[m
+ src/app/(auth)/verify-2fa/page.tsx                    |  10 [32m+[m[31m---[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx |  83 [32m+++++++++++++[m[31m-------------[m
+ src/app/(dashboard)/layout.tsx                        |   7 [32m++[m[31m-[m
+ src/app/(dashboard)/news/categories/page.tsx          | 128 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/create/page.tsx              |  44 [32m++++++++++++++[m
+ src/app/(dashboard)/news/edit/page.tsx                | 124 [32m+++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/news/page.tsx                     | 162 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/router.tsx                                    |   8 [32m+++[m
+ src/components/layout/Sidebar.tsx                     | 383 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------------------------------------------------[m
+ src/components/news/AudioUpload.tsx                   | 115 [32m++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoriesTable.tsx               | 132 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/CategoryFormModal.tsx             | 131 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsFilters.tsx                   |  71 [32m++++++++++++++++++++++[m
+ src/components/news/NewsForm.tsx                      | 225 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/NewsTable.tsx                     | 181 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/RichTextEditor.tsx                | 215 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/components/news/ThumbnailUpload.tsx               |  80 [32m+++++++++++++++++++++++++[m
+ src/components/news/YouTubeInput.tsx                  |  56 [32m++++++++++++++++++[m
+ src/components/news/index.ts                          |   9 [32m+++[m
+ src/hooks/index.ts                                    |   1 [32m+[m
+ src/hooks/useNews.ts                                  | 194 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/index.ts                                    |   1 [32m+[m
+ src/types/news.ts                                     |  85 [32m+++++++++++++++++++++++++++[m
+ 26 files changed, 2591 insertions(+), 484 deletions(-)
+[33m3c9a69d[m Fix React #31 error: ensure API error messages are always strings
+ src/lib/api.ts | 6 [32m++++[m[31m--[m
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+[33m159a314[m Improve API error handling: move non-OK response handling into handleResponse
+ src/lib/api.ts | 34 [32m+++++++++++++++++++[m[31m---------------[m
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+[33m9dc9c65[m Fix TS2451: resolve duplicate 'rows' variable declarations
+ src/app/(dashboard)/dashboard/database/table/page.tsx | 18 [32m+++++++++[m[31m---------[m
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+[33m7906a19[m Initial commit: CDHC Admin Vite project
+ .claude/settings.local.json                             |    8 [32m+[m
+ .env.example                                            |    7 [32m+[m
+ .gitignore                                              |   16 [32m++[m
+ .husky/commit-msg                                       |    1 [32m+[m
+ .husky/pre-commit                                       |    1 [32m+[m
+ .prettierignore                                         |    4 [32m+[m
+ README.md                                               |   73 [32m+++++++[m
+ bun.lock                                                | 1665 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ commitlint.config.js                                    |    3 [32m+[m
+ cspell.json                                             |   31 [32m+++[m
+ eslint.config.js                                        |   42 [32m++++[m
+ index.html                                              |   14 [32m++[m
+ knip.json                                               |    7 [32m+[m
+ migration-report.md                                     |  172 [32m+++++++++++++++[m
+ migration-todo.md                                       |   47 [32m+++++[m
+ package.json                                            |   90 [32m++++++++[m
+ postcss.config.js                                       |    6 [32m+[m
+ prettier.config.js                                      |   11 [32m+[m
+ public/_headers                                         |    3 [32m+[m
+ public/_redirects                                       |    1 [32m+[m
+ public/_routes.json                                     |    5 [32m+[m
+ public/file.svg                                         |    1 [32m+[m
+ public/globe.svg                                        |    1 [32m+[m
+ public/next.svg                                         |    1 [32m+[m
+ public/vercel.svg                                       |    1 [32m+[m
+ public/vite.svg                                         |    1 [32m+[m
+ public/window.svg                                       |    1 [32m+[m
+ src/app/(auth)/login/page.tsx                           |  243 [32m++++++++++++++++++++++[m
+ src/app/(auth)/verify-2fa/page.tsx                      |  164 [32m+++++++++++++++[m
+ src/app/(dashboard)/activity-logs/page.tsx              |  225 [32m++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/page.tsx         |  236 [32m+++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/database/table/page.tsx   |  455 [32m++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/dashboard/page.tsx                  |  101 [32m+++++++++[m
+ src/app/(dashboard)/file-manager/page.tsx               |  278 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/layout.tsx                          |   84 [32m++++++++[m
+ src/app/(dashboard)/legacy-recovery/page.tsx            |  174 [32m++++++++++++++++[m
+ src/app/(dashboard)/legacy-recovery/restored/page.tsx   |  264 [32m+++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/alerts/page.tsx          |  384 [32m++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/backup/page.tsx          |  404 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/metrics/page.tsx         |  402 [32m++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/query-analytics/page.tsx |  312 [32m++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/monitoring/security/page.tsx        |  585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/notifications/page.tsx              |  323 [32m+++++++++++++++++++++++++++++[m
+ src/app/(dashboard)/settings/page.tsx                   |   69 [32m+++++++[m
+ src/app/(dashboard)/staff/page.tsx                      |  194 [32m+++++++++++++++++[m
+ src/app/(dashboard)/top-holders/page.tsx                |   87 [32m++++++++[m
+ src/app/(dashboard)/users/detail/page.tsx               |  280 [32m+++++++++++++++++++++++++[m
+ src/app/(dashboard)/users/page.tsx                      |  183 [32m++++++++++++++++[m
+ src/app/favicon.ico                                     |  Bin [31m0[m -> [32m25931[m bytes
+ src/app/globals.css                                     |   84 [32m++++++++[m
+ src/app/page.tsx                                        |  161 [32m+++++++++++++++[m
+ src/app/providers.tsx                                   |   35 [32m++++[m
+ src/app/router.tsx                                      |   66 [32m++++++[m
+ src/components/file-manager/Breadcrumb.tsx              |   58 [32m++++++[m
+ src/components/file-manager/CodeHealthReport.tsx        |  324 [32m+++++++++++++++++++++++++++++[m
+ src/components/file-manager/CodeViewer.tsx              |  264 [32m+++++++++++++++++++++++[m
+ src/components/file-manager/FileInfoPanel.tsx           |  129 [32m++++++++++++[m
+ src/components/file-manager/FileTree.tsx                |  136 [32m++++++++++++[m
+ src/components/layout/Header.tsx                        |   77 [32m+++++++[m
+ src/components/layout/Sidebar.tsx                       |  186 [32m+++++++++++++++++[m
+ src/components/layout/index.ts                          |    2 [32m+[m
+ src/components/legacy-recovery/NotRestoredTable.tsx     |  209 [32m+++++++++++++++++++[m
+ src/components/legacy-recovery/RecoveryStatsCards.tsx   |  161 [32m+++++++++++++++[m
+ src/components/legacy-recovery/index.ts                 |    2 [32m+[m
+ src/components/monitoring/AlertConfigDialog.tsx         |  230 [32m+++++++++++++++++++++[m
+ src/components/monitoring/AlertsList.tsx                |  108 [32m++++++++++[m
+ src/components/monitoring/CacheStats.tsx                |  195 [32m+++++++++++++++++[m
+ src/components/monitoring/DatabaseStats.tsx             |  134 [32m++++++++++++[m
+ src/components/monitoring/MetricsCard.tsx               |   63 [32m++++++[m
+ src/components/monitoring/ProcessTable.tsx              |  224 [32m++++++++++++++++++++[m
+ src/components/monitoring/ServerMetrics.tsx             |   93 [32m+++++++++[m
+ src/components/monitoring/index.ts                      |    6 [32m+[m
+ src/components/staff/StaffForm.tsx                      |  223 [32m++++++++++++++++++++[m
+ src/components/staff/StaffTable.tsx                     |  191 [32m+++++++++++++++++[m
+ src/components/staff/index.ts                           |    2 [32m+[m
+ src/components/stats/OnlineStats.tsx                    |   80 [32m+++++++[m
+ src/components/stats/RegistrationChart.tsx              |   59 [32m++++++[m
+ src/components/stats/RoleChart.tsx                      |   86 [32m++++++++[m
+ src/components/stats/StatsCards.tsx                     |   96 [32m+++++++++[m
+ src/components/stats/index.ts                           |    4 [32m+[m
+ src/components/top-holders/AssetStatsCards.tsx          |  160 [32m++++++++++++++[m
+ src/components/top-holders/ConcentrationCard.tsx        |  177 [32m++++++++++++++++[m
+ src/components/top-holders/TopHoldersTable.tsx          |  206 [32m++++++++++++++++++[m
+ src/components/top-holders/index.ts                     |    3 [32m+[m
+ src/components/ui/alert-dialog.tsx                      |  141 [32m+++++++++++++[m
+ src/components/ui/alert.tsx                             |   58 [32m++++++[m
+ src/components/ui/avatar.tsx                            |   49 [32m+++++[m
+ src/components/ui/badge.tsx                             |   41 [32m++++[m
+ src/components/ui/button.tsx                            |   56 [32m+++++[m
+ src/components/ui/card.tsx                              |   75 [32m+++++++[m
+ src/components/ui/checkbox.tsx                          |   29 [32m+++[m
+ src/components/ui/collapsible.tsx                       |   11 [32m+[m
+ src/components/ui/dialog.tsx                            |  121 [32m+++++++++++[m
+ src/components/ui/dropdown-menu.tsx                     |  200 [32m++++++++++++++++++[m
+ src/components/ui/index.ts                              |   13 [32m++[m
+ src/components/ui/input.tsx                             |   23 [32m+++[m
+ src/components/ui/label.tsx                             |   25 [32m+++[m
+ src/components/ui/progress.tsx                          |   28 [32m+++[m
+ src/components/ui/select.tsx                            |  158 [32m++++++++++++++[m
+ src/components/ui/skeleton.tsx                          |   15 [32m++[m
+ src/components/ui/table.tsx                             |  119 [32m+++++++++++[m
+ src/components/ui/tabs.tsx                              |   55 [32m+++++[m
+ src/components/ui/textarea.tsx                          |   22 [32m++[m
+ src/components/users/BulkActions.tsx                    |  191 [32m+++++++++++++++++[m
+ src/components/users/Pagination.tsx                     |  105 [32m++++++++++[m
+ src/components/users/UserActions.tsx                    |  196 [32m++++++++++++++++++[m
+ src/components/users/UserFilters.tsx                    |   75 [32m+++++++[m
+ src/components/users/UserTable.tsx                      |  243 [32m++++++++++++++++++++++[m
+ src/components/users/index.ts                           |    5 [32m+[m
+ src/hooks/index.ts                                      |    6 [32m+[m
+ src/hooks/use2FA.ts                                     |  103 [32m+++++++++[m
+ src/hooks/useActivityLogs.ts                            |   67 [32m++++++[m
+ src/hooks/useAuth.ts                                    |  234 [32m+++++++++++++++++++++[m
+ src/hooks/useLegacyRecovery.ts                          |  125 [32m+++++++++++[m
+ src/hooks/useMonitoring.ts                              | 1291 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/hooks/usePermission.ts                              |   20 [32m++[m
+ src/hooks/useStaff.ts                                   |  105 [32m++++++++++[m
+ src/hooks/useStats.ts                                   |   77 [32m+++++++[m
+ src/hooks/useTopHolders.ts                              |  150 [32m++++++++++++++[m
+ src/hooks/useUsers.ts                                   |  117 [32m+++++++++++[m
+ src/lib/api.ts                                          | 1115 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/lib/auth-logger.ts                                  |  164 [32m+++++++++++++++[m
+ src/lib/oauth-debug.ts                                  |  203 [32m++++++++++++++++++[m
+ src/lib/permissions.ts                                  |   41 [32m++++[m
+ src/lib/utils.ts                                        |   53 [32m+++++[m
+ src/main.tsx                                            |   16 [32m++[m
+ src/stores/authStore.ts                                 |  155 [32m++++++++++++++[m
+ src/types/admin-v2.ts                                   |  644 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ src/types/api.ts                                        |  109 [32m++++++++++[m
+ src/types/index.ts                                      |    4 [32m+[m
+ src/types/legacy-recovery.ts                            |   82 [32m++++++++[m
+ src/types/stats.ts                                      |   50 [32m+++++[m
+ src/types/top-holders.ts                                |  100 [32m+++++++++[m
+ src/types/user.ts                                       |   87 [32m++++++++[m
+ src/vite-env.d.ts                                       |   10 [32m+[m
+ tailwind.config.ts                                      |   72 [32m+++++++[m
+ tsconfig.app.json                                       |   36 [32m++++[m
+ tsconfig.json                                           |    7 [32m+[m
+ tsconfig.node.json                                      |   26 [32m+++[m
+ vite.config.ts                                          |   25 [32m+++[m
+ 140 files changed, 19242 insertions(+)

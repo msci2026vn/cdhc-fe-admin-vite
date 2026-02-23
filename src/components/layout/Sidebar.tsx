@@ -19,6 +19,8 @@ import {
   FolderCode,
   Newspaper,
   MailCheck,
+  ArrowLeftRight,
+  Truck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -87,6 +89,13 @@ const navigation = [
     superAdminOnly: true,
   },
   {
+    name: 'Đổi Điểm',
+    href: '/conversion',
+    icon: ArrowLeftRight,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
     name: 'Khôi phục TV cũ',
     href: '/legacy-recovery',
     icon: UserCheck,
@@ -105,6 +114,13 @@ const navigation = [
     href: '/email-changes',
     icon: MailCheck,
     permission: 'users.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Giao hang',
+    href: '/delivery',
+    icon: Truck,
+    permission: 'stats.view',
     superAdminOnly: true,
   },
   {

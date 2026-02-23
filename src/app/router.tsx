@@ -24,10 +24,16 @@ const NotificationsPage = lazy(() => import('./(dashboard)/notifications/page'))
 const SettingsPage = lazy(() => import('./(dashboard)/settings/page'));
 const TopHoldersPage = lazy(() => import('./(dashboard)/top-holders/page'));
 const EmailChangesPage = lazy(() => import('./(dashboard)/email-changes/page'));
+const ConversionDashboardPage = lazy(() => import('./(dashboard)/conversion/page'));
+const ConversionListPage = lazy(() => import('./(dashboard)/conversion/list/page'));
+const ConversionAlertsPage = lazy(() => import('./(dashboard)/conversion/alerts/page'));
+const ConversionFailedPage = lazy(() => import('./(dashboard)/conversion/failed/page'));
+const ConversionAdminLogsPage = lazy(() => import('./(dashboard)/conversion/admin-logs/page'));
 const NewsListPage = lazy(() => import('./(dashboard)/news/page'));
 const NewsCreatePage = lazy(() => import('./(dashboard)/news/create/page'));
 const NewsEditPage = lazy(() => import('./(dashboard)/news/edit/page'));
 const NewsCategoriesPage = lazy(() => import('./(dashboard)/news/categories/page'));
+const DeliveryAdminPage = lazy(() => import('./(dashboard)/delivery/page'));
 
 function PageLoader() {
   return (
@@ -65,10 +71,16 @@ export function AppRouter() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/top-holders" element={<TopHoldersPage />} />
           <Route path="/email-changes" element={<EmailChangesPage />} />
+          <Route path="/conversion" element={<ConversionDashboardPage />} />
+          <Route path="/conversion/list" element={<ConversionListPage />} />
+          <Route path="/conversion/alerts" element={<ConversionAlertsPage />} />
+          <Route path="/conversion/failed" element={<ConversionFailedPage />} />
+          <Route path="/conversion/admin-logs" element={<ConversionAdminLogsPage />} />
           <Route path="/news" element={<NewsListPage />} />
           <Route path="/news/create" element={<NewsCreatePage />} />
           <Route path="/news/:id/edit" element={<NewsEditPage />} />
           <Route path="/news/categories" element={<NewsCategoriesPage />} />
+          <Route path="/delivery" element={<DeliveryAdminPage />} />
         </Route>
       </Routes>
     </Suspense>

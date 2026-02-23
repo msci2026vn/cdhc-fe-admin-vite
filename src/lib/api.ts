@@ -1263,3 +1263,171 @@ export interface LockedAttemptData {
     ipAddress: string | null;
   }>;
 }
+
+// ============================================
+// Conversion Admin API (Đổi Điểm)
+// ============================================
+
+import type {
+  ConversionStatsData,
+  ConversionListResponse,
+  ConversionListParams,
+  LeaderboardEntry,
+  ConversionAlertsResponse,
+  ConversionAlertParams,
+  UserAuditData,
+  FailedAttemptsResponse,
+  FailedAttemptsParams,
+  AdminLogsResponse,
+} from '@/types/conversion';
+
+export const conversionAdminApi = {
+  // Dashboard
+  getStats: () => api.get<ConversionStatsData>('/api/admin/conversion/stats'),
+
+  getLeaderboard: (limit = 20) =>
+    api.get<{ leaderboard: LeaderboardEntry[] }>(
+      `/api/admin/conversion/leaderboard?limit=${limit}`,
+    ),
+
+  // Transactions
+  getList: (params: ConversionListParams = {}) => {
+    const query = new URLSearchParams();
+    if (params.page) query.set('page', params.page.toString());
+    if (params.limit) query.set('limit', params.limit.toString());
+    if (params.userId) query.set('userId', params.userId);
+    if (params.direction) query.set('direction', params.direction);
+    if (params.tierId) query.set('tierId', params.tierId.toString());
+    if (params.status) query.set('status', params.status);
+    if (params.dateFrom) query.set('dateFrom', params.dateFrom);
+    if (params.dateTo) query.set('dateTo', params.dateTo);
+    if (params.ipAddress) query.set('ipAddress', params.ipAddress);
+    return api.get<ConversionListResponse>(`/api/admin/conversion/list?${query.toString()}`);
+  },
+
+  // User Audit
+  getUserAudit: (userId: string, page = 1, limit = 50) =>
+    api.get<UserAuditData>(`/api/admin/conversion/user/${userId}?page=${page}&limit=${limit}`),
+
+  // Freeze / Unfreeze
+  freezeUser: (targetUserId: string, reason: string) =>
+    api.post<{ message: string }>('/api/admin/conversion/freeze-user', {
+      targetUserId,
+      reason,
+    }),
+
+  unfreezeUser: (targetUserId: string, reason: string) =>
+    api.post<{ message: string }>('/api/admin/conversion/unfreeze-user', {
+      targetUserId,
+      reason,
+    }),
+
+  freezeSystem: (reason: string) =>
+    api.post<{ message: string }>('/api/admin/conversion/freeze-system', {
+      reason,
+    }),
+
+  unfreezeSystem: (reason: string) =>
+    api.post<{ message: string }>('/api/admin/conversion/unfreeze-system', {
+      reason,
+    }),
+
+  // Alerts
+  getAlerts: (params: ConversionAlertParams = {}) => {
+    const query = new URLSearchParams();
+    if (params.page) query.set('page', params.page.toString());
+    if (params.limit) query.set('limit', params.limit.toString());
+    if (params.status) query.set('status', params.status);
+    if (params.severity) query.set('severity', params.severity);
+    if (params.alertType) query.set('alertType', params.alertType);
+    return api.get<ConversionAlertsResponse>(`/api/admin/conversion/alerts?${query.toString()}`);
+  },
+
+  dismissAlert: (alertId: string, note: string) =>
+    api.post<{ message: string }>(`/api/admin/conversion/alerts/${alertId}/dismiss`, { note }),
+
+  escalateAlert: (alertId: string, note: string) =>
+    api.post<{ message: string }>(`/api/admin/conversion/alerts/${alertId}/escalate`, { note }),
+
+  // Logs
+  getFailedAttempts: (params: FailedAttemptsParams = {}) => {
+    const query = new URLSearchParams();
+    if (params.page) query.set('page', params.page.toString());
+    if (params.limit) query.set('limit', params.limit.toString());
+    if (params.userId) query.set('userId', params.userId);
+    if (params.failReason) query.set('failReason', params.failReason);
+    if (params.ipAddress) query.set('ipAddress', params.ipAddress);
+    if (params.dateFrom) query.set('dateFrom', params.dateFrom);
+    if (params.dateTo) query.set('dateTo', params.dateTo);
+    return api.get<FailedAttemptsResponse>(
+      `/api/admin/conversion/failed-attempts?${query.toString()}`,
+    );
+  },
+
+  getAdminLogs: (page = 1, limit = 50) =>
+    api.get<AdminLogsResponse>(`/api/admin/conversion/admin-logs?page=${page}&limit=${limit}`),
+
+  // Actions
+  runAlertScan: () =>
+    api.post<{ message: string; alertsCreated: number }>('/api/admin/conversion/run-alert-scan'),
+};
+
+// ============================================
+// Delivery Admin API (Quan ly Giao hang)
+// ============================================
+
+import type {
+  AdminClaimedSlot,
+  DeliveryBatch,
+  CreateBatchRequest,
+  CreateBatchResult,
+  GeneratePdfResult,
+} from '@/types/delivery';
+
+export const deliveryAdminApi = {
+  /** Lay danh sach slots da claimed (cho admin chon) */
+  getClaimedSlots: (monthYear?: string) => {
+    const query = new URLSearchParams();
+    if (monthYear) query.set('monthYear', monthYear);
+    const qs = query.toString();
+    return api.get<AdminClaimedSlot[]>(
+      `/api/rwa/delivery/admin/claimed-slots${qs ? `?${qs}` : ''}`,
+    );
+  },
+
+  /** Tao lo giao hang */
+  createBatch: (data: CreateBatchRequest) =>
+    api.post<CreateBatchResult>('/api/rwa/delivery/admin/create-batch', data),
+
+  /** Generate PDF phieu giao hang */
+  generatePdf: (batchId: string) =>
+    api.post<GeneratePdfResult>(`/api/rwa/delivery/admin/batch/${batchId}/generate-pdf`, {}),
+
+  /** Lay danh sach lo da tao */
+  getBatches: (limit = 20) =>
+    api.get<DeliveryBatch[]>(`/api/rwa/delivery/admin/batches?limit=${limit}`),
+
+  /** Download PDF - dung fetch + blob vi can auth cookie */
+  downloadPdf: async (batchId: string, batchNumber: string) => {
+    const response = await fetch(`${API_BASE}/api/rwa/delivery/admin/batch/${batchId}/labels.pdf`, {
+      credentials: 'include',
+    });
+
+    if (response.status === 401) {
+      throw new Error('Phien dang nhap het han. Vui long dang nhap lai.');
+    }
+    if (!response.ok) {
+      throw new Error('Tai PDF that bai');
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `phieu-giao-hang-${batchNumber}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  },
+};
