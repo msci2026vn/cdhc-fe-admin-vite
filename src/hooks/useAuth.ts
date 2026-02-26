@@ -1,5 +1,3 @@
-
-
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
@@ -33,7 +31,7 @@ export function useAuth() {
         authLogger.network('useAuth', 'Calling backend /api/auth/google...');
         const startTime = Date.now();
 
-        const response = await legacyApi.auth.loginWithGoogle(googleToken) as ApiResponseAny;
+        const response = (await legacyApi.auth.loginWithGoogle(googleToken)) as ApiResponseAny;
 
         const duration = Date.now() - startTime;
         authLogger.network('useAuth', `API response received (${duration}ms)`);
@@ -61,6 +59,17 @@ export function useAuth() {
         let googleUser = null;
 
         if (response && typeof response === 'object') {
+          // Extract needRegister and googleUser at top level first
+          // Backend sends these at root level when user doesn't exist yet
+          if (response.needRegister) {
+            needRegister = true;
+            googleUser = response.googleUser || null;
+          }
+          if (response.data?.needRegister) {
+            needRegister = true;
+            googleUser = response.data.googleUser || null;
+          }
+
           // Check if response has success flag
           if ('success' in response) {
             isSuccess = response.success === true;
@@ -68,19 +77,13 @@ export function useAuth() {
             // User could be in response.data.user OR response.user
             if (response.data && response.data.user) {
               user = response.data.user;
-              needRegister = response.data.needRegister;
-              googleUser = response.data.googleUser;
             } else if (response.user) {
               user = response.user;
-              needRegister = response.needRegister;
-              googleUser = response.googleUser;
             }
           } else if (response.user) {
             // Legacy format without success flag
             isSuccess = true;
             user = response.user;
-            needRegister = response.needRegister;
-            googleUser = response.googleUser;
           }
         }
 
@@ -96,10 +99,10 @@ export function useAuth() {
         // 4. Check needRegister
         if (needRegister) {
           const email = googleUser?.email || 'email cua ban';
-          authLogger.warning('useAuth', 'User needs registration', { email });
+          authLogger.warning('useAuth', 'Account needs registration - not an admin', { email });
           return {
             success: false,
-            error: `Tai khoan ${email} chua duoc lien ket voi Google. Vui long lien he ky thuat de cap nhat.`,
+            error: `Tai khoan ${email} chua duoc cap quyen admin. Vui long lien he quan tri vien de duoc cap quyen.`,
           };
         }
 
@@ -157,9 +160,10 @@ export function useAuth() {
         // 9. Handle failure - extract error message
         let errorMessage = 'Dang nhap that bai';
         if (response?.error) {
-          errorMessage = typeof response.error === 'string'
-            ? response.error
-            : response.error.message || errorMessage;
+          errorMessage =
+            typeof response.error === 'string'
+              ? response.error
+              : response.error.message || errorMessage;
         } else if (response?.message) {
           errorMessage = response.message;
         }
@@ -175,17 +179,21 @@ export function useAuth() {
           success: false,
           error: errorMessage,
         };
-
       } catch (error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const err = error as any;
-        authLogger.error('useAuth', 'LOGIN FLOW EXCEPTION', {
-          message: err?.message,
-          name: err?.name,
-          response: err?.response?.data,
-          status: err?.response?.status,
-          stack: err?.stack,
-        }, err instanceof Error ? err : undefined);
+        authLogger.error(
+          'useAuth',
+          'LOGIN FLOW EXCEPTION',
+          {
+            message: err?.message,
+            name: err?.name,
+            response: err?.response?.data,
+            status: err?.response?.status,
+            stack: err?.stack,
+          },
+          err instanceof Error ? err : undefined,
+        );
 
         return {
           success: false,
@@ -193,19 +201,16 @@ export function useAuth() {
         };
       }
     },
-    [setAuth, navigate]
+    [setAuth, navigate],
   );
 
-  const verify2FA = useCallback(
-    async (_token: string) => {
-      authLogger.info('useAuth', '2FA verification called (not supported)');
-      return {
-        success: false,
-        error: 'Xac thuc 2 lop chua duoc ho tro',
-      };
-    },
-    []
-  );
+  const verify2FA = useCallback(async (_token: string) => {
+    authLogger.info('useAuth', '2FA verification called (not supported)');
+    return {
+      success: false,
+      error: 'Xac thuc 2 lop chua duoc ho tro',
+    };
+  }, []);
 
   const logout = useCallback(async () => {
     authLogger.info('useAuth', 'Logout started');

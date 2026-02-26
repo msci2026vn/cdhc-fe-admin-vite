@@ -1431,3 +1431,45 @@ export const deliveryAdminApi = {
     URL.revokeObjectURL(url);
   },
 };
+
+// ============================================
+// Topup Admin API (Quan ly Nap AVAX)
+// ============================================
+
+import type {
+  TopupOrderListParams,
+  TopupOrderListResponse,
+  TopupStatsData,
+  TopupOrder,
+  TopupPackage,
+} from '@/types/topup';
+
+export const topupAdminApi = {
+  /** Lay thong ke tong quan */
+  getStats: () => api.get<TopupStatsData>('/api/admin/topup/stats'),
+
+  /** Lay danh sach orders (tat ca users) */
+  getOrders: (params: TopupOrderListParams = {}) => {
+    const query = new URLSearchParams();
+    if (params.page) query.set('page', params.page.toString());
+    if (params.limit) query.set('limit', params.limit.toString());
+    if (params.status && params.status !== 'all') query.set('status', params.status);
+    if (params.userId) query.set('userId', params.userId);
+    if (params.dateFrom) query.set('dateFrom', params.dateFrom);
+    if (params.dateTo) query.set('dateTo', params.dateTo);
+    return api.get<TopupOrderListResponse>(`/api/admin/topup/orders?${query.toString()}`);
+  },
+
+  /** Lay chi tiet 1 order */
+  getOrder: (orderId: string) => api.get<TopupOrder>(`/api/admin/topup/orders/${orderId}`),
+
+  /** Retry chuyen AVAX cho order bi failed */
+  retryTransfer: (orderId: string) =>
+    api.post<{ message: string; txHash?: string }>(`/api/admin/topup/orders/${orderId}/retry`),
+
+  /** Lay danh sach packages (public) */
+  getPackages: () => api.get<TopupPackage[]>('/api/topup/packages'),
+
+  /** Lay gia AVAX hien tai (public) */
+  getAvaxPrice: () => api.get<{ price: number; currency: string }>('/api/topup/price'),
+};

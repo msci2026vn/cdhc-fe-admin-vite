@@ -21,6 +21,7 @@ import {
   MailCheck,
   ArrowLeftRight,
   Truck,
+  Wallet,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -114,6 +115,13 @@ const navigation = [
     href: '/email-changes',
     icon: MailCheck,
     permission: 'users.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Nap AVAX',
+    href: '/topup',
+    icon: Wallet,
+    permission: 'stats.view',
     superAdminOnly: true,
   },
   {
