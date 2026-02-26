@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { TopupStatsCards, TopupRecentTable, TopupOrderDetailDialog } from '@/components/topup';
+import {
+  TopupStatsCards,
+  TopupRecentTable,
+  TopupOrderDetailDialog,
+  HotWalletCard,
+  TransactionsTable,
+} from '@/components/topup';
 import {
   useTopupStats,
   useTopupOrders,
   useAvaxPrice,
   useRetryTopupTransfer,
+  useHotWalletInfo,
 } from '@/hooks/useTopup';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -22,16 +29,20 @@ export default function TopupDashboardPage() {
     limit: 5,
   });
   const { data: priceResponse } = useAvaxPrice();
+  const { data: walletResponse, isLoading: walletLoading } = useHotWalletInfo();
   const retryMutation = useRetryTopupTransfer();
 
   const stats = statsResponse?.data;
   const recentOrders = ordersResponse?.data?.orders || [];
   const avaxPrice = priceResponse?.data?.usd;
+  const walletInfo = walletResponse?.data;
 
   const handleRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ['topup-stats'] });
     queryClient.invalidateQueries({ queryKey: ['topup-orders'] });
     queryClient.invalidateQueries({ queryKey: ['avax-price'] });
+    queryClient.invalidateQueries({ queryKey: ['admin', 'topup', 'wallet'] });
+    queryClient.invalidateQueries({ queryKey: ['admin', 'topup', 'transactions'] });
   };
 
   const handleRetry = async (order: TopupOrder) => {
@@ -65,6 +76,9 @@ export default function TopupDashboardPage() {
       {/* Stats Cards */}
       <TopupStatsCards data={stats} isLoading={statsLoading} />
 
+      {/* Hot Wallet Card */}
+      <HotWalletCard data={walletInfo} isLoading={walletLoading} />
+
       {/* AVAX Price Info */}
       {avaxPrice && (
         <div className="rounded-lg border bg-white p-4">
@@ -74,6 +88,9 @@ export default function TopupDashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Transactions Table */}
+      <TransactionsTable />
 
       {/* Recent Orders */}
       <TopupRecentTable

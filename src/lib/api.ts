@@ -1442,6 +1442,8 @@ import type {
   TopupStatsData,
   TopupOrder,
   TopupPackage,
+  HotWalletInfo,
+  TopupTransactionsResponse,
 } from '@/types/topup';
 
 export const topupAdminApi = {
@@ -1473,4 +1475,16 @@ export const topupAdminApi = {
   /** Lay gia AVAX hien tai (public) */
   getAvaxPrice: () =>
     api.get<{ usd: number; vnd: number; updatedAt: number; stale: boolean }>('/api/topup/price'),
+
+  /** Hot wallet info + balance */
+  getWalletInfo: () => api.get<HotWalletInfo>('/api/admin/topup/wallet'),
+
+  /** Lich su giao dich chuyen AVAX */
+  getTransactions: (params?: { page?: number; limit?: number; status?: string }) => {
+    const query = new URLSearchParams();
+    if (params?.page) query.set('page', String(params.page));
+    if (params?.limit) query.set('limit', String(params.limit));
+    if (params?.status) query.set('status', params.status);
+    return api.get<TopupTransactionsResponse>(`/api/admin/topup/transactions?${query}`);
+  },
 };

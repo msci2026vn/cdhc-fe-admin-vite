@@ -81,6 +81,48 @@ export const TOPUP_STATUS_LABELS: Record<TopupOrderStatus, string> = {
   expired: 'Het han',
 };
 
+// Matches BE getHotWalletInfo() response
+export interface HotWalletInfo {
+  address: string;
+  balanceAvax: number;
+  balanceUsd: number;
+  balanceVnd: number;
+  balanceStatus: 'ok' | 'warning' | 'critical';
+  totalTransferredAvax: number;
+  totalCompletedTx: number;
+  totalFailedTx: number;
+  avaxPriceUsd: number;
+  thresholds: {
+    warning: number;
+    critical: number;
+  };
+}
+
+// Matches BE getTopupTransactions() response
+export interface TopupTransaction {
+  id: string;
+  userId: string;
+  userName: string | null;
+  userEmail: string | null;
+  avaxAmount: string;
+  fiatAmountUsd: number;
+  txHash: string | null;
+  status: string;
+  createdAt: string;
+  completedAt: string | null;
+  metadata: Record<string, unknown> | null;
+}
+
+export interface TopupTransactionsResponse {
+  transactions: TopupTransaction[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export const TOPUP_STATUS_VARIANTS: Record<
   TopupOrderStatus,
   'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info'

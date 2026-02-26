@@ -60,3 +60,22 @@ export function useAvaxPrice() {
     refetchInterval: 60_000,
   });
 }
+
+// ===== Hot Wallet =====
+
+export function useHotWalletInfo() {
+  return useQuery({
+    queryKey: ['admin', 'topup', 'wallet'],
+    queryFn: () => topupAdminApi.getWalletInfo(),
+    refetchInterval: 60_000,
+  });
+}
+
+// ===== Transactions =====
+
+export function useTopupTransactions(params?: { page?: number; limit?: number; status?: string }) {
+  return useQuery({
+    queryKey: ['admin', 'topup', 'transactions', params],
+    queryFn: () => topupAdminApi.getTransactions(params),
+  });
+}
