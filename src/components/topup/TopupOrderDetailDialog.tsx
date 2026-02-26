@@ -82,7 +82,6 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
               <DetailRow label="User ID" value={order.userId} mono />
               <DetailRow label="Ten" value={order.userName} />
               <DetailRow label="Email" value={order.userEmail} />
-              <DetailRow label="Wallet" value={order.walletAddress} mono />
             </div>
           </div>
 
@@ -90,13 +89,13 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
           <div>
             <h4 className="text-sm font-semibold text-gray-700 mb-2">Goi nap</h4>
             <div className="rounded border p-3">
-              <DetailRow label="Goi" value={order.packageName || order.packageId} />
+              <DetailRow label="Goi" value={order.packageId} />
               <DetailRow label="AVAX" value={`${order.avaxAmount} AVAX`} />
-              <DetailRow label="USD" value={`$${order.usdAmount.toFixed(2)}`} />
-              {order.vndAmount != null && (
-                <DetailRow label="VND" value={`${order.vndAmount.toLocaleString('vi-VN')}d`} />
+              <DetailRow label="USD" value={`$${((order.fiatAmountUsd ?? 0) / 100).toFixed(2)}`} />
+              {order.fiatAmountVnd != null && (
+                <DetailRow label="VND" value={`${order.fiatAmountVnd.toLocaleString('vi-VN')}d`} />
               )}
-              <DetailRow label="Gia AVAX luc mua" value={`$${order.avaxPrice.toFixed(2)}`} />
+              <DetailRow label="Gia AVAX luc mua" value={`$${order.avaxPriceUsd}`} />
             </div>
           </div>
 
@@ -105,7 +104,7 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
             <h4 className="text-sm font-semibold text-gray-700 mb-2">Stripe</h4>
             <div className="rounded border p-3">
               <DetailRow label="Session ID" value={order.stripeSessionId} mono />
-              <DetailRow label="Payment Intent" value={order.stripePaymentIntentId} mono />
+              <DetailRow label="Payment Intent" value={order.stripePaymentIntent} mono />
             </div>
           </div>
 
@@ -127,8 +126,6 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
                   </a>
                 </div>
               )}
-              {order.failReason && <DetailRow label="Ly do loi" value={order.failReason} />}
-              <DetailRow label="Retry count" value={order.retryCount} />
             </div>
           </div>
 
@@ -138,22 +135,11 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
             <div className="rounded border p-3 space-y-2">
               <TimelineItem label="Tao order" time={order.createdAt} active={!!order.createdAt} />
               <TimelineItem
-                label="Thanh toan (Stripe)"
-                time={order.paidAt}
-                active={!!order.paidAt}
-              />
-              <TimelineItem
-                label="Dang chuyen AVAX"
-                time={order.transferredAt}
-                active={!!order.transferredAt}
-              />
-              <TimelineItem
                 label="Hoan thanh"
                 time={order.completedAt}
                 active={!!order.completedAt}
               />
-              {order.failedAt && <TimelineItem label="That bai" time={order.failedAt} active />}
-              {order.expiredAt && <TimelineItem label="Het han" time={order.expiredAt} active />}
+              <TimelineItem label="Cap nhat" time={order.updatedAt} active={!!order.updatedAt} />
             </div>
           </div>
 

@@ -95,9 +95,11 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
                   )}
                 </div>
               </TableCell>
-              <TableCell className="text-sm">{order.packageName || order.packageId}</TableCell>
+              <TableCell className="text-sm">{order.packageId}</TableCell>
               <TableCell className="text-sm font-medium">{order.avaxAmount} AVAX</TableCell>
-              <TableCell className="text-sm">${order.usdAmount.toFixed(2)}</TableCell>
+              <TableCell className="text-sm">
+                ${((order.fiatAmountUsd ?? 0) / 100).toFixed(2)}
+              </TableCell>
               <TableCell>
                 <Badge variant={TOPUP_STATUS_VARIANTS[order.status]}>
                   {TOPUP_STATUS_LABELS[order.status]}

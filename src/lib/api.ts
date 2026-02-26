@@ -1471,5 +1471,6 @@ export const topupAdminApi = {
   getPackages: () => api.get<TopupPackage[]>('/api/topup/packages'),
 
   /** Lay gia AVAX hien tai (public) */
-  getAvaxPrice: () => api.get<{ price: number; currency: string }>('/api/topup/price'),
+  getAvaxPrice: () =>
+    api.get<{ usd: number; vnd: number; updatedAt: number; stale: boolean }>('/api/topup/price'),
 };

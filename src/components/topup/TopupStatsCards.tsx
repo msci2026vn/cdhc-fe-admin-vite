@@ -47,8 +47,8 @@ const cards = [
     icon: Coins,
     color: 'text-purple-600',
     bg: 'bg-purple-50',
-    getValue: (d: TopupStatsData) => d.totalAvaxSent,
-    format: (v: number) => `${v.toFixed(2)} AVAX`,
+    getValue: (d: TopupStatsData) => d.totalAvax ?? 0,
+    format: (v: number) => `${(v ?? 0).toFixed(2)} AVAX`,
   },
   {
     key: 'totalUsd',
@@ -56,8 +56,8 @@ const cards = [
     icon: DollarSign,
     color: 'text-emerald-600',
     bg: 'bg-emerald-50',
-    getValue: (d: TopupStatsData) => d.totalUsdCollected,
-    format: (v: number) => `$${v.toFixed(2)}`,
+    getValue: (d: TopupStatsData) => (d.totalUsdCents ?? 0) / 100,
+    format: (v: number) => `$${(v ?? 0).toFixed(2)}`,
   },
 ] as const;
 

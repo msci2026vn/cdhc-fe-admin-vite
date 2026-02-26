@@ -10,52 +10,47 @@ export type TopupOrderStatus =
   | 'failed'
   | 'expired';
 
+// Matches BE getTopupOrders() response (topup.admin.service.ts)
 export interface TopupOrder {
   id: string;
   userId: string;
-  userName?: string;
-  userEmail?: string;
+  userName?: string | null;
+  userEmail?: string | null;
   packageId: string;
-  packageName?: string;
-  avaxAmount: number;
-  usdAmount: number;
-  vndAmount?: number;
-  avaxPrice: number;
-  status: TopupOrderStatus;
+  avaxAmount: string; // varchar in DB
+  avaxPriceUsd: string; // varchar in DB
+  fiatAmountUsd: number; // integer cents
+  fiatAmountVnd: number; // integer
+  paymentMethod: string;
   stripeSessionId: string | null;
-  stripePaymentIntentId: string | null;
+  stripePaymentIntent: string | null;
   txHash: string | null;
-  walletAddress: string | null;
-  failReason: string | null;
-  retryCount: number;
+  status: TopupOrderStatus;
+  metadata?: unknown;
   createdAt: string;
-  paidAt: string | null;
-  transferredAt: string | null;
+  updatedAt: string;
   completedAt: string | null;
-  failedAt: string | null;
-  expiredAt: string | null;
 }
 
+// Matches BE getTopupStats() response (topup.admin.service.ts)
 export interface TopupStatsData {
   totalOrders: number;
   completedOrders: number;
   failedOrders: number;
   pendingOrders: number;
-  totalAvaxSent: number;
-  totalUsdCollected: number;
-  totalVndCollected: number;
-  currentAvaxPrice: number;
-  todayOrders: number;
-  todayAvax: number;
-  todayUsd: number;
+  totalAvax: number;
+  totalUsdCents: number;
 }
 
 export interface TopupPackage {
   id: string;
   name: string;
-  avaxAmount: number;
-  icon: string;
-  popular?: boolean;
+  avaxAmount: string;
+  emoji: string;
+  description: string;
+  priceUsd: number;
+  priceUsdCents: number;
+  priceVnd: number;
 }
 
 export interface TopupOrderListResponse {

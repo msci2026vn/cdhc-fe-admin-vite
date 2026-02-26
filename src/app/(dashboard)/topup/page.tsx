@@ -26,7 +26,7 @@ export default function TopupDashboardPage() {
 
   const stats = statsResponse?.data;
   const recentOrders = ordersResponse?.data?.orders || [];
-  const avaxPrice = priceResponse?.data?.price;
+  const avaxPrice = priceResponse?.data?.usd;
 
   const handleRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ['topup-stats'] });
