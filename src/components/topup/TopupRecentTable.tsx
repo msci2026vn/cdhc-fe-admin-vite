@@ -18,6 +18,26 @@ interface Props {
   onViewDetail?: (order: TopupOrder) => void;
 }
 
+function PaymentMethodBadge({ method }: { method: string }) {
+  if (method === 'paypal')
+    return (
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+        PayPal
+      </span>
+    );
+  if (method === 'stripe')
+    return (
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-800">
+        Stripe
+      </span>
+    );
+  return (
+    <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-800">
+      {method}
+    </span>
+  );
+}
+
 export function TopupRecentTable({ orders, isLoading, onViewDetail }: Props) {
   return (
     <div className="rounded-lg border bg-white">
@@ -39,6 +59,7 @@ export function TopupRecentTable({ orders, isLoading, onViewDetail }: Props) {
             <TableRow>
               <TableHead>User</TableHead>
               <TableHead>AVAX</TableHead>
+              <TableHead>Thanh toan</TableHead>
               <TableHead>Trang thai</TableHead>
               <TableHead>Thoi gian</TableHead>
             </TableRow>
@@ -56,6 +77,9 @@ export function TopupRecentTable({ orders, isLoading, onViewDetail }: Props) {
                   </div>
                 </TableCell>
                 <TableCell className="text-sm">{order.avaxAmount} AVAX</TableCell>
+                <TableCell>
+                  <PaymentMethodBadge method={order.paymentMethod} />
+                </TableCell>
                 <TableCell>
                   <Badge variant={TOPUP_STATUS_VARIANTS[order.status]}>
                     {TOPUP_STATUS_LABELS[order.status]}

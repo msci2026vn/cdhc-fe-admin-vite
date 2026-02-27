@@ -21,6 +21,26 @@ interface Props {
   onRetry?: (order: TopupOrder) => void;
 }
 
+function PaymentMethodBadge({ method }: { method: string }) {
+  if (method === 'paypal')
+    return (
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+        PayPal
+      </span>
+    );
+  if (method === 'stripe')
+    return (
+      <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-800">
+        Stripe
+      </span>
+    );
+  return (
+    <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-800">
+      {method}
+    </span>
+  );
+}
+
 export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: Props) {
   if (isLoading) {
     return (
@@ -33,6 +53,7 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
               <TableHead>Goi</TableHead>
               <TableHead>AVAX</TableHead>
               <TableHead>USD</TableHead>
+              <TableHead>Thanh toan</TableHead>
               <TableHead>Trang thai</TableHead>
               <TableHead>Thoi gian</TableHead>
               <TableHead className="w-20" />
@@ -41,7 +62,7 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
           <TableBody>
             {Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={i}>
-                {Array.from({ length: 8 }).map((_, j) => (
+                {Array.from({ length: 9 }).map((_, j) => (
                   <TableCell key={j}>
                     <Skeleton className="h-4 w-full" />
                   </TableCell>
@@ -72,6 +93,7 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
             <TableHead>Goi</TableHead>
             <TableHead>AVAX</TableHead>
             <TableHead>USD</TableHead>
+            <TableHead>Thanh toan</TableHead>
             <TableHead>Trang thai</TableHead>
             <TableHead>Thoi gian</TableHead>
             <TableHead className="w-20" />
@@ -99,6 +121,9 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
               <TableCell className="text-sm font-medium">{order.avaxAmount} AVAX</TableCell>
               <TableCell className="text-sm">
                 ${((order.fiatAmountUsd ?? 0) / 100).toFixed(2)}
+              </TableCell>
+              <TableCell>
+                <PaymentMethodBadge method={order.paymentMethod} />
               </TableCell>
               <TableCell>
                 <Badge variant={TOPUP_STATUS_VARIANTS[order.status]}>

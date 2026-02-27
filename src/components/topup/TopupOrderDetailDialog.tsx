@@ -99,14 +99,34 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
             </div>
           </div>
 
-          {/* Stripe Info */}
-          <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Stripe</h4>
-            <div className="rounded border p-3">
-              <DetailRow label="Session ID" value={order.stripeSessionId} mono />
-              <DetailRow label="Payment Intent" value={order.stripePaymentIntent} mono />
+          {/* Payment Info */}
+          {order.paymentMethod === 'paypal' ? (
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="inline-block h-2 w-2 rounded-full bg-yellow-400" />
+                  PayPal
+                </span>
+              </h4>
+              <div className="rounded border p-3">
+                <DetailRow label="Order ID" value={order.paypalOrderId} mono />
+                <DetailRow label="Capture ID" value={order.paypalCaptureId} mono />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="inline-block h-2 w-2 rounded-full bg-purple-400" />
+                  Stripe
+                </span>
+              </h4>
+              <div className="rounded border p-3">
+                <DetailRow label="Session ID" value={order.stripeSessionId} mono />
+                <DetailRow label="Payment Intent" value={order.stripePaymentIntent} mono />
+              </div>
+            </div>
+          )}
 
           {/* AVAX Transaction */}
           <div>

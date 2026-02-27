@@ -21,9 +21,11 @@ export interface TopupOrder {
   avaxPriceUsd: string; // varchar in DB
   fiatAmountUsd: number; // integer cents
   fiatAmountVnd: number; // integer
-  paymentMethod: string;
+  paymentMethod: 'stripe' | 'paypal' | 'vnpay' | 'momo';
   stripeSessionId: string | null;
   stripePaymentIntent: string | null;
+  paypalOrderId?: string | null;
+  paypalCaptureId?: string | null;
   txHash: string | null;
   status: TopupOrderStatus;
   metadata?: unknown;
