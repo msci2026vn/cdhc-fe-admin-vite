@@ -1522,7 +1522,5 @@ export const worldBossApi = {
     ),
 
   getAdminDetail: (eventId: string) =>
-    api.get<{ success: boolean; data: BossDetailResponse }>(
-      `/api/world-boss/admin/detail/${eventId}`,
-    ),
+    api.get<BossDetailResponse>(`/api/world-boss/admin/detail/${eventId}`),
 };
