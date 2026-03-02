@@ -136,3 +136,52 @@ export const PRESET_OPTIONS = [
   { value: 'bo_xit', label: '🪲 Bọ Xít' },
   { value: 'sau_duc_than', label: '🐛 Sâu Đục Thân' },
 ];
+
+// GET /api/world-boss/admin/detail/:eventId
+export interface BossDetailResponse {
+  event: {
+    id: string;
+    bossName: string;
+    bossTitle: string;
+    element: string;
+    weakness: string;
+    difficulty: string;
+    baseSprite: string;
+    status: string;
+    triggerType: string;
+    startedAt: string;
+    endedAt: string | null;
+    durationMinutes: number;
+    durationActual: number | null;
+    totalParticipants: number;
+    totalDamageDealt: number;
+  };
+  stats: { hp: number; max_hp: number; atk: number; def: number; crit_rate: number };
+  skills: Array<{
+    name: string;
+    description: string;
+    damage_multi?: number;
+    type?: string;
+    trigger?: string;
+  }>;
+  story: { lore: string | null; storyFull: string | null };
+  visualVariant: { colorShift?: string; scale?: number; aura?: string; glowColor?: string };
+  rewardPool: { exp?: number; ogn?: number; special_item?: string };
+  leaderboard: Array<{
+    rank: number;
+    userId: string;
+    username: string | null;
+    totalDamage: number;
+    hitsCount: number;
+    bestSingleHit: number;
+    maxCombo: number;
+    contributionPercent: number;
+  }>;
+  rewardSummary: {
+    tierCounts: { legendary: number; epic: number; rare: number; common: number };
+    totalXp: number;
+    totalOgn: number;
+    lastHitter: { userId: string; username: string | null } | null;
+  };
+  costEstimate: { triggerType: string; aiTokenCost: string; note: string };
+}

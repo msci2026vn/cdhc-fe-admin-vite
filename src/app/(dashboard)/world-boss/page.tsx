@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Swords, Users, Zap, Shield, Clock } from 'lucide-react';
 import { CreateBossDialog } from '@/components/world-boss/CreateBossDialog';
+import { BossDetailSheet } from '@/components/world-boss/BossDetailSheet';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,7 @@ export default function WorldBossPage() {
   const { data: historyData, isLoading: historyLoading } = useWorldBossHistory(20);
   const endBoss = useAdminEndBoss();
   const [createOpen, setCreateOpen] = useState(false);
+  const [detailEventId, setDetailEventId] = useState<string | null>(null);
 
   const boss = currentData?.data?.boss;
   const history = historyData?.data?.bosses ?? [];
@@ -242,6 +244,7 @@ export default function WorldBossPage() {
                   <TableHead className="text-gray-400 text-right">Người chơi</TableHead>
                   <TableHead className="text-gray-400 text-right">Tổng sát thương</TableHead>
                   <TableHead className="text-gray-400">Bắt đầu</TableHead>
+                  <TableHead className="text-gray-400"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -287,6 +290,16 @@ export default function WorldBossPage() {
                       <TableCell className="text-gray-400 text-sm">
                         {timeAgo(entry.startedAt)}
                       </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs text-gray-400 hover:text-gray-100 h-7"
+                          onClick={() => setDetailEventId(entry.id)}
+                        >
+                          Xem thêm
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -295,6 +308,8 @@ export default function WorldBossPage() {
           )}
         </CardContent>
       </Card>
+
+      <BossDetailSheet eventId={detailEventId} onClose={() => setDetailEventId(null)} />
     </div>
   );
 }

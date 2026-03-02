@@ -68,3 +68,15 @@ export function useAdminEndBoss() {
     },
   });
 }
+
+export function useAdminBossDetail(eventId: string | null) {
+  return useQuery({
+    queryKey: ['world-boss', 'detail', eventId],
+    queryFn: async () => {
+      const res = await worldBossApi.getAdminDetail(eventId!);
+      return res.data!.data;
+    },
+    enabled: !!eventId,
+    staleTime: 30_000,
+  });
+}

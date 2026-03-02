@@ -1498,6 +1498,7 @@ import type {
   WorldBossHistoryEntry,
   AdminCreateBossPayload,
   AdminCreateResponse,
+  BossDetailResponse,
 } from '@/types/world-boss';
 
 export const worldBossApi = {
@@ -1518,5 +1519,10 @@ export const worldBossApi = {
     api.post<{ success: boolean; totalParticipants: number; rewardsDistributed: number }>(
       `/api/world-boss/end/${eventId}`,
       { reason },
+    ),
+
+  getAdminDetail: (eventId: string) =>
+    api.get<{ success: boolean; data: BossDetailResponse }>(
+      `/api/world-boss/admin/detail/${eventId}`,
     ),
 };
