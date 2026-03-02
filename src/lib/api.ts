@@ -1488,3 +1488,35 @@ export const topupAdminApi = {
     return api.get<TopupTransactionsResponse>(`/api/admin/topup/transactions?${query}`);
   },
 };
+
+// ============================================
+// World Boss Admin API
+// ============================================
+
+import type {
+  WorldBossCurrent,
+  WorldBossHistoryEntry,
+  AdminCreateBossPayload,
+  AdminCreateResponse,
+} from '@/types/world-boss';
+
+export const worldBossApi = {
+  getCurrent: () => api.get<WorldBossCurrent>('/api/world-boss/current'),
+
+  getHistory: (limit = 20) =>
+    api.get<{ bosses: WorldBossHistoryEntry[] }>(`/api/world-boss/history?limit=${limit}`),
+
+  getLeaderboard: (eventId: string, top = 20) =>
+    api.get<{ source: string; leaderboard: unknown[] }>(
+      `/api/world-boss/leaderboard/${eventId}?top=${top}`,
+    ),
+
+  adminCreate: (body: AdminCreateBossPayload) =>
+    api.post<AdminCreateResponse>('/api/world-boss/admin-create', body),
+
+  adminEnd: (eventId: string, reason: 'defeated' | 'expired' | 'manual' = 'manual') =>
+    api.post<{ success: boolean; totalParticipants: number; rewardsDistributed: number }>(
+      `/api/world-boss/end/${eventId}`,
+      { reason },
+    ),
+};

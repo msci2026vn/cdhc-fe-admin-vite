@@ -22,6 +22,7 @@ import {
   ArrowLeftRight,
   Truck,
   Wallet,
+  Swords,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -128,6 +129,13 @@ const navigation = [
     name: 'Giao hang',
     href: '/delivery',
     icon: Truck,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'World Boss',
+    href: '/world-boss',
+    icon: Swords,
     permission: 'stats.view',
     superAdminOnly: true,
   },
