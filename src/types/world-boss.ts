@@ -42,18 +42,15 @@ export interface WorldBossHistoryEntry {
 }
 
 export interface AdminCreateResponse {
-  success: boolean;
-  data: {
-    mode: string;
-    event: { id: string };
-    boss: {
-      bossName: string;
-      element: string;
-      difficulty: string;
-      hp: number;
-      durationMinutes: number;
-      hasStory: boolean;
-    };
+  mode: string;
+  event: { id: string };
+  boss: {
+    bossName: string;
+    element: string;
+    difficulty: string;
+    hp: number;
+    durationMinutes: number;
+    hasStory: boolean;
   };
 }
 
