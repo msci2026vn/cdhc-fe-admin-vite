@@ -1499,6 +1499,7 @@ import type {
   AdminCreateBossPayload,
   AdminCreateResponse,
   BossDetailResponse,
+  NftEventCard,
 } from '@/types/world-boss';
 
 export const worldBossApi = {
@@ -1523,4 +1524,9 @@ export const worldBossApi = {
 
   getAdminDetail: (eventId: string) =>
     api.get<BossDetailResponse>(`/api/world-boss/admin/detail/${eventId}`),
+};
+
+export const nftApi = {
+  getEventCards: (eventId: string) =>
+    api.get<{ ok: boolean; eventId: string; cards: NftEventCard[] }>(`/api/nft/event/${eventId}`),
 };

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { worldBossApi } from '@/lib/api';
+import { worldBossApi, nftApi } from '@/lib/api';
 import type { AdminCreateBossPayload } from '@/types/world-boss';
 
 export function useWorldBossCurrent() {
@@ -78,5 +78,17 @@ export function useAdminBossDetail(eventId: string | null) {
     },
     enabled: !!eventId,
     staleTime: 30_000,
+  });
+}
+
+export function useNftEventCards(eventId: string | null) {
+  return useQuery({
+    queryKey: ['nft', 'event', eventId],
+    queryFn: async () => {
+      const res = await nftApi.getEventCards(eventId!);
+      return res.data?.cards ?? [];
+    },
+    enabled: !!eventId,
+    staleTime: 60_000,
   });
 }

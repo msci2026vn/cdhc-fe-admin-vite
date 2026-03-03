@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useAdminBossDetail } from '@/hooks/useWorldBoss';
+import { useAdminBossDetail, useNftEventCards } from '@/hooks/useWorldBoss';
 import { ELEMENT_CONFIG, DIFFICULTY_CONFIG, STATUS_CONFIG } from '@/types/world-boss';
 
 interface Props {
@@ -61,8 +61,24 @@ function SheetSkeleton() {
   );
 }
 
+const NFT_CARD_LABELS: Record<string, string> = {
+  last_hit: '⚔️ Người Hạ Gục Boss',
+  top_damage: '💥 Chiến Binh Mạnh Nhất',
+  dual_champion: '👑 Dual Champion',
+};
+
+const MINT_STATUS_LABELS: Record<string, string> = {
+  minted: '✅ Đã Mint',
+  minting: '⏳ Đang mint...',
+  pending: '🔄 Pending...',
+  failed: '❌ Thất bại',
+  none: '—',
+};
+
 export function BossDetailSheet({ eventId, onClose }: Props) {
   const { data, isLoading, error } = useAdminBossDetail(eventId);
+  const isEnded = data ? data.event.status !== 'active' : false;
+  const { data: nftCards } = useNftEventCards(isEnded ? eventId : null);
   const [storyOpen, setStoryOpen] = useState(false);
 
   const el = data ? ELEMENT_CONFIG[data.event.element] : null;
@@ -312,6 +328,88 @@ export function BossDetailSheet({ eventId, onClose }: Props) {
                   </table>
                 </ScrollArea>
               </div>
+
+              {/* NFT Cards — only for ended bosses */}
+              {isEnded && nftCards && nftCards.length > 0 && (
+                <>
+                  <Separator className="bg-gray-700" />
+                  <div>
+                    <h3 className="font-semibold text-gray-200 mb-3">🎴 NFT Cards</h3>
+                    <div className="space-y-3">
+                      {nftCards.map((card, i) => (
+                        <div
+                          key={i}
+                          className="bg-gray-800/60 border border-gray-700 rounded-lg p-4 space-y-3"
+                        >
+                          <h4 className="font-semibold text-gray-100 text-sm">
+                            {NFT_CARD_LABELS[card.cardType ?? ''] ?? card.cardType ?? 'NFT Card'}
+                          </h4>
+
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                            <div>
+                              <span className="text-gray-500">Player:</span>{' '}
+                              <span className="text-gray-200">
+                                {card.playerName || card.userId.slice(0, 8) + '...'}
+                              </span>
+                            </div>
+                            {card.damage != null && (
+                              <div>
+                                <span className="text-gray-500">Damage:</span>{' '}
+                                <span className="text-orange-400 font-mono">
+                                  {card.damage.toLocaleString()}
+                                </span>
+                                {card.rank != null && (
+                                  <span className="text-gray-500 ml-1.5">Rank #{card.rank}</span>
+                                )}
+                              </div>
+                            )}
+                            <div className="col-span-2">
+                              <span className="text-gray-500">Ví:</span>{' '}
+                              <span className="text-gray-300 font-mono text-xs break-all">
+                                {card.walletAddress
+                                  ? `${card.walletAddress.slice(0, 6)}...${card.walletAddress.slice(-4)}`
+                                  : 'Chưa có ví'}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Status:</span>{' '}
+                              <span className="text-gray-200">
+                                {MINT_STATUS_LABELS[card.mintStatus ?? 'none'] ?? card.mintStatus}
+                                {card.mintStatus === 'minted' && card.tokenId && (
+                                  <span className="text-gray-400 ml-1">
+                                    (Token #{card.tokenId})
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* NFT image */}
+                          {card.imageUrl && (
+                            <img
+                              src={card.imageUrl}
+                              alt="NFT Card"
+                              className="rounded-lg max-w-[180px] border border-gray-600"
+                            />
+                          )}
+
+                          {/* Snowscan link */}
+                          {card.txHash && (
+                            <a
+                              href={`https://snowscan.xyz/tx/${card.txHash}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 underline"
+                            >
+                              🔗 Snowscan: {card.txHash.slice(0, 18)}...
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

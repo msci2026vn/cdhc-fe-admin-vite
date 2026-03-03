@@ -137,6 +137,22 @@ export const PRESET_OPTIONS = [
   { value: 'sau_duc_than', label: '🐛 Sâu Đục Thân' },
 ];
 
+// GET /api/nft/event/:eventId
+export interface NftEventCard {
+  cardType: string | null;
+  imageUrl: string | null;
+  metadataUri: string | null;
+  tokenId: string | null;
+  txHash: string | null;
+  mintStatus: string | null;
+  userId: string;
+  rewardTier: string | null;
+  playerName: string | null;
+  walletAddress: string | null;
+  damage: number | null;
+  rank: number | null;
+}
+
 // GET /api/world-boss/admin/detail/:eventId
 export interface BossDetailResponse {
   event: {

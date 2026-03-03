@@ -218,6 +218,45 @@ export default function WorldBossPage() {
                   </div>
                 </div>
               )}
+
+              {/* Story */}
+              {boss.storyFull && (
+                <div className="bg-gray-700/50 rounded-lg p-4 space-y-1">
+                  <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+                    📖 Câu Chuyện
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap line-clamp-4">
+                    {boss.storyFull}
+                  </p>
+                </div>
+              )}
+
+              {/* Live Leaderboard */}
+              {boss.leaderboard && boss.leaderboard.length > 0 && (
+                <div>
+                  <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+                    🏆 Top Damage (Live)
+                  </p>
+                  <div className="space-y-1">
+                    {boss.leaderboard.slice(0, 10).map((p, i) => (
+                      <div
+                        key={p.userId}
+                        className="flex items-center justify-between bg-gray-700/50 rounded px-3 py-1.5 text-sm"
+                      >
+                        <span className="text-gray-400 w-6 shrink-0">
+                          {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}
+                        </span>
+                        <span className="text-gray-200 flex-1 ml-2 truncate">
+                          {p.username || p.userId.slice(0, 8) + '...'}
+                        </span>
+                        <span className="text-orange-400 font-mono text-xs">
+                          {p.damage.toLocaleString()} dmg
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </CardContent>
