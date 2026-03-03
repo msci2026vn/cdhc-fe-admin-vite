@@ -1530,3 +1530,63 @@ export const nftApi = {
   getEventCards: (eventId: string) =>
     api.get<{ ok: boolean; eventId: string; cards: NftEventCard[] }>(`/api/nft/event/${eventId}`),
 };
+
+// ═══ Marketplace Admin API ═══
+export interface MarketplaceStats {
+  active_count: string;
+  sold_count: string;
+  cancelled_count: string;
+  total_volume_avax: string;
+  total_count: string;
+}
+
+export interface MarketplaceListing {
+  id: string;
+  seller_user_id: string;
+  buyer_user_id: string | null;
+  token_id: number;
+  event_id: string | null;
+  price_avax: string;
+  status: string;
+  listed_at: string;
+  sold_at: string | null;
+  cancelled_at: string | null;
+  sold_tx_hash: string | null;
+  nft_tx_hash: string | null;
+  seller_name: string | null;
+  buyer_name: string | null;
+  nft_card_type: string | null;
+  nft_card_image_url: string | null;
+  boss_name: string | null;
+  boss_difficulty: string | null;
+  boss_element: string | null;
+}
+
+export interface MarketplaceWithdrawal {
+  id: number;
+  user_id: string;
+  token_id: number;
+  to_address: string;
+  tx_hash: string | null;
+  created_at: string;
+  user_name: string | null;
+}
+
+export const marketplaceAdminApi = {
+  getStats: () => api.get<{ ok: boolean; stats: MarketplaceStats }>('/api/marketplace/admin/stats'),
+
+  getListings: (status?: string) => {
+    const query = status && status !== 'all' ? `?status=${status}` : '';
+    return api.get<{ ok: boolean; listings: MarketplaceListing[] }>(
+      `/api/marketplace/admin/all${query}`,
+    );
+  },
+
+  forceCancel: (id: string) =>
+    api.delete<{ ok: boolean }>(`/api/marketplace/admin/force-cancel/${id}`),
+
+  getWithdrawals: () =>
+    api.get<{ ok: boolean; withdrawals: MarketplaceWithdrawal[] }>(
+      '/api/marketplace/admin/withdrawals',
+    ),
+};

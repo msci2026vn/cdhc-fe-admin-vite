@@ -23,6 +23,7 @@ import {
   Truck,
   Wallet,
   Swords,
+  Store,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -136,6 +137,13 @@ const navigation = [
     name: 'World Boss',
     href: '/world-boss',
     icon: Swords,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Chợ NFT',
+    href: '/marketplace',
+    icon: Store,
     permission: 'stats.view',
     superAdminOnly: true,
   },
