@@ -24,6 +24,7 @@ import {
   Wallet,
   Swords,
   Store,
+  PackageCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -144,6 +145,13 @@ const navigation = [
     name: 'Chợ NFT',
     href: '/marketplace',
     icon: Store,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Cấu hình VIP',
+    href: '/vip-config',
+    icon: PackageCheck,
     permission: 'stats.view',
     superAdminOnly: true,
   },

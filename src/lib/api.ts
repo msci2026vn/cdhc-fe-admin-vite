@@ -1590,3 +1590,19 @@ export const marketplaceAdminApi = {
       '/api/marketplace/admin/withdrawals',
     ),
 };
+
+// VIP Config
+export interface VipConfigItem {
+  id: string;
+  tier: string;
+  deliveriesPerDay: number;
+  note: string | null;
+  updatedAt: string;
+  updatedBy: string | null;
+}
+
+export const vipConfigApi = {
+  getAll: () => api.get<VipConfigItem[]>('/api/admin-v2/vip-config'),
+  update: (tier: string, deliveriesPerDay: number) =>
+    api.put<VipConfigItem>(`/api/admin-v2/vip-config/${tier}`, { deliveriesPerDay }),
+};

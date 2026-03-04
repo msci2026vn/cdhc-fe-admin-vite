@@ -38,6 +38,7 @@ const TopupDashboardPage = lazy(() => import('./(dashboard)/topup/page'));
 const TopupOrderListPage = lazy(() => import('./(dashboard)/topup/orders/page'));
 const WorldBossPage = lazy(() => import('./(dashboard)/world-boss/page'));
 const MarketplacePage = lazy(() => import('./(dashboard)/marketplace/page'));
+const VipConfigPage = lazy(() => import('./(dashboard)/vip-config/page'));
 
 function PageLoader() {
   return (
@@ -89,6 +90,7 @@ export function AppRouter() {
           <Route path="/delivery" element={<DeliveryAdminPage />} />
           <Route path="/world-boss" element={<WorldBossPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/vip-config" element={<VipConfigPage />} />
         </Route>
       </Routes>
     </Suspense>
