@@ -102,7 +102,7 @@ export function useAuth() {
           authLogger.warning('useAuth', 'Account needs registration - not an admin', { email });
           return {
             success: false,
-            error: `Tai khoan ${email} chua duoc cap quyen admin. Vui long lien he quan tri vien de duoc cap quyen.`,
+            error: `Tài khoản ${email} chưa được cấp quyền admin. Vui lòng liên hệ quản trị viên để được cấp quyền.`,
           };
         }
 
@@ -197,7 +197,7 @@ export function useAuth() {
 
         return {
           success: false,
-          error: err?.response?.data?.error || err?.message || 'Co loi xay ra',
+          error: err?.response?.data?.error || err?.message || 'Có lỗi xảy ra',
         };
       }
     },

@@ -192,21 +192,21 @@ class ApiClient {
       if (refreshResponse.ok) {
         authLogger.success('ApiClient', 'Cookie refresh successful');
 
-        // Refresh thanh cong -> process queue
+        // Refresh thành công -> process queue
         processQueue(null);
         isRefreshing = false;
 
         // Retry original request (cookies already updated by backend)
         return this.request<T>(endpoint, options);
       } else {
-        // Refresh that bai -> logout
+        // Refresh thất bại -> logout
         authLogger.error('ApiClient', 'Cookie refresh failed', {
           status: refreshResponse.status,
         });
         throw new Error('Refresh token failed');
       }
     } catch (error) {
-      // Refresh that bai -> logout
+      // Refresh thất bại -> logout
       processQueue(error as Error);
       isRefreshing = false;
 
@@ -1417,7 +1417,7 @@ export const deliveryAdminApi = {
       throw new Error('Phien dang nhap het han. Vui long dang nhap lai.');
     }
     if (!response.ok) {
-      throw new Error('Tai PDF that bai');
+      throw new Error('Tải PDF thất bại');
     }
 
     const blob = await response.blob();
@@ -1447,7 +1447,7 @@ import type {
 } from '@/types/topup';
 
 export const topupAdminApi = {
-  /** Lay thong ke tong quan */
+  /** Lấy thống kê tổng quan */
   getStats: () => api.get<TopupStatsData>('/api/admin/topup/stats'),
 
   /** Lay danh sach orders (tat ca users) */

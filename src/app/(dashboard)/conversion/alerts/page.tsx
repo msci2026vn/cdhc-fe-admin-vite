@@ -43,9 +43,9 @@ export default function ConversionAlertsPage() {
     try {
       const result = await runScan.mutateAsync();
       const created = (result as { data?: { alertsCreated?: number } })?.data?.alertsCreated ?? 0;
-      toast.success(`Scan hoan tat. Tao ${created} alerts moi.`);
+      toast.success(`Scan hoàn tất. Tạo ${created} alerts mới.`);
     } catch {
-      toast.error('Scan that bai');
+      toast.error('Scan thất bại');
     }
   };
 
@@ -67,7 +67,7 @@ export default function ConversionAlertsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Canh Bao Conversion</h1>
-          <p className="text-gray-500">Quan ly canh bao tu dong va thu cong</p>
+          <p className="text-gray-500">Quản lý cảnh báo tự động và thủ công</p>
         </div>
         <Button onClick={handleScan} disabled={runScan.isPending}>
           <RefreshCw className={`mr-2 h-4 w-4 ${runScan.isPending ? 'animate-spin' : ''}`} />
@@ -109,10 +109,10 @@ export default function ConversionAlertsPage() {
             <SelectItem value="whale_alert">Ca voi</SelectItem>
             <SelectItem value="spike_alert">Dot bien</SelectItem>
             <SelectItem value="new_user_burst">User moi</SelectItem>
-            <SelectItem value="round_trip_alert">Vong tron</SelectItem>
-            <SelectItem value="balance_mismatch">Lech balance</SelectItem>
-            <SelectItem value="multi_ip_alert">Da IP</SelectItem>
-            <SelectItem value="failed_burst_alert">Spam that bai</SelectItem>
+            <SelectItem value="round_trip_alert">Vòng tròn</SelectItem>
+            <SelectItem value="balance_mismatch">Lệch balance</SelectItem>
+            <SelectItem value="multi_ip_alert">Đa IP</SelectItem>
+            <SelectItem value="failed_burst_alert">Spam thất bại</SelectItem>
           </SelectContent>
         </Select>
       </div>

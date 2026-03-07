@@ -50,13 +50,13 @@ export default function TopupOrderListPage() {
     try {
       const result = await retryMutation.mutateAsync(order.id);
       if (result.success) {
-        toast.success('Retry thanh cong!');
+        toast.success('Retry thành công!');
         setSelectedOrder(null);
       } else {
-        toast.error(result.error?.message || 'Retry that bai');
+        toast.error(result.error?.message || 'Retry thất bại');
       }
     } catch {
-      toast.error('Co loi xay ra khi retry');
+      toast.error('Có lỗi xảy ra khi retry');
     }
   };
 

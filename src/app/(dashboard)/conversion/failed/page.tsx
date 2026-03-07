@@ -103,7 +103,7 @@ export default function ConversionFailedPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Failed Attempts</h1>
-        <p className="text-gray-500">Lich su cac lan doi diem that bai</p>
+        <p className="text-gray-500">Lịch sử các lần đổi điểm thất bại</p>
       </div>
 
       <FailedAttemptsFilters

@@ -81,7 +81,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
       setFreezeDialogOpen(false);
       setReason('');
     } catch {
-      toast.error('Thao tac that bai');
+      toast.error('Thao tác thất bại');
     }
   };
 
@@ -172,7 +172,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
                     onClick={() => setTab(t)}
                   >
                     {t === 'conversions'
-                      ? 'Giao dich'
+                      ? 'Giao dịch'
                       : t === 'failed'
                         ? 'Failed Attempts'
                         : 'Alerts'}
@@ -238,7 +238,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
 
               {tab === 'alerts' && (
                 <div className="rounded-lg border p-8 text-center text-gray-500">
-                  Xem trang Canh bao de loc theo user nay
+                  Xem trang Cảnh báo để lọc theo user này
                 </div>
               )}
             </div>

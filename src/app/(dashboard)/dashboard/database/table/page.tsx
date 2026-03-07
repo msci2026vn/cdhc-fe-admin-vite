@@ -190,7 +190,7 @@ function TableDetailContent({ tableName }: { tableName: string }) {
         <Card>
           <CardContent className="py-12">
             <div className="text-center space-y-4">
-              <p className="text-red-500 text-lg">Khong the tai du lieu tu bang {tableName}</p>
+              <p className="text-red-500 text-lg">Không thể tải dữ liệu từ bảng {tableName}</p>
               <Button onClick={() => refetch()}>Thu lai</Button>
             </div>
           </CardContent>

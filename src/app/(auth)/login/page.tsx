@@ -84,7 +84,7 @@ function LoginContent() {
         message: err instanceof Error ? err.message : String(err),
       });
       console.error('Login error:', err);
-      setError('Co loi xay ra khi ket noi server. Vui long thu lai.');
+      setError('Có lỗi xảy ra khi kết nối server. Vui lòng thử lại.');
     } finally {
       setIsLoading(false);
     }

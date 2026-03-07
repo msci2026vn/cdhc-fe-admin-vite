@@ -123,7 +123,7 @@ export default function DeliveryAdminPage() {
       setSelectedSlotIds(new Set());
       setProductName('');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Co loi xay ra';
+      const message = err instanceof Error ? err.message : 'Có lỗi xảy ra';
       toast.error(message);
     } finally {
       setFlowStep('idle');
@@ -167,7 +167,7 @@ export default function DeliveryAdminPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Quan ly Giao hang</h1>
+          <h1 className="text-2xl font-bold">Quản lý Giao hàng</h1>
           <p className="text-gray-500">Chon don dang ky, tao lo va in phieu giao hang</p>
         </div>
         <Button variant="outline" onClick={handleRefresh}>

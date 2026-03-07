@@ -41,8 +41,8 @@ export default function ConversionDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Doi Diem — Tong Quan</h1>
-          <p className="text-gray-500">Quan ly he thong doi diem Seed/OGN</p>
+          <h1 className="text-2xl font-bold">Đổi Điểm — Tổng Quan</h1>
+          <p className="text-gray-500">Quản lý hệ thống đổi điểm Seed/OGN</p>
         </div>
         <Button variant="outline" onClick={handleRefresh}>
           <RefreshCw className="mr-2 h-4 w-4" />

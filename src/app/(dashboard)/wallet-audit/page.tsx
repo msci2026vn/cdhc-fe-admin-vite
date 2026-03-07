@@ -194,7 +194,7 @@ function WalletAuditCard({
             <p className="font-semibold text-red-700 text-sm">{formatAvax(wallet.totalOut)}</p>
           </div>
           <div className="bg-blue-50 rounded p-2 text-center">
-            <p className="text-xs text-gray-500">Giao dich</p>
+            <p className="text-xs text-gray-500">Giao dịch</p>
             <p className="font-semibold text-blue-700 text-sm">{wallet.txCount}</p>
           </div>
           <div className="bg-gray-50 rounded p-2 text-center">
@@ -365,7 +365,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
               {/* Recent TXs */}
               {detail.recentTransactions && detail.recentTransactions.length > 0 && (
                 <div>
-                  <h3 className="font-semibold mb-2">Giao dich gan day</h3>
+                  <h3 className="font-semibold mb-2">Giao dịch gần đây</h3>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>

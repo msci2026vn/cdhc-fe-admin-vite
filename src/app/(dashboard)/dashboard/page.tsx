@@ -1,5 +1,3 @@
-
-
 import { RefreshCw, Server, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -27,7 +25,7 @@ export default function DashboardPage() {
       await refreshStats.mutateAsync();
       toast.success('Da lam moi thong ke');
     } catch {
-      toast.error('Khong the lam moi thong ke');
+      toast.error('Không thể làm mới thống kê');
     }
   };
 
@@ -36,17 +34,11 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-gray-500">Tong quan he thong Con Duong Huu Co</p>
+          <p className="text-gray-500">Tổng quan hệ thống Con Đường Hữu Cơ</p>
         </div>
         {isSuperAdmin() && (
-          <Button
-            variant="outline"
-            onClick={handleRefresh}
-            disabled={refreshStats.isPending}
-          >
-            <RefreshCw
-              className={`mr-2 h-4 w-4 ${refreshStats.isPending ? 'animate-spin' : ''}`}
-            />
+          <Button variant="outline" onClick={handleRefresh} disabled={refreshStats.isPending}>
+            <RefreshCw className={`mr-2 h-4 w-4 ${refreshStats.isPending ? 'animate-spin' : ''}`} />
             Lam moi
           </Button>
         )}
@@ -56,7 +48,7 @@ export default function DashboardPage() {
         <TabsList>
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <Activity className="h-4 w-4" />
-            Tong quan
+            Tổng quan
           </TabsTrigger>
           <TabsTrigger value="server" className="flex items-center gap-2">
             <Server className="h-4 w-4" />
@@ -64,7 +56,7 @@ export default function DashboardPage() {
           </TabsTrigger>
         </TabsList>
 
-        {/* Tab Tong quan - Thong ke nguoi dung */}
+        {/* Tab Tổng quan - Thống kê người dùng */}
         <TabsContent value="overview" className="space-y-6">
           <StatsCards />
 

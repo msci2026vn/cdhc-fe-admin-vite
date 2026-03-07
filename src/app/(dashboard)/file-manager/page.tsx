@@ -115,7 +115,7 @@ export default function FileManagerPage() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-100">File Manager</h1>
-            <p className="text-sm text-gray-500">Quan ly va xem ma nguon Backend</p>
+            <p className="text-sm text-gray-500">Quản lý và xem mã nguồn Backend</p>
           </div>
         </div>
 
@@ -148,7 +148,7 @@ export default function FileManagerPage() {
             <button
               onClick={clearSearch}
               className="px-3 py-2.5 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-xl transition-colors"
-              title="Xoa ket qua tim kiem"
+              title="Xóa kết quả tìm kiếm"
             >
               <X size={18} />
             </button>
@@ -169,7 +169,7 @@ export default function FileManagerPage() {
                 ? 'bg-green-900/30 text-green-400'
                 : 'hover:bg-gray-800 text-gray-500',
             )}
-            title="Bao cao suc khoe code"
+            title="Báo cáo sức khỏe code"
           >
             <Activity size={18} />
           </button>
@@ -200,7 +200,7 @@ export default function FileManagerPage() {
           {/* Tree Header */}
           <div className="px-4 py-3 bg-gray-800/50 border-b border-gray-700 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-300">
-              {searchResults ? 'Ket qua tim kiem' : 'Cau truc thu muc'}
+              {searchResults ? 'Kết quả tìm kiếm' : 'Cấu trúc thư mục'}
             </span>
             {searchResults && (
               <span className="text-xs text-gray-500">{searchResults.length} files</span>

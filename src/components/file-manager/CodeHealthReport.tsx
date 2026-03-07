@@ -102,7 +102,7 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
             <Activity className="text-white" size={18} />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-200">Bao cao suc khoe Code</h3>
+            <h3 className="font-semibold text-gray-200">Báo cáo sức khỏe Code</h3>
             <p className="text-xs text-gray-500">
               {data.totalFiles} files - {data.totalLines.toLocaleString()} dong -{' '}
               {data.totalSizeFormatted}

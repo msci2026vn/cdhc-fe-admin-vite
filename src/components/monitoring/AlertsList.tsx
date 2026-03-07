@@ -34,7 +34,7 @@ export function AlertsList() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center text-red-500">Khong the tai danh sach alerts</div>
+          <div className="text-center text-red-500">Không thể tải danh sách alerts</div>
         </CardContent>
       </Card>
     );

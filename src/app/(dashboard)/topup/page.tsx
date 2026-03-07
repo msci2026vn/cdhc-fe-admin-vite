@@ -49,13 +49,13 @@ export default function TopupDashboardPage() {
     try {
       const result = await retryMutation.mutateAsync(order.id);
       if (result.success) {
-        toast.success('Retry thanh cong!');
+        toast.success('Retry thành công!');
         setSelectedOrder(null);
       } else {
-        toast.error(result.error?.message || 'Retry that bai');
+        toast.error(result.error?.message || 'Retry thất bại');
       }
     } catch {
-      toast.error('Co loi xay ra khi retry');
+      toast.error('Có lỗi xảy ra khi retry');
     }
   };
 
@@ -64,8 +64,8 @@ export default function TopupDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Nap AVAX — Tong Quan</h1>
-          <p className="text-gray-500">Quan ly he thong nap AVAX qua Stripe</p>
+          <h1 className="text-2xl font-bold">Nạp AVAX — Tổng Quan</h1>
+          <p className="text-gray-500">Quản lý hệ thống nạp AVAX qua Stripe</p>
         </div>
         <Button variant="outline" onClick={handleRefresh}>
           <RefreshCw className="mr-2 h-4 w-4" />

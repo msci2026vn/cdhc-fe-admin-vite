@@ -11,8 +11,8 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Cai dat</h1>
-        <p className="text-gray-500">Quan ly thong tin tai khoan cua ban</p>
+        <h1 className="text-2xl font-bold">Cài đặt</h1>
+        <p className="text-gray-500">Quản lý thông tin tài khoản của bạn</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

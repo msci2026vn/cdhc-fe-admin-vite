@@ -33,7 +33,7 @@ export function ConversionRecentTable({ conversions, isLoading, onUserClick }: P
     return (
       <div className="rounded-lg border bg-white">
         <div className="flex items-center justify-between border-b px-4 py-3">
-          <p className="font-medium">Giao dich gan day</p>
+          <p className="font-medium">Giao dịch gần đây</p>
         </div>
         <div className="p-4 space-y-2">
           {Array.from({ length: 5 }).map((_, i) => (

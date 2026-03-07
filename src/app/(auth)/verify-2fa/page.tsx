@@ -53,7 +53,7 @@ export default function Verify2FAPage() {
       // Nếu thành công, useAuth sẽ tự redirect
     } catch (err) {
       console.error('2FA verification error:', err);
-      setError('Co loi xay ra. Vui long thu lai.');
+      setError('Có lỗi xảy ra. Vui lòng thử lại.');
       setToken('');
     } finally {
       setIsLoading(false);
@@ -147,7 +147,7 @@ export default function Verify2FAPage() {
 
           <div className="border-t pt-4">
             <p className="text-xs text-center text-gray-400">
-              Khong the truy cap ung dung xac thuc?{' '}
+              Không thể truy cập ứng dụng xác thực?{' '}
               <button type="button" className="text-green-600 hover:underline">
                 Lien he ho tro
               </button>

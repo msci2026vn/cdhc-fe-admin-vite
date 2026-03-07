@@ -1,5 +1,3 @@
-
-
 import { Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -54,27 +52,23 @@ export function DatabaseStatsCard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center text-red-500">
-            Khong the tai thong tin database
-          </div>
+          <div className="text-center text-red-500">Không thể tải thông tin database</div>
         </CardContent>
       </Card>
     );
   }
 
-  const activeConnectionsPercent = database.connections.total > 0
-    ? (database.connections.active / database.connections.total) * 100
-    : 0;
+  const activeConnectionsPercent =
+    database.connections.total > 0
+      ? (database.connections.active / database.connections.total) * 100
+      : 0;
 
   const handleClick = () => {
     navigate('/dashboard/database');
   };
 
   return (
-    <Card
-      className="cursor-pointer hover:shadow-md transition-shadow"
-      onClick={handleClick}
-    >
+    <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={handleClick}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Database className="h-5 w-5 text-blue-600" />
@@ -120,7 +114,8 @@ export function DatabaseStatsCard() {
                   <div key={`${tableName}-${index}`} className="flex justify-between text-xs">
                     <span className="text-gray-600">{tableName}</span>
                     <span className="text-gray-500">
-                      {rowCount.toLocaleString()} rows | {tableSize > 0 ? formatBytes(tableSize) : 'N/A'}
+                      {rowCount.toLocaleString()} rows |{' '}
+                      {tableSize > 0 ? formatBytes(tableSize) : 'N/A'}
                     </span>
                   </div>
                 );
