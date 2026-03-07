@@ -1795,17 +1795,17 @@ export interface AuctionSession {
 export interface AuctionQueueItem {
   queue: {
     id: string;
-    token_id: number;
-    nft_name: string | null;
-    nft_image_url: string | null;
-    nft_rarity: string | null;
-    start_price_avax: string;
+    tokenId: number;
+    nftName: string | null;
+    nftImageUrl: string | null;
+    nftRarity: string | null;
+    startPriceAvax: string;
     status: string;
-    assigned_type: string | null;
-    session_id: string | null;
-    created_at: string;
+    assignedType: string | null;
+    assignedSessionId: string | null;
+    createdAt: string;
   };
-  seller_name: string | null;
+  sellerName: string | null;
 }
 
 export interface CreateSessionInput {

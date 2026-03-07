@@ -203,8 +203,8 @@ export default function AuctionAdminPage() {
   };
 
   const queuedItems = queueItems.filter((item) => {
-    const q = item.queue || item;
-    return (q as any).status === 'queued';
+    const q = item.queue || (item as any);
+    return q.status === 'queued';
   });
 
   return (
@@ -427,25 +427,21 @@ export default function AuctionAdminPage() {
               return (
                 <Card key={q.id}>
                   <CardContent className="flex items-center gap-3 py-3">
-                    {q.nft_image_url && (
-                      <img
-                        src={q.nft_image_url}
-                        alt=""
-                        className="h-12 w-12 rounded object-cover"
-                      />
+                    {q.nftImageUrl && (
+                      <img src={q.nftImageUrl} alt="" className="h-12 w-12 rounded object-cover" />
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium">{q.nft_name || `Token #${q.token_id}`}</p>
+                      <p className="truncate font-medium">{q.nftName || `Token #${q.tokenId}`}</p>
                       <p className="text-sm text-muted-foreground">
-                        {q.nft_rarity && `${q.nft_rarity} | `}
-                        {q.start_price_avax} AVAX
-                        {item.seller_name && ` | by ${item.seller_name}`}
+                        {q.nftRarity && `${q.nftRarity} | `}
+                        {q.startPriceAvax} AVAX
+                        {item.sellerName && ` | by ${item.sellerName}`}
                       </p>
                     </div>
                     <div className="text-right">
                       <StatusBadge status={q.status} />
-                      {q.assigned_type && (
-                        <p className="mt-1 text-xs text-muted-foreground">{q.assigned_type}</p>
+                      {q.assignedType && (
+                        <p className="mt-1 text-xs text-muted-foreground">{q.assignedType}</p>
                       )}
                     </div>
                   </CardContent>
@@ -710,7 +706,7 @@ export default function AuctionAdminPage() {
                       className="cursor-pointer"
                       onClick={() => toggleSpotlight(q.id)}
                     >
-                      {q.nft_name || `#${q.token_id}`} ({q.start_price_avax} AVAX)
+                      {q.nftName || `#${q.tokenId}`} ({q.startPriceAvax} AVAX)
                     </Badge>
                   );
                 })}
@@ -738,14 +734,14 @@ export default function AuctionAdminPage() {
                     onClick={() => toggleSpotlight(q.id)}
                   >
                     <Checkbox checked={isChecked} />
-                    {q.nft_image_url && (
-                      <img src={q.nft_image_url} alt="" className="h-10 w-10 rounded" />
+                    {q.nftImageUrl && (
+                      <img src={q.nftImageUrl} alt="" className="h-10 w-10 rounded" />
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium">{q.nft_name || `Token #${q.token_id}`}</p>
+                      <p className="text-sm font-medium">{q.nftName || `Token #${q.tokenId}`}</p>
                       <p className="text-xs text-muted-foreground">
-                        {q.nft_rarity && `${q.nft_rarity} | `}
-                        {q.start_price_avax} AVAX
+                        {q.nftRarity && `${q.nftRarity} | `}
+                        {q.startPriceAvax} AVAX
                       </p>
                     </div>
                   </div>
