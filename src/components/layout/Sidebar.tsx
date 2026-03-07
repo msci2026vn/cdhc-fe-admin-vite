@@ -156,6 +156,13 @@ const navigation = [
     superAdminOnly: true,
   },
   {
+    name: 'Wallet Monitor',
+    href: '/wallet-monitor',
+    icon: Wallet,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
     name: 'File Manager',
     href: '/file-manager',
     icon: FolderCode,

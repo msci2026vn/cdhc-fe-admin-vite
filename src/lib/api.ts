@@ -1606,3 +1606,73 @@ export const vipConfigApi = {
   update: (tier: string, deliveriesPerDay: number) =>
     api.put<VipConfigItem>(`/api/admin-v2/vip-config/${tier}`, { deliveriesPerDay }),
 };
+
+// Wallet Monitor
+export interface SystemWallet {
+  id: string;
+  name: string;
+  address: string;
+  role: string;
+  balance: string;
+  balanceUsd: number;
+  status: 'critical' | 'low' | 'ok';
+  thresholdCritical: number;
+  thresholdLow: number;
+  lastChecked: string;
+  explorerUrl: string;
+}
+
+export interface WalletSummary {
+  totalWallets: number;
+  criticalCount: number;
+  lowCount: number;
+  lastUpdated: string;
+}
+
+export interface UserWalletStats {
+  custodial: number;
+  smartWallet: number;
+  externalSiwe: number;
+}
+
+export interface WalletTransaction {
+  hash: string;
+  type: 'in' | 'out';
+  from: string;
+  to: string;
+  value: string;
+  gasUsed: string;
+  timestamp: string;
+  status: 'success' | 'failed';
+  method: string;
+}
+
+export interface BalanceLog {
+  walletId: string;
+  balanceAvax: number;
+  balanceUsd: number;
+  status: string;
+  checkedAt: string;
+}
+
+export interface WalletsResponse {
+  wallets: SystemWallet[];
+  summary: WalletSummary;
+  userWallets: UserWalletStats;
+}
+
+export const walletMonitorApi = {
+  getAll: () => api.get<WalletsResponse>('/api/admin-v2/wallets'),
+
+  getTransactions: (walletId: string, page = 1, limit = 10) =>
+    api.get<{ transactions: WalletTransaction[]; total: number; page: number; totalPages: number }>(
+      `/api/admin-v2/wallets/${walletId}/transactions?page=${page}&limit=${limit}`,
+    ),
+
+  getBalanceHistory: (walletId?: string, days = 7) =>
+    api.get<{ logs: BalanceLog[] }>(
+      `/api/admin-v2/wallets/history/balances?${walletId ? `walletId=${walletId}&` : ''}days=${days}`,
+    ),
+
+  checkNow: () => api.post<WalletsResponse>('/api/admin-v2/wallets/check', {}),
+};
