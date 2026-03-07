@@ -26,6 +26,7 @@ import {
   Store,
   PackageCheck,
   ClipboardList,
+  Gavel,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -167,6 +168,13 @@ const navigation = [
     name: 'Kiem Toan Vi',
     href: '/wallet-audit',
     icon: ClipboardList,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Dau Gia',
+    href: '/auction',
+    icon: Gavel,
     permission: 'stats.view',
     superAdminOnly: true,
   },
