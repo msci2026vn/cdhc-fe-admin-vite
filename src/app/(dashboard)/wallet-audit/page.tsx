@@ -246,8 +246,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
   const { data, isLoading } = useWalletAuditDetail(walletId);
   const meta = getWalletMeta(walletId);
 
-  // Handle the ApiResponse wrapper — unwrap .data to get WalletAuditDetail
-  const detail = (data as any)?.data ?? data ?? null;
+  const detail = data ?? null;
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -432,7 +431,7 @@ export default function WalletAuditPage() {
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const auditData = data as unknown as WalletAuditSummaryResponse | undefined;
+  const auditData = data as WalletAuditSummaryResponse | null | undefined;
   const wallets = auditData?.wallets ?? [];
   const revenue = auditData?.revenue;
   const txs = auditData?.marketplaceTransactions ?? [];

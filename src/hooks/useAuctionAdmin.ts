@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { auctionAdminApi } from '@/lib/api';
-import type { CreateSessionInput } from '@/lib/api';
+import type { AuctionSession, AuctionQueueItem, CreateSessionInput } from '@/lib/api';
 
 const keys = {
   sessions: ['auction-admin', 'sessions'] as const,
@@ -13,21 +13,30 @@ const keys = {
 export function useAdminSessions() {
   return useQuery({
     queryKey: keys.sessions,
-    queryFn: () => auctionAdminApi.getSessions(),
+    queryFn: async () => {
+      const res = await auctionAdminApi.getSessions();
+      return (res.data?.data ?? []) as AuctionSession[];
+    },
   });
 }
 
 export function useAdminQueue(status?: string) {
   return useQuery({
     queryKey: keys.queue(status),
-    queryFn: () => auctionAdminApi.getQueue(status),
+    queryFn: async () => {
+      const res = await auctionAdminApi.getQueue(status);
+      return (res.data?.data ?? []) as AuctionQueueItem[];
+    },
   });
 }
 
 export function useSpotlightSuggestions() {
   return useQuery({
     queryKey: keys.suggestions,
-    queryFn: () => auctionAdminApi.getSuggestions(),
+    queryFn: async () => {
+      const res = await auctionAdminApi.getSuggestions();
+      return res.data?.data ?? null;
+    },
     enabled: false,
   });
 }
@@ -35,7 +44,10 @@ export function useSpotlightSuggestions() {
 export function useAuctionStats() {
   return useQuery({
     queryKey: keys.stats,
-    queryFn: () => auctionAdminApi.getStats(),
+    queryFn: async () => {
+      const res = await auctionAdminApi.getStats();
+      return (res.data?.data ?? {}) as Record<string, number>;
+    },
   });
 }
 
@@ -92,9 +104,9 @@ export function useActivateSession() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (sessionId: string) => auctionAdminApi.activateSession(sessionId),
-    onSuccess: (data: any) => {
+    onSuccess: (data) => {
       qc.invalidateQueries({ queryKey: ['auction-admin'] });
-      const created = data?.data?.auctionsCreated ?? data?.auctionsCreated ?? 0;
+      const created = data.data?.auctionsCreated ?? 0;
       toast.success(`Session activated! ${created} auctions created`);
     },
     onError: (err: Error) => toast.error(err.message),
