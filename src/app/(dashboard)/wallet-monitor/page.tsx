@@ -357,7 +357,10 @@ export default function WalletMonitorPage() {
                       borderRadius: '8px',
                       color: '#F3F4F6',
                     }}
-                    formatter={(value: number) => [`${value.toFixed(4)} AVAX`, 'Balance']}
+                    formatter={(value: number | undefined) => [
+                      `${(value ?? 0).toFixed(4)} AVAX`,
+                      'Balance',
+                    ]}
                   />
                   <Line
                     type="monotone"
