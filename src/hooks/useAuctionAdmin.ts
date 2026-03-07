@@ -100,6 +100,38 @@ export function useAssignSides() {
   });
 }
 
+export function useDetailedStats() {
+  return useQuery({
+    queryKey: [...keys.stats, 'detailed'],
+    queryFn: async () => {
+      const res = await auctionAdminApi.getDetailedStats();
+      return (res.data?.data ?? {}) as Record<string, number | string>;
+    },
+  });
+}
+
+export function useAuctionsBySession(sessionId: string | null) {
+  return useQuery({
+    queryKey: ['auction-admin', 'auctions', sessionId],
+    queryFn: async () => {
+      const res = await auctionAdminApi.getAuctionsBySession(sessionId!);
+      return (res.data?.data ?? []) as any[];
+    },
+    enabled: !!sessionId,
+  });
+}
+
+export function useAuctionDetailAdmin(auctionId: string | null) {
+  return useQuery({
+    queryKey: ['auction-admin', 'detail', auctionId],
+    queryFn: async () => {
+      const res = await auctionAdminApi.getAuctionDetail(auctionId!);
+      return (res.data?.data ?? null) as any;
+    },
+    enabled: !!auctionId,
+  });
+}
+
 export function useActivateSession() {
   const qc = useQueryClient();
   return useMutation({

@@ -1872,4 +1872,10 @@ export const auctionAdminApi = {
 
   getDetailedStats: () =>
     api.get<{ ok: boolean; data: Record<string, number> }>('/api/admin/auction/stats/detailed'),
+
+  getAuctionsBySession: (sessionId: string) =>
+    api.get<{ ok: boolean; data: any[] }>(`/api/auction/list?sessionId=${sessionId}`),
+
+  getAuctionDetail: (auctionId: string) =>
+    api.get<{ ok: boolean; data: any }>(`/api/auction/${auctionId}`),
 };
