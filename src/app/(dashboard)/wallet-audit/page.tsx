@@ -245,10 +245,9 @@ function WalletAuditCard({
 function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: () => void }) {
   const { data, isLoading } = useWalletAuditDetail(walletId);
   const meta = getWalletMeta(walletId);
-  const audit = data as unknown as { ok?: boolean } & typeof data;
 
-  // Handle the ApiResponse wrapper
-  const detail = audit && 'wallet' in (audit as Record<string, unknown>) ? audit : null;
+  // Handle the ApiResponse wrapper — unwrap .data to get WalletAuditDetail
+  const detail = (data as any)?.data ?? data ?? null;
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -338,7 +337,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
                 <div>
                   <h3 className="font-semibold mb-2">Phan loai chi tieu</h3>
                   <div className="space-y-2">
-                    {detail.breakdown.map((item, i) => (
+                    {detail.breakdown.map((item: any, i: number) => (
                       <div
                         key={i}
                         className="flex items-center justify-between bg-gray-50 rounded px-3 py-2"
@@ -380,7 +379,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
                         </tr>
                       </thead>
                       <tbody>
-                        {detail.recentTransactions.map((tx) => (
+                        {detail.recentTransactions.map((tx: any) => (
                           <tr key={tx.id} className="border-b">
                             <td className="py-1.5">#{tx.token_id}</td>
                             <td className="py-1.5">{formatAvax(tx.price_avax)}</td>
@@ -408,7 +407,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
               {/* Alerts */}
               {detail.alerts && detail.alerts.length > 0 && (
                 <div>
-                  {detail.alerts.map((alert, i) => (
+                  {detail.alerts.map((alert: any, i: number) => (
                     <p
                       key={i}
                       className="text-sm text-orange-700 bg-orange-50 rounded px-3 py-2 mb-1"

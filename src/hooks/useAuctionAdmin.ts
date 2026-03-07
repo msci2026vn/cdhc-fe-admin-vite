@@ -92,7 +92,7 @@ export function useActivateSession() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (sessionId: string) => auctionAdminApi.activateSession(sessionId),
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       qc.invalidateQueries({ queryKey: ['auction-admin'] });
       const created = data?.data?.auctionsCreated ?? data?.auctionsCreated ?? 0;
       toast.success(`Session activated! ${created} auctions created`);

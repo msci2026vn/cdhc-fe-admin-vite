@@ -75,10 +75,10 @@ export default function AuctionAdminPage() {
   const activateSession = useActivateSession();
   const cancelSession = useCancelSession();
 
-  // Unwrap API response — api.get returns { success, data } wrapping { ok, data }
-  const sessions: AuctionSession[] = sessionsRes?.data?.data ?? sessionsRes?.data ?? [];
-  const queueItems: AuctionQueueItem[] = queueRes?.data?.data ?? queueRes?.data ?? [];
-  const stats = statsRes?.data?.data ?? statsRes?.data ?? null;
+  // Unwrap API response — api.get wraps BE { ok, data } into ApiResponse { success, data }
+  const sessions: AuctionSession[] = (sessionsRes?.data as any)?.data ?? [];
+  const queueItems: AuctionQueueItem[] = (queueRes?.data as any)?.data ?? [];
+  const stats = (statsRes?.data as any)?.data ?? null;
 
   // Create form
   const [form, setForm] = useState({
@@ -398,11 +398,11 @@ export default function AuctionAdminPage() {
           </DialogHeader>
 
           {/* Suggestions */}
-          {suggestionsRes?.data?.data && (
+          {(suggestionsRes?.data as any)?.data && (
             <div className="mb-4 space-y-2">
               <p className="text-sm font-medium">Goi y (gia cao nhat):</p>
               <div className="flex flex-wrap gap-2">
-                {(suggestionsRes.data.data.byPrice || []).slice(0, 3).map((s: any) => {
+                {((suggestionsRes?.data as any)?.data?.byPrice || []).slice(0, 3).map((s: any) => {
                   const q = s.queue || s;
                   return (
                     <Badge
