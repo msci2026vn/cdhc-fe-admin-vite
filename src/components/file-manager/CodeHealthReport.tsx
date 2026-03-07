@@ -65,7 +65,7 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
 
   if (loading && !data) {
     return (
-      <div className="p-4 bg-gray-900 rounded-xl border border-gray-700">
+      <div className="p-4 bg-gray-900/90 backdrop-blur-md rounded-xl border border-gray-800 shadow-xl">
         <div className="flex items-center gap-3">
           <div className="animate-spin rounded-full h-5 w-5 border-2 border-green-500 border-t-transparent" />
           <span className="text-sm text-gray-400">Đang phân tích codebase...</span>
@@ -91,7 +91,7 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
   if (!data) return null;
 
   return (
-    <div className="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+    <div className="bg-gray-900/90 backdrop-blur-md rounded-xl border border-gray-800 overflow-hidden shadow-xl">
       {/* Header - Collapsible */}
       <div
         className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-gray-800 to-gray-850 cursor-pointer hover:from-gray-750 hover:to-gray-800 transition-colors"

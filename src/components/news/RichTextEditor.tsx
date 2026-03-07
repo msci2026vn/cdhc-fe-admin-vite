@@ -143,7 +143,8 @@ export function RichTextEditor({ content, onChange, placeholder }: RichTextEdito
       Superscript,
       CodeBlock.configure({
         HTMLAttributes: {
-          class: 'bg-gray-900 text-gray-100 rounded-lg p-4 my-4 overflow-x-auto',
+          class:
+            'bg-gray-900/95 backdrop-blur-sm text-gray-100 rounded-lg p-4 my-4 overflow-x-auto shadow-inner',
         },
       }),
       Blockquote.configure({

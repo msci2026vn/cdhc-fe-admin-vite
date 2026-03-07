@@ -90,7 +90,7 @@ export function BossDetailSheet({ eventId, onClose }: Props) {
     <Sheet open={!!eventId} onOpenChange={(open) => !open && onClose()}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-[620px] bg-gray-900 border-gray-700 text-gray-100 flex flex-col p-0"
+        className="w-full sm:max-w-[620px] bg-gray-900/95 backdrop-blur-md border-gray-700 text-gray-100 flex flex-col p-0 shadow-2xl"
       >
         <div className="flex-1 overflow-y-auto p-6">
           <SheetHeader className="mb-4">

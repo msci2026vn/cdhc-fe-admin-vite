@@ -108,7 +108,7 @@ export default function FileManagerPage() {
   return (
     <div className="h-[calc(100vh-64px)] flex flex-col bg-gray-950">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 bg-gray-900 border-b border-gray-800 shadow-sm">
+      <div className="flex items-center justify-between px-6 py-4 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-sm z-10 sticky top-0">
         <div className="flex items-center gap-4">
           <div className="p-2.5 bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
             <FolderTree className="text-white" size={22} />
@@ -196,7 +196,7 @@ export default function FileManagerPage() {
       {/* Main content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Tree & Health Report */}
-        <div className="w-80 border-r border-gray-800 bg-gray-900 overflow-hidden flex flex-col">
+        <div className="w-80 border-r border-gray-800 bg-gray-900/95 backdrop-blur-md overflow-hidden flex flex-col">
           {/* Tree Header */}
           <div className="px-4 py-3 bg-gray-800/50 border-b border-gray-700 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-300">
@@ -253,7 +253,7 @@ export default function FileManagerPage() {
       </div>
 
       {/* Footer - Stats */}
-      <div className="px-6 py-2.5 border-t border-gray-800 bg-gray-900 text-xs text-gray-500 flex items-center justify-between">
+      <div className="px-6 py-2.5 border-t border-gray-800 bg-gray-900/95 backdrop-blur-md text-xs text-gray-500 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1">
             <Code2 size={12} />

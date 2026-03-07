@@ -228,7 +228,7 @@ export function Sidebar() {
   });
 
   return (
-    <div className="flex h-full w-64 flex-col bg-gray-900">
+    <div className="flex h-full w-64 flex-col bg-gray-900/95 backdrop-blur-md border-r border-gray-800/50">
       <div className="flex h-16 items-center justify-center border-b border-gray-800">
         <Link to="/" className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-green-600 flex items-center justify-center">

@@ -193,7 +193,7 @@ export function CreateBossDialog({ open, onOpenChange }: CreateBossDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto bg-gray-900 border-gray-700 text-gray-100">
+      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto bg-gray-900/95 backdrop-blur-md border-gray-700 text-gray-100 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-gray-100">🎮 Tạo Boss Mới</DialogTitle>
           <DialogDescription className="text-gray-400">

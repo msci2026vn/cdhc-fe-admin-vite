@@ -144,7 +144,7 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
   // Loading
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-900">
+      <div className="h-full flex items-center justify-center bg-gray-900/95 backdrop-blur-sm">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-4 border-green-500 border-t-transparent mx-auto" />
           <p className="mt-4 text-gray-400">Đang tải nội dung file...</p>
@@ -171,7 +171,7 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
   const languageDisplay = LANGUAGE_DISPLAY[selectedFile.extension || ''] || 'Text';
 
   return (
-    <div className="h-full flex flex-col bg-gray-900">
+    <div className="h-full flex flex-col bg-gray-900/95 backdrop-blur-sm">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-gray-800 to-gray-850 border-b border-gray-700">
         <div className="flex items-center gap-3">

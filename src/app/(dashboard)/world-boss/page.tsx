@@ -134,7 +134,7 @@ export default function WorldBossPage() {
                       {endBoss.isPending ? 'Đang xử lý...' : '🛑 Kết Thúc Boss'}
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-gray-900 border-gray-700 text-gray-100">
+                  <AlertDialogContent className="bg-gray-900/95 backdrop-blur-md border-gray-700 text-gray-100 shadow-2xl">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Kết thúc boss?</AlertDialogTitle>
                       <AlertDialogDescription className="text-gray-400">
