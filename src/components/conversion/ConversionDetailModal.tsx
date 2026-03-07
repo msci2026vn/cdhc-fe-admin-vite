@@ -36,7 +36,7 @@ export function ConversionDetailModal({ conversion, open, onClose }: Props) {
       <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Chi tiet giao dich
+            Chi tiết giao dịch
             <Badge variant={c.direction === 'ogn_to_seed' ? 'warning' : 'success'}>
               {c.direction === 'seed_to_ogn' ? 'Seed→OGN' : 'OGN→Seed'}
             </Badge>
@@ -46,49 +46,49 @@ export function ConversionDetailModal({ conversion, open, onClose }: Props) {
         <div className="space-y-4">
           {/* Basic Info */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Thong tin co ban</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Thông tin cơ bản</h4>
             <div className="rounded border p-3">
               <DetailRow label="ID" value={c.id} mono />
               <DetailRow label="User" value={c.userName || c.userId} />
               <DetailRow
-                label="Huong"
+                label="Hướng"
                 value={c.direction === 'seed_to_ogn' ? 'Seed → OGN' : 'OGN → Seed'}
               />
-              <DetailRow label="Moc (Tier)" value={c.tierId} />
-              <DetailRow label="Ty gia" value={c.rate} />
+              <DetailRow label="Mốc (Tier)" value={c.tierId} />
+              <DetailRow label="Tỷ giá" value={c.rate} />
               <DetailRow label="Player Level" value={c.playerLevel} />
-              <DetailRow label="Trang thai" value={c.status} />
-              <DetailRow label="Thoi gian" value={formatDate(c.createdAt)} />
+              <DetailRow label="Trạng thái" value={c.status} />
+              <DetailRow label="Thời gian" value={formatDate(c.createdAt)} />
             </div>
           </div>
 
           {/* Amount */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">So luong</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Số lượng</h4>
             <div className="rounded border p-3">
-              <DetailRow label="Gui" value={`${formatNumber(c.fromAmount)} ${c.fromCurrency}`} />
+              <DetailRow label="Gửi" value={`${formatNumber(c.fromAmount)} ${c.fromCurrency}`} />
               <DetailRow
-                label="Phi (burn)"
+                label="Phí (burn)"
                 value={`${formatNumber(c.feeAmount)} ${c.feeCurrency}`}
               />
-              <DetailRow label="Nhan" value={`${formatNumber(c.toAmount)} ${c.toCurrency}`} />
+              <DetailRow label="Nhận" value={`${formatNumber(c.toAmount)} ${c.toCurrency}`} />
             </div>
           </div>
 
           {/* Balance */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Balance truoc/sau</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Balance trước/sau</h4>
             <div className="rounded border p-3">
-              <DetailRow label="Seed truoc" value={formatNumber(c.seedBalanceBefore)} />
+              <DetailRow label="Seed trước" value={formatNumber(c.seedBalanceBefore)} />
               <DetailRow label="Seed sau" value={formatNumber(c.seedBalanceAfter)} />
-              <DetailRow label="OGN truoc" value={formatNumber(c.ognBalanceBefore)} />
+              <DetailRow label="OGN trước" value={formatNumber(c.ognBalanceBefore)} />
               <DetailRow label="OGN sau" value={formatNumber(c.ognBalanceAfter)} />
             </div>
           </div>
 
           {/* Technical */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Ky thuat</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Kỹ thuật</h4>
             <div className="rounded border p-3">
               <DetailRow label="IP" value={c.ipAddress} mono />
               <DetailRow label="Request Hash" value={c.requestHash || '-'} mono />

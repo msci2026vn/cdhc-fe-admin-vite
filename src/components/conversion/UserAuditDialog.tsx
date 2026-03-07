@@ -189,15 +189,15 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
                         <TableHead>Phi</TableHead>
                         <TableHead>Nhan</TableHead>
                         <TableHead>IP</TableHead>
-                        <TableHead>Thoi gian</TableHead>
+                        <TableHead>Thời gian</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {audit.conversions.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={7} className="text-center text-gray-500">
-                            Khong co giao dich
-                          </TableCell>
+                          <td colSpan={4} className="py-8 text-center text-gray-500">
+                            Không có giao dịch
+                          </td>
                         </TableRow>
                       ) : (
                         audit.conversions.map((c) => (

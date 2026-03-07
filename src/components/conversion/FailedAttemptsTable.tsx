@@ -22,18 +22,18 @@ const FAIL_REASON_CONFIG: Record<
   string,
   { label: string; variant: 'warning' | 'secondary' | 'info' | 'destructive' }
 > = {
-  insufficient_seed: { label: 'Thieu Hat', variant: 'warning' },
-  insufficient_ogn: { label: 'Thieu OGN', variant: 'warning' },
-  level_too_low: { label: 'Chua du level', variant: 'secondary' },
-  daily_limit_reached: { label: 'Het luot ngay', variant: 'info' },
-  weekly_limit_reached: { label: 'Het luot tuan', variant: 'info' },
-  cooldown_active: { label: 'Dang cooldown', variant: 'warning' },
-  system_frozen: { label: 'He thong dung', variant: 'destructive' },
-  user_frozen: { label: 'Bi khoa', variant: 'destructive' },
-  invalid_tier: { label: 'Moc loi', variant: 'secondary' },
-  duplicate_request: { label: 'Trung request', variant: 'secondary' },
-  max_cap_exceeded: { label: 'Vuot gioi han', variant: 'destructive' },
-  server_error: { label: 'Loi he thong', variant: 'destructive' },
+  insufficient_seed: { label: 'Thiếu Hạt', variant: 'warning' },
+  insufficient_ogn: { label: 'Thiếu OGN', variant: 'warning' },
+  level_too_low: { label: 'Chưa đủ level', variant: 'secondary' },
+  daily_limit_reached: { label: 'Hết lượt ngày', variant: 'info' },
+  weekly_limit_reached: { label: 'Hết lượt tuần', variant: 'info' },
+  cooldown_active: { label: 'Đang cooldown', variant: 'warning' },
+  system_frozen: { label: 'Hệ thống dừng', variant: 'destructive' },
+  user_frozen: { label: 'Bị khóa', variant: 'destructive' },
+  invalid_tier: { label: 'Mốc lỗi', variant: 'secondary' },
+  duplicate_request: { label: 'Trùng request', variant: 'secondary' },
+  max_cap_exceeded: { label: 'Vượt giới hạn', variant: 'destructive' },
+  server_error: { label: 'Lỗi hệ thống', variant: 'destructive' },
 };
 
 export function FailedAttemptsTable({ attempts, isLoading, onUserClick, onIpClick }: Props) {
@@ -44,12 +44,12 @@ export function FailedAttemptsTable({ attempts, isLoading, onUserClick, onIpClic
           <TableHeader>
             <TableRow>
               <TableHead>User</TableHead>
-              <TableHead>Huong</TableHead>
-              <TableHead>Moc</TableHead>
-              <TableHead>Ly do</TableHead>
-              <TableHead>Chi tiet</TableHead>
+              <TableHead>Hướng</TableHead>
+              <TableHead>Mốc</TableHead>
+              <TableHead>Lý do</TableHead>
+              <TableHead>Chi tiết</TableHead>
               <TableHead>IP</TableHead>
-              <TableHead>Thoi gian</TableHead>
+              <TableHead>Thời gian</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -71,7 +71,7 @@ export function FailedAttemptsTable({ attempts, isLoading, onUserClick, onIpClic
   if (attempts.length === 0) {
     return (
       <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-        Khong co failed attempts nao
+        Không có failed attempts nào
       </div>
     );
   }
@@ -82,12 +82,12 @@ export function FailedAttemptsTable({ attempts, isLoading, onUserClick, onIpClic
         <TableHeader>
           <TableRow>
             <TableHead>User</TableHead>
-            <TableHead>Huong</TableHead>
-            <TableHead>Moc</TableHead>
-            <TableHead>Ly do</TableHead>
-            <TableHead>Chi tiet</TableHead>
+            <TableHead>Hướng</TableHead>
+            <TableHead>Mốc</TableHead>
+            <TableHead>Lý do</TableHead>
+            <TableHead>Chi tiết</TableHead>
             <TableHead>IP</TableHead>
-            <TableHead>Thoi gian</TableHead>
+            <TableHead>Thời gian</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

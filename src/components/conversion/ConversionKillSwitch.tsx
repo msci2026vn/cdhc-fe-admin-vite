@@ -28,22 +28,22 @@ export function ConversionKillSwitch({ systemData }: Props) {
 
   const handleToggle = async () => {
     if (reason.length < 5) {
-      toast.error('Ly do phai co it nhat 5 ky tu');
+      toast.error('Lý do phải có ít nhất 5 ký tự');
       return;
     }
 
     try {
       if (frozen) {
         await unfreezeSystem.mutateAsync(reason);
-        toast.success('He thong da hoat dong tro lai');
+        toast.success('Hệ thống đã hoạt động trở lại');
       } else {
         await freezeSystem.mutateAsync(reason);
-        toast.warning('He thong da tam dung');
+        toast.warning('Hệ thống đã tạm dừng');
       }
       setOpen(false);
       setReason('');
     } catch {
-      toast.error('Thao tac that bai');
+      toast.error('Thao tác thất bại');
     }
   };
 
@@ -62,20 +62,20 @@ export function ConversionKillSwitch({ systemData }: Props) {
               <p className="text-sm text-gray-600">
                 {frozen ? (
                   <>
-                    <span className="font-semibold text-red-600">TAM DUNG</span>
+                    <span className="font-semibold text-red-600">TẠM DỪNG</span>
                     {systemData?.frozenReason && (
                       <span className="ml-2">- {systemData.frozenReason}</span>
                     )}
                   </>
                 ) : (
-                  <span className="text-green-600">Hoat dong binh thuong</span>
+                  <span className="text-green-600">Hoạt động bình thường</span>
                 )}
               </p>
             </div>
           </div>
           <Button variant={frozen ? 'default' : 'destructive'} onClick={() => setOpen(true)}>
             <Power className="mr-2 h-4 w-4" />
-            {frozen ? 'BAT HE THONG' : 'TAT HE THONG'}
+            {frozen ? 'BẬT HỆ THỐNG' : 'TẮT HỆ THỐNG'}
           </Button>
         </div>
       </div>
@@ -84,33 +84,33 @@ export function ConversionKillSwitch({ systemData }: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {frozen ? 'Bat lai he thong doi diem?' : 'Tat he thong doi diem?'}
+              {frozen ? 'Bật lại hệ thống đổi điểm?' : 'Tắt hệ thống đổi điểm?'}
             </DialogTitle>
             <DialogDescription>
               {frozen
-                ? 'He thong se hoat dong tro lai, nguoi dung co the doi diem.'
-                : 'TAT se chan MOI giao dich doi diem. Nguoi dung se khong the doi diem cho den khi bat lai.'}
+                ? 'Hệ thống sẽ hoạt động trở lại, người dùng có thể đổi điểm.'
+                : 'TẮT sẽ chặn MỌI giao dịch đổi điểm. Người dùng sẽ không thể đổi điểm cho đến khi bật lại.'}
             </DialogDescription>
           </DialogHeader>
           <div>
-            <label className="text-sm font-medium">Ly do (toi thieu 5 ky tu)</label>
+            <label className="text-sm font-medium">Lý do (tối thiểu 5 ký tự)</label>
             <Input
               className="mt-1"
-              placeholder="Nhap ly do..."
+              placeholder="Nhập lý do..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Huy
+              Hủy
             </Button>
             <Button
               variant={frozen ? 'default' : 'destructive'}
               onClick={handleToggle}
               disabled={isPending || reason.length < 5}
             >
-              {isPending ? 'Dang xu ly...' : frozen ? 'Bat he thong' : 'Tat he thong'}
+              {isPending ? 'Đang xử lý...' : frozen ? 'Bật hệ thống' : 'Tắt hệ thống'}
             </Button>
           </DialogFooter>
         </DialogContent>

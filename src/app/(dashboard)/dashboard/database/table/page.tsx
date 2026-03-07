@@ -399,7 +399,7 @@ function TableDetailContent({ tableName }: { tableName: string }) {
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              {searchQuery ? 'Khong tim thay ket qua phu hop' : 'Khong co du lieu trong bang nay'}
+              {searchQuery ? 'Không tìm thấy kết quả phù hợp' : 'Không có dữ liệu trong bảng này'}
             </div>
           )}
 
@@ -407,7 +407,7 @@ function TableDetailContent({ tableName }: { tableName: string }) {
           {totalPages > 1 && !searchQuery && (
             <div className="flex items-center justify-between mt-4 pt-4 border-t">
               <div className="text-sm text-muted-foreground">
-                Hien thi {(page - 1) * limit + 1} - {Math.min(page * limit, data.total || 0)} trong{' '}
+                Hiển thị {(page - 1) * limit + 1} - {Math.min(page * limit, data.total || 0)} trong{' '}
                 {data.total?.toLocaleString() || 0} rows
               </div>
               <div className="flex items-center gap-2">

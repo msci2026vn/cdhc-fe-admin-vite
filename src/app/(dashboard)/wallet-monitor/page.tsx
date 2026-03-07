@@ -35,10 +35,10 @@ import type { SystemWallet, WalletTransaction, WalletsResponse } from '@/lib/api
 
 function timeAgo(dateStr: string): string {
   const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-  if (diff < 60) return 'vua xong';
-  if (diff < 3600) return Math.floor(diff / 60) + ' phut truoc';
-  if (diff < 86400) return Math.floor(diff / 3600) + ' gio truoc';
-  return Math.floor(diff / 86400) + ' ngay truoc';
+  if (diff < 60) return 'vừa xong';
+  if (diff < 3600) return Math.floor(diff / 60) + ' phút trước';
+  if (diff < 86400) return Math.floor(diff / 3600) + ' giờ trước';
+  return Math.floor(diff / 86400) + ' ngày trước';
 }
 
 function truncateAddress(addr: string) {
@@ -48,7 +48,7 @@ function truncateAddress(addr: string) {
 
 function copyAddress(addr: string) {
   navigator.clipboard.writeText(addr);
-  toast.success('Da copy dia chi!');
+  toast.success('Đã copy địa chỉ!');
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -121,7 +121,7 @@ function WalletCard({
         </div>
 
         {wallet.lastChecked && (
-          <div className="text-xs text-gray-600">Cap nhat: {timeAgo(wallet.lastChecked)}</div>
+          <div className="text-xs text-gray-600">Cập nhật: {timeAgo(wallet.lastChecked)}</div>
         )}
       </CardContent>
     </Card>
@@ -213,7 +213,7 @@ export default function WalletMonitorPage() {
         <div className="flex items-center gap-3">
           {summary?.lastUpdated && (
             <span className="text-sm text-gray-500">
-              Cap nhat: {timeAgo(summary.lastUpdated)} — Tu dong refresh moi 60s
+              Cập nhật: {timeAgo(summary.lastUpdated)} — Tự động refresh mỗi 60s
             </span>
           )}
           <Button
@@ -223,7 +223,7 @@ export default function WalletMonitorPage() {
             className="bg-green-600 hover:bg-green-700 text-white"
           >
             <RefreshCw className={`w-4 h-4 mr-1 ${checkWallets.isPending ? 'animate-spin' : ''}`} />
-            {checkWallets.isPending ? 'Dang cap nhat...' : 'Lam moi'}
+            {checkWallets.isPending ? 'Đang cập nhật...' : 'Làm mới'}
           </Button>
         </div>
       </div>
@@ -241,7 +241,7 @@ export default function WalletMonitorPage() {
                 {w.balance} AVAX (${w.balanceUsd.toFixed(2)})
               </span>
               <span className="text-gray-500">
-                — {w.status === 'critical' ? 'Can nap gap!' : 'Balance thap'}
+                — {w.status === 'critical' ? 'Cần nạp gấp!' : 'Balance thấp'}
               </span>
             </div>
           ))}
@@ -249,8 +249,8 @@ export default function WalletMonitorPage() {
       )}
 
       {/* Loading / Error */}
-      {isLoading && <div className="text-gray-400">Dang tai...</div>}
-      {error && <div className="text-red-400">Loi tai du lieu wallet</div>}
+      {isLoading && <div className="text-gray-400">Đang tải...</div>}
+      {error && <div className="text-red-400">Lỗi tải dữ liệu wallet</div>}
 
       {/* Summary Cards */}
       {summary && (
@@ -331,7 +331,7 @@ export default function WalletMonitorPage() {
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-              <h2 className="text-lg font-semibold text-gray-100">Balance History (7 ngay)</h2>
+              <h2 className="text-lg font-semibold text-gray-100">Balance History (7 ngày)</h2>
               <select
                 value={chartWalletId ?? wallets[0]?.id ?? ''}
                 onChange={(e) => setChartWalletId(e.target.value)}
@@ -373,7 +373,7 @@ export default function WalletMonitorPage() {
               </ResponsiveContainer>
             ) : (
               <div className="text-gray-500 text-sm py-8 text-center">
-                Chua co du lieu balance history
+                Chưa có dữ liệu balance history
               </div>
             )}
           </CardContent>
@@ -384,7 +384,7 @@ export default function WalletMonitorPage() {
       <Card className="bg-gray-800 border-gray-700">
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-            <h2 className="text-lg font-semibold text-gray-100">Lich su giao dich</h2>
+            <h2 className="text-lg font-semibold text-gray-100">Lịch sử giao dịch</h2>
             <select
               value={selectedWalletId ?? ''}
               onChange={(e) => {
@@ -393,7 +393,7 @@ export default function WalletMonitorPage() {
               }}
               className="rounded-md border border-gray-600 bg-gray-700 px-3 py-1.5 text-gray-100 text-sm focus:border-green-500 focus:outline-none"
             >
-              <option value="">-- Chon vi --</option>
+              <option value="">-- Chọn ví --</option>
               {wallets.map((w) => (
                 <option key={w.id} value={w.id}>
                   {w.name}
@@ -403,11 +403,11 @@ export default function WalletMonitorPage() {
           </div>
 
           {!selectedWalletId ? (
-            <div className="text-gray-500 text-sm py-4">Chon mot vi de xem lich su giao dich</div>
+            <div className="text-gray-500 text-sm py-4">Chọn một ví để xem lịch sử giao dịch</div>
           ) : txLoading ? (
-            <div className="text-gray-400 py-4">Dang tai giao dich...</div>
+            <div className="text-gray-400 py-4">Đang tải giao dịch...</div>
           ) : transactions.length === 0 ? (
-            <div className="text-gray-500 py-4">Khong co giao dich nao</div>
+            <div className="text-gray-500 py-4">Không có giao dịch nào</div>
           ) : (
             <>
               <div className="divide-y divide-gray-700">
@@ -424,7 +424,7 @@ export default function WalletMonitorPage() {
                   onClick={() => setTxPage((p) => p - 1)}
                   className="border-gray-600 text-gray-300 hover:bg-gray-700"
                 >
-                  Trang truoc
+                  Trang trước
                 </Button>
                 <span className="text-sm text-gray-400">
                   Trang {txPage}/{txTotalPages}

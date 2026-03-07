@@ -46,7 +46,7 @@ export function HotWalletCard({ data, isLoading }: Props) {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(data.address);
     setCopied(true);
-    toast.success('Da copy dia chi vi');
+    toast.success('Đã copy địa chỉ ví');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -61,13 +61,13 @@ export function HotWalletCard({ data, isLoading }: Props) {
       border: 'border-yellow-300',
       bg: 'bg-yellow-50',
       text: 'text-yellow-700',
-      label: `So du thap! Nap them AVAX de dam bao hoat dong. Nguong canh bao: < ${data.thresholds.warning} AVAX`,
+      label: `Số dư thấp! Nạp thêm AVAX để đảm bảo hoạt động. Ngưỡng cảnh báo: < ${data.thresholds.warning} AVAX`,
     },
     critical: {
       border: 'border-red-300',
       bg: 'bg-red-50',
       text: 'text-red-700',
-      label: `So du qua thap! He thong co the ngung chuyen AVAX. Nguong nguy hiem: < ${data.thresholds.critical} AVAX`,
+      label: `Số dư quá thấp! Hệ thống có thể ngừng chuyển AVAX. Ngưỡng nguy hiểm: < ${data.thresholds.critical} AVAX`,
     },
   };
 
@@ -113,7 +113,7 @@ export function HotWalletCard({ data, isLoading }: Props) {
         <div className={`rounded-lg p-4 ${cfg.bg}`}>
           <div className="flex items-center gap-2 mb-1">
             <Wallet className={`h-4 w-4 ${cfg.text}`} />
-            <span className="text-sm text-gray-500">So du hien tai</span>
+            <span className="text-sm text-gray-500">Số dư hiện tại</span>
           </div>
           <p className={`text-2xl font-bold ${cfg.text}`}>{data.balanceAvax} AVAX</p>
           <p className="text-sm text-gray-500">≈ ${data.balanceUsd.toFixed(2)}</p>
@@ -123,22 +123,22 @@ export function HotWalletCard({ data, isLoading }: Props) {
         <div className="rounded-lg bg-blue-50 p-4">
           <div className="flex items-center gap-2 mb-1">
             <ArrowUpRight className="h-4 w-4 text-blue-600" />
-            <span className="text-sm text-gray-500">Da chuyen</span>
+            <span className="text-sm text-gray-500">Đã chuyển</span>
           </div>
           <p className="text-2xl font-bold text-blue-700">
             {data.totalTransferredAvax.toFixed(2)} AVAX
           </p>
-          <p className="text-sm text-gray-500">{data.totalCompletedTx} giao dich</p>
+          <p className="text-sm text-gray-500">{data.totalCompletedTx} giao dịch</p>
         </div>
 
         {/* Failed */}
         <div className="rounded-lg bg-red-50 p-4">
           <div className="flex items-center gap-2 mb-1">
             <XCircle className="h-4 w-4 text-red-600" />
-            <span className="text-sm text-gray-500">That bai</span>
+            <span className="text-sm text-gray-500">Thất bại</span>
           </div>
           <p className="text-2xl font-bold text-red-700">{data.totalFailedTx}</p>
-          <p className="text-sm text-gray-500">giao dich</p>
+          <p className="text-sm text-gray-500">giao dịch</p>
         </div>
       </div>
 
@@ -152,7 +152,7 @@ export function HotWalletCard({ data, isLoading }: Props) {
               onClick={handleCopy}
               className={`text-xs underline mt-1 ${cfg.text} hover:opacity-80`}
             >
-              Copy dia chi de nap them
+              Copy địa chỉ để nạp thêm
             </button>
           </div>
         </div>
@@ -161,7 +161,7 @@ export function HotWalletCard({ data, isLoading }: Props) {
       {/* AVAX Price */}
       <div className="mt-3 flex items-center gap-2 text-xs text-gray-400">
         <RefreshCw className="h-3 w-3" />
-        <span>Gia AVAX: ${data.avaxPriceUsd.toFixed(2)}</span>
+        <span>Giá AVAX: ${data.avaxPriceUsd.toFixed(2)}</span>
       </div>
     </div>
   );

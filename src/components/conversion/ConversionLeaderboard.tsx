@@ -30,11 +30,11 @@ export function ConversionLeaderboard({ entries, isLoading, onUserClick }: Props
       <div className="flex items-center justify-between border-b px-4 py-3">
         <p className="font-medium">Top Converters</p>
         <Link to="/conversion/list" className="text-sm text-green-600 hover:text-green-700">
-          Xem them →
+          Xem thêm →
         </Link>
       </div>
       {entries.length === 0 ? (
-        <div className="p-8 text-center text-gray-500">Chua co du lieu</div>
+        <div className="p-8 text-center text-gray-500">Chưa có dữ liệu</div>
       ) : (
         <div className="divide-y">
           {entries.map((entry, idx) => (

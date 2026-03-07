@@ -189,9 +189,9 @@ export default function DeliveryAdminPage() {
         ) : claimedSlots.length === 0 ? (
           <div className="rounded-lg border border-dashed p-8 text-center text-gray-500">
             <Package className="mx-auto mb-2 h-8 w-8 opacity-50" />
-            <p>Chua co don dang ky nhan qua nao.</p>
+            <p>Chưa có đơn đăng ký nhận quà nào.</p>
             <p className="text-sm mt-1">
-              Nguoi dung VIP can vao Vuon Cua Toi va bam Nhan qua truoc.
+              Người dùng VIP cần vào Vườn Của Tôi và bấm Nhận quà trước.
             </p>
           </div>
         ) : (

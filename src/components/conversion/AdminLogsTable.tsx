@@ -20,13 +20,13 @@ const ACTION_CONFIG: Record<
   string,
   { label: string; variant: 'destructive' | 'success' | 'secondary' | 'warning' | 'info' }
 > = {
-  freeze_user: { label: 'Khoa user', variant: 'destructive' },
-  unfreeze_user: { label: 'Mo khoa user', variant: 'success' },
-  freeze_system: { label: 'Tat he thong', variant: 'destructive' },
-  unfreeze_system: { label: 'Bat he thong', variant: 'success' },
+  freeze_user: { label: 'Khóa user', variant: 'destructive' },
+  unfreeze_user: { label: 'Mở khóa user', variant: 'success' },
+  freeze_system: { label: 'Tắt hệ thống', variant: 'destructive' },
+  unfreeze_system: { label: 'Bật hệ thống', variant: 'success' },
   dismiss_alert: { label: 'Dismiss alert', variant: 'secondary' },
   escalate_alert: { label: 'Escalate alert', variant: 'warning' },
-  manual_alert_scan: { label: 'Scan thu cong', variant: 'info' },
+  manual_alert_scan: { label: 'Scan thủ công', variant: 'info' },
 };
 
 export function AdminLogsTable({ logs, isLoading }: Props) {
@@ -37,11 +37,11 @@ export function AdminLogsTable({ logs, isLoading }: Props) {
           <TableHeader>
             <TableRow>
               <TableHead>Admin</TableHead>
-              <TableHead>Hanh dong</TableHead>
-              <TableHead>Doi tuong</TableHead>
-              <TableHead>Ly do</TableHead>
+              <TableHead>Hành động</TableHead>
+              <TableHead>Đối tượng</TableHead>
+              <TableHead>Lý do</TableHead>
               <TableHead>IP</TableHead>
-              <TableHead>Thoi gian</TableHead>
+              <TableHead>Thời gian</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -63,7 +63,7 @@ export function AdminLogsTable({ logs, isLoading }: Props) {
   if (logs.length === 0) {
     return (
       <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-        Chua co lich su hanh dong nao
+        Chưa có lịch sử hành động nào
       </div>
     );
   }
@@ -74,11 +74,11 @@ export function AdminLogsTable({ logs, isLoading }: Props) {
         <TableHeader>
           <TableRow>
             <TableHead>Admin</TableHead>
-            <TableHead>Hanh dong</TableHead>
-            <TableHead>Doi tuong</TableHead>
-            <TableHead>Ly do</TableHead>
+            <TableHead>Hành động</TableHead>
+            <TableHead>Đối tượng</TableHead>
+            <TableHead>Lý do</TableHead>
             <TableHead>IP</TableHead>
-            <TableHead>Thoi gian</TableHead>
+            <TableHead>Thời gian</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

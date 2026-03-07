@@ -125,7 +125,7 @@ export function useAuth() {
             });
             return {
               success: false,
-              error: 'Ban khong co quyen truy cap trang quan tri. Chi danh cho Admin va Editor.',
+              error: 'Bạn không có quyền truy cập trang quản trị. Chỉ dành cho Admin và Editor.',
             };
           }
 

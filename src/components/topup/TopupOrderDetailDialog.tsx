@@ -67,7 +67,7 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
       <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Chi tiet Order
+            Chi tiết Order
             <Badge variant={TOPUP_STATUS_VARIANTS[order.status]}>
               {TOPUP_STATUS_LABELS[order.status]}
             </Badge>
@@ -77,25 +77,25 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
         <div className="space-y-4">
           {/* User Info */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Thong tin user</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Thông tin user</h4>
             <div className="rounded border p-3">
               <DetailRow label="User ID" value={order.userId} mono />
-              <DetailRow label="Ten" value={order.userName} />
+              <DetailRow label="Tên" value={order.userName} />
               <DetailRow label="Email" value={order.userEmail} />
             </div>
           </div>
 
           {/* Package Info */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Goi nap</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">Gói nạp</h4>
             <div className="rounded border p-3">
-              <DetailRow label="Goi" value={order.packageId} />
+              <DetailRow label="Gói" value={order.packageId} />
               <DetailRow label="AVAX" value={`${order.avaxAmount} AVAX`} />
               <DetailRow label="USD" value={`$${((order.fiatAmountUsd ?? 0) / 100).toFixed(2)}`} />
               {order.fiatAmountVnd != null && (
                 <DetailRow label="VND" value={`${order.fiatAmountVnd.toLocaleString('vi-VN')}d`} />
               )}
-              <DetailRow label="Gia AVAX luc mua" value={`$${order.avaxPriceUsd}`} />
+              <DetailRow label="Giá AVAX lúc mua" value={`$${order.avaxPriceUsd}`} />
             </div>
           </div>
 
@@ -141,7 +141,7 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
                   >
-                    Xem tren Snowtrace
+                    Xem trên Snowtrace
                     <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
@@ -153,13 +153,13 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
           <div>
             <h4 className="text-sm font-semibold text-gray-700 mb-2">Timeline</h4>
             <div className="rounded border p-3 space-y-2">
-              <TimelineItem label="Tao order" time={order.createdAt} active={!!order.createdAt} />
+              <TimelineItem label="Tạo order" time={order.createdAt} active={!!order.createdAt} />
               <TimelineItem
-                label="Hoan thanh"
+                label="Hoàn thành"
                 time={order.completedAt}
                 active={!!order.completedAt}
               />
-              <TimelineItem label="Cap nhat" time={order.updatedAt} active={!!order.updatedAt} />
+              <TimelineItem label="Cập nhật" time={order.updatedAt} active={!!order.updatedAt} />
             </div>
           </div>
 
@@ -168,7 +168,7 @@ export function TopupOrderDetailDialog({ order, open, onClose, onRetry, retrying
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="outline" onClick={() => onRetry(order)} disabled={retrying}>
                 <RotateCw className={`mr-2 h-4 w-4 ${retrying ? 'animate-spin' : ''}`} />
-                {retrying ? 'Dang retry...' : 'Retry chuyen AVAX'}
+                {retrying ? 'Đang retry...' : 'Retry chuyển AVAX'}
               </Button>
             </div>
           )}

@@ -42,6 +42,7 @@ import {
   Users,
   TrendingUp,
   Trophy,
+  Inbox,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -165,7 +166,7 @@ export default function AuctionAdminPage() {
 
   const handleCreate = () => {
     if (!form.name || !form.startTime || !form.endTime) {
-      toast.error('Vui long dien day du thong tin');
+      toast.error('Vui lòng điền đầy đủ thông tin');
       return;
     }
     createSession.mutate(form, {
@@ -213,7 +214,7 @@ export default function AuctionAdminPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Gavel className="h-7 w-7 text-amber-500" />
-          <h1 className="text-2xl font-bold">Quan ly Dau Gia</h1>
+          <h1 className="text-2xl font-bold">Quản lý Đấu Giá</h1>
         </div>
       </div>
 
@@ -252,7 +253,7 @@ export default function AuctionAdminPage() {
         <TabsList>
           <TabsTrigger value="sessions">Sessions ({sessions.length})</TabsTrigger>
           <TabsTrigger value="queue">Queue ({queueItems.length})</TabsTrigger>
-          <TabsTrigger value="history">Lich su ({endedSessions.length})</TabsTrigger>
+          <TabsTrigger value="history">Lịch sử ({endedSessions.length})</TabsTrigger>
         </TabsList>
 
         {/* ======================== SESSIONS TAB ======================== */}
@@ -261,16 +262,16 @@ export default function AuctionAdminPage() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
-                Tao phien moi
+                Tạo phiên mới
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>Tao phien dau gia</DialogTitle>
+                <DialogTitle>Tạo phiên đấu giá</DialogTitle>
               </DialogHeader>
               <div className="space-y-3">
                 <div>
-                  <Label>Ten phien</Label>
+                  <Label>Tên phiên</Label>
                   <Input
                     placeholder="Flash Friday 20:00"
                     value={form.name}
@@ -278,7 +279,7 @@ export default function AuctionAdminPage() {
                   />
                 </div>
                 <div>
-                  <Label>Bat dau</Label>
+                  <Label>Bắt đầu</Label>
                   <Input
                     type="datetime-local"
                     value={form.startTime}
@@ -286,7 +287,7 @@ export default function AuctionAdminPage() {
                   />
                 </div>
                 <div>
-                  <Label>Ket thuc</Label>
+                  <Label>Kết thúc</Label>
                   <Input
                     type="datetime-local"
                     value={form.endTime}
@@ -295,7 +296,7 @@ export default function AuctionAdminPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label>Thoi luong (phut)</Label>
+                    <Label>Thời lượng (phút)</Label>
                     <Input
                       type="number"
                       value={form.durationMinutes}
@@ -316,7 +317,7 @@ export default function AuctionAdminPage() {
                   disabled={createSession.isPending}
                   className="w-full"
                 >
-                  {createSession.isPending ? 'Dang tao...' : 'Tao phien'}
+                  {createSession.isPending ? 'Đang tạo...' : 'Tạo phiên'}
                 </Button>
               </div>
             </DialogContent>
@@ -325,13 +326,13 @@ export default function AuctionAdminPage() {
           {sessionsLoading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <RefreshCw className="h-4 w-4 animate-spin" />
-              Dang tai...
+              Đang tải...
             </div>
           ) : sessions.length === 0 ? (
             <Card>
-              <CardContent className="py-12 text-center text-muted-foreground">
-                Chua co phien nao. Bam "Tao phien moi" de bat dau.
-              </CardContent>
+              <div className="p-8 text-center text-gray-500 border border-dashed border-gray-300 rounded-lg">
+                Chưa có phiên nào. Bấm "Tạo phiên mới" để bắt đầu.
+              </div>
             </Card>
           ) : (
             sessions.map((session) => (
@@ -345,7 +346,7 @@ export default function AuctionAdminPage() {
                 <CardContent className="space-y-3">
                   <div className="text-sm text-muted-foreground">
                     <p>
-                      {session.duration_minutes} phut | Slots: {session.slot_count} | Auctions:{' '}
+                      {session.duration_minutes} phút | Slots: {session.slot_count} | Auctions:{' '}
                       {session.auction_count ?? 0} (active: {session.active_auctions ?? 0})
                     </p>
                     <p>
@@ -361,23 +362,23 @@ export default function AuctionAdminPage() {
                         onClick={() => openSpotlightPicker(session.id)}
                       >
                         <Star className="mr-1 h-4 w-4" />
-                        Chon Spotlight
+                        Chọn Spotlight
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          if (confirm('Gan tat ca NFT con lai vao phien phu?'))
+                          if (confirm('Gán tất cả NFT còn lại vào phiên phụ?'))
                             assignSides.mutate(session.id);
                         }}
                       >
                         <Tag className="mr-1 h-4 w-4" />
-                        Gan Side
+                        Gán Side
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => {
-                          if (confirm('Activate phien ngay? Dau gia se bat dau.'))
+                          if (confirm('Activate phiên ngay? Đấu giá sẽ bắt đầu.'))
                             activateSession.mutate(session.id);
                         }}
                       >
@@ -388,18 +389,18 @@ export default function AuctionAdminPage() {
                         size="sm"
                         variant="destructive"
                         onClick={() => {
-                          if (confirm('Huy phien nay?')) cancelSession.mutate(session.id);
+                          if (confirm('Hủy phiên này?')) cancelSession.mutate(session.id);
                         }}
                       >
                         <XCircle className="mr-1 h-4 w-4" />
-                        Huy
+                        Hủy
                       </Button>
                     </div>
                   )}
 
                   {session.status === 'active' && (
                     <Badge variant="success" className="animate-pulse">
-                      Dang dien ra
+                      Đang diễn ra
                     </Badge>
                   )}
                 </CardContent>
@@ -413,12 +414,12 @@ export default function AuctionAdminPage() {
           {queueLoading ? (
             <div className="flex items-center gap-2 text-muted-foreground">
               <RefreshCw className="h-4 w-4 animate-spin" />
-              Dang tai...
+              Đang tải...
             </div>
           ) : queueItems.length === 0 ? (
             <Card>
               <CardContent className="py-12 text-center text-muted-foreground">
-                Hang cho trong. Seller chua gui NFT nao.
+                Hàng chờ trống. Seller chưa gửi NFT nào.
               </CardContent>
             </Card>
           ) : (
@@ -460,7 +461,7 @@ export default function AuctionAdminPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Gavel className="h-4 w-4" />
-                    <p className="text-sm">Tong phien</p>
+                    <p className="text-sm">Tổng phiên</p>
                   </div>
                   <p className="mt-1 text-2xl font-bold">{detailedStats.total_sessions ?? 0}</p>
                 </CardContent>
@@ -469,11 +470,11 @@ export default function AuctionAdminPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="h-4 w-4" />
-                    <p className="text-sm">Tong auctions</p>
+                    <p className="text-sm">Tổng auctions</p>
                   </div>
                   <p className="mt-1 text-2xl font-bold">{detailedStats.total_auctions ?? 0}</p>
                   <p className="text-xs text-muted-foreground">
-                    {detailedStats.ended_auctions ?? 0} da ket thuc
+                    {detailedStats.ended_auctions ?? 0} đã kết thúc
                   </p>
                 </CardContent>
               </Card>
@@ -481,7 +482,7 @@ export default function AuctionAdminPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Users className="h-4 w-4" />
-                    <p className="text-sm">Tong bids</p>
+                    <p className="text-sm">Tổng bids</p>
                   </div>
                   <p className="mt-1 text-2xl font-bold">{detailedStats.total_bids ?? 0}</p>
                   <p className="text-xs text-muted-foreground">
@@ -508,13 +509,13 @@ export default function AuctionAdminPage() {
 
           {/* Ended sessions list */}
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold">Phien da ket thuc ({endedSessions.length})</h3>
+            <h3 className="text-lg font-semibold">Phiên đã kết thúc ({endedSessions.length})</h3>
 
             {endedSessions.length === 0 ? (
               <Card>
-                <CardContent className="py-8 text-center text-muted-foreground">
-                  Chua co phien nao ket thuc.
-                </CardContent>
+                <div className="col-span-full py-8 text-center text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                  Chưa có phiên nào kết thúc.
+                </div>
               </Card>
             ) : (
               endedSessions.map((session) => (
@@ -533,14 +534,14 @@ export default function AuctionAdminPage() {
                           <ChevronRight className="h-4 w-4" />
                         )}
                         <CardTitle className="text-base">{session.name}</CardTitle>
-                        <Badge variant="secondary">Ket thuc</Badge>
+                        <Badge variant="secondary">Kết thúc</Badge>
                       </div>
                       <div className="flex items-center gap-3 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           {formatDate(session.start_time)}
                         </span>
-                        <span>{session.duration_minutes} phut</span>
+                        <span>{session.duration_minutes} phút</span>
                         <span>{session.auction_count ?? 0} auctions</span>
                       </div>
                     </div>
@@ -551,11 +552,11 @@ export default function AuctionAdminPage() {
                       {/* Session config */}
                       <div className="grid grid-cols-3 gap-3 text-sm">
                         <div className="rounded bg-muted/30 p-2">
-                          <p className="text-muted-foreground">Bat dau</p>
+                          <p className="text-muted-foreground">Bắt đầu</p>
                           <p className="font-medium">{formatDate(session.start_time)}</p>
                         </div>
                         <div className="rounded bg-muted/30 p-2">
-                          <p className="text-muted-foreground">Ket thuc</p>
+                          <p className="text-muted-foreground">Kết thúc</p>
                           <p className="font-medium">{formatDate(session.end_time)}</p>
                         </div>
                         <div className="rounded bg-muted/30 p-2">
@@ -568,15 +569,18 @@ export default function AuctionAdminPage() {
 
                       {/* Auctions in session */}
                       <div className="space-y-2">
-                        <h4 className="text-sm font-semibold">Auctions trong phien</h4>
+                        <h4 className="text-sm font-semibold">Auctions trong phiên</h4>
 
                         {auctionsLoading ? (
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <RefreshCw className="h-3 w-3 animate-spin" />
-                            Dang tai...
+                            Đang tải...
                           </div>
                         ) : !sessionAuctions || sessionAuctions.length === 0 ? (
-                          <p className="text-sm text-muted-foreground">Khong co auction nao.</p>
+                          <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
+                            <Inbox className="mb-2 h-8 w-8 text-gray-400" />
+                            <p className="text-sm text-muted-foreground">Không có auction nào.</p>
+                          </div>
                         ) : (
                           sessionAuctions.map((auction: any) => (
                             <Card key={auction.id} className="bg-muted/20">
@@ -622,7 +626,7 @@ export default function AuctionAdminPage() {
                                   className="mt-2 text-xs text-primary hover:underline"
                                 >
                                   {expandedAuction === auction.id
-                                    ? 'An bid summary'
+                                    ? 'Ẩn bid summary'
                                     : 'Xem bid summary'}
                                 </button>
 
@@ -688,14 +692,14 @@ export default function AuctionAdminPage() {
           <DialogHeader>
             <DialogTitle>
               <Star className="mr-2 inline h-5 w-5 text-amber-500" />
-              Chon Spotlight NFTs
+              Chọn Spotlight NFTs
             </DialogTitle>
           </DialogHeader>
 
           {/* Suggestions */}
           {suggestionsRes && (
             <div className="mb-4 space-y-2">
-              <p className="text-sm font-medium">Goi y (gia cao nhat):</p>
+              <p className="text-sm font-medium">Gợi ý (giá cao nhất):</p>
               <div className="flex flex-wrap gap-2">
                 {(suggestionsRes?.byPrice || []).slice(0, 3).map((s: any) => {
                   const q = s.queue || s;
@@ -716,11 +720,11 @@ export default function AuctionAdminPage() {
 
           {/* Queue list */}
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">Da chon: {selectedSpotlights.length}</p>
+            <p className="text-sm text-muted-foreground">Đã chọn: {selectedSpotlights.length}</p>
             {queuedItems.length === 0 ? (
-              <p className="py-4 text-center text-sm text-muted-foreground">
-                Khong co NFT nao dang cho
-              </p>
+              <div className="p-12 text-center text-gray-500 border border-dashed rounded-lg bg-gray-50 flex flex-col items-center justify-center">
+                Không có NFT nào đang chờ
+              </div>
             ) : (
               queuedItems.map((item) => {
                 const q = item.queue || (item as any);
@@ -756,8 +760,8 @@ export default function AuctionAdminPage() {
             className="w-full"
           >
             {assignSpotlights.isPending
-              ? 'Dang gan...'
-              : `Gan ${selectedSpotlights.length} Spotlight`}
+              ? 'Đang gán...'
+              : `Gán ${selectedSpotlights.length} Spotlight`}
           </Button>
         </DialogContent>
       </Dialog>

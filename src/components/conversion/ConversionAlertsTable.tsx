@@ -41,23 +41,23 @@ const SEVERITY_CONFIG: Record<
 };
 
 const ALERT_TYPE_LABELS: Record<string, string> = {
-  velocity_alert: 'Toc do cao',
-  whale_alert: 'Ca voi',
-  spike_alert: 'Dot bien',
-  new_user_burst: 'User moi',
-  round_trip_alert: 'Vong tron',
-  balance_mismatch: 'Lech balance',
-  multi_ip_alert: 'Da IP',
-  failed_burst_alert: 'Spam that bai',
+  velocity_alert: 'Tốc độ cao',
+  whale_alert: 'Cá voi',
+  spike_alert: 'Đột biến',
+  new_user_burst: 'User mới',
+  round_trip_alert: 'Vòng tròn',
+  balance_mismatch: 'Lệch balance',
+  multi_ip_alert: 'Đa IP',
+  failed_burst_alert: 'Spam thất bại',
 };
 
 const STATUS_CONFIG: Record<
   string,
   { label: string; variant: 'warning' | 'secondary' | 'destructive' }
 > = {
-  open: { label: 'Mo', variant: 'warning' },
-  dismissed: { label: 'Da dismiss', variant: 'secondary' },
-  escalated: { label: 'Da escalate', variant: 'destructive' },
+  open: { label: 'Mở', variant: 'warning' },
+  dismissed: { label: 'Đã dismiss', variant: 'secondary' },
+  escalated: { label: 'Đã escalate', variant: 'destructive' },
 };
 
 export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props) {
@@ -72,21 +72,21 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
 
   const handleAction = async () => {
     if (!actionDialog || note.length < 3) {
-      toast.error('Ghi chu phai co it nhat 3 ky tu');
+      toast.error('Ghi chú phải có ít nhất 3 ký tự');
       return;
     }
     try {
       if (actionDialog.type === 'dismiss') {
         await dismissAlert.mutateAsync({ alertId: actionDialog.alertId, note });
-        toast.success('Alert da duoc dismiss');
+        toast.success('Alert đã được dismiss');
       } else {
         await escalateAlert.mutateAsync({ alertId: actionDialog.alertId, note });
-        toast.success('Alert da duoc escalate');
+        toast.success('Alert đã được escalate');
       }
       setActionDialog(null);
       setNote('');
     } catch {
-      toast.error('Thao tac that bai');
+      toast.error('Thao tác thất bại');
     }
   };
 
@@ -96,13 +96,13 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Muc do</TableHead>
-              <TableHead>Loai</TableHead>
-              <TableHead>Tieu de</TableHead>
+              <TableHead>Mức độ</TableHead>
+              <TableHead>Loại</TableHead>
+              <TableHead>Tiêu đề</TableHead>
               <TableHead>User</TableHead>
-              <TableHead>Thoi gian</TableHead>
-              <TableHead>Trang thai</TableHead>
-              <TableHead>Hanh dong</TableHead>
+              <TableHead>Thời gian</TableHead>
+              <TableHead>Trạng thái</TableHead>
+              <TableHead>Hành động</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -124,7 +124,7 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
   if (alerts.length === 0) {
     return (
       <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-        Khong co canh bao nao
+        Không có cảnh báo nào
       </div>
     );
   }
@@ -135,13 +135,13 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Muc do</TableHead>
-              <TableHead>Loai</TableHead>
-              <TableHead>Tieu de</TableHead>
+              <TableHead>Mức độ</TableHead>
+              <TableHead>Loại</TableHead>
+              <TableHead>Tiêu đề</TableHead>
               <TableHead>User</TableHead>
-              <TableHead>Thoi gian</TableHead>
-              <TableHead>Trang thai</TableHead>
-              <TableHead>Hanh dong</TableHead>
+              <TableHead>Thời gian</TableHead>
+              <TableHead>Trạng thái</TableHead>
+              <TableHead>Hành động</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -222,15 +222,15 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
             </DialogTitle>
             <DialogDescription>
               {actionDialog?.type === 'dismiss'
-                ? 'Danh dau alert nay da xu ly xong.'
-                : 'Chuyen alert nay len cap cao hon de xu ly.'}
+                ? 'Đánh dấu alert này đã xử lý xong.'
+                : 'Chuyển alert này lên cấp cao hơn để xử lý.'}
             </DialogDescription>
           </DialogHeader>
           <div>
-            <label className="text-sm font-medium">Ghi chu</label>
+            <label className="text-sm font-medium">Ghi chú</label>
             <Input
               className="mt-1"
-              placeholder="Nhap ghi chu..."
+              placeholder="Nhập ghi chú..."
               value={note}
               onChange={(e) => setNote(e.target.value)}
             />
@@ -243,13 +243,13 @@ export function ConversionAlertsTable({ alerts, isLoading, onUserClick }: Props)
                 setNote('');
               }}
             >
-              Huy
+              Hủy
             </Button>
             <Button
               onClick={handleAction}
               disabled={dismissAlert.isPending || escalateAlert.isPending || note.length < 3}
             >
-              {dismissAlert.isPending || escalateAlert.isPending ? 'Dang xu ly...' : 'Xac nhan'}
+              {dismissAlert.isPending || escalateAlert.isPending ? 'Đang xử lý...' : 'Xác nhận'}
             </Button>
           </DialogFooter>
         </DialogContent>

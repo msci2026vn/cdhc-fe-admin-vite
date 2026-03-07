@@ -1,5 +1,3 @@
-
-
 import { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Suspense } from 'react';
@@ -23,9 +21,9 @@ function UserDetailContent() {
   if (!id) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Khong tim thay ID thanh vien</p>
+        <p className="text-gray-500">Không tìm thấy ID thành viên</p>
         <Button asChild className="mt-4">
-          <Link to="/users">Quay lai danh sach</Link>
+          <Link to="/users">Quay lại danh sách</Link>
         </Button>
       </div>
     );
@@ -51,9 +49,9 @@ function UserDetailContent() {
   if (error || !data?.success || !data.data) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Khong tim thay thanh vien</p>
+        <p className="text-gray-500">Không tìm thấy thành viên</p>
         <Button asChild className="mt-4">
-          <Link to="/users">Quay lai danh sach</Link>
+          <Link to="/users">Quay lại danh sách</Link>
         </Button>
       </div>
     );
@@ -70,7 +68,7 @@ function UserDetailContent() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold">Chi tiet thanh vien</h1>
+          <h1 className="text-2xl font-bold">Chi tiết thành viên</h1>
           <p className="text-gray-500">{user.email}</p>
         </div>
       </div>
@@ -79,7 +77,7 @@ function UserDetailContent() {
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Thong tin co ban</CardTitle>
+              <CardTitle>Thông tin cơ bản</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-start gap-6">
@@ -90,15 +88,11 @@ function UserDetailContent() {
                 </Avatar>
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-semibold">
-                      {user.name || 'Chua cap nhat'}
-                    </h2>
+                    <h2 className="text-xl font-semibold">{user.name || 'Chưa cập nhật'}</h2>
                     <Badge className={STATUS_COLORS[user.status]}>
                       {STATUS_LABELS[user.status]}
                     </Badge>
-                    <Badge variant="secondary">
-                      {ROLE_LABELS[user.role] || user.role}
-                    </Badge>
+                    <Badge variant="secondary">{ROLE_LABELS[user.role] || user.role}</Badge>
                   </div>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -109,9 +103,7 @@ function UserDetailContent() {
                     {(!isEditor() || user.phone) && (
                       <div className="flex items-center gap-2 text-gray-600">
                         <Phone className="h-4 w-4" />
-                        <span>
-                          {isEditor() ? '***' : (user.phone || 'Chua cap nhat')}
-                        </span>
+                        <span>{isEditor() ? '***' : user.phone || 'Chưa cập nhật'}</span>
                       </div>
                     )}
                     {profile?.province && (
@@ -125,7 +117,7 @@ function UserDetailContent() {
                     )}
                     <div className="flex items-center gap-2 text-gray-600">
                       <Calendar className="h-4 w-4" />
-                      <span>Dang ky: {formatDate(user.createdAt)}</span>
+                      <span>Đăng ký: {formatDate(user.createdAt)}</span>
                     </div>
                   </div>
                 </div>
@@ -136,25 +128,25 @@ function UserDetailContent() {
           {profile && (
             <Card>
               <CardHeader>
-                <CardTitle>Thong tin chi tiet</CardTitle>
+                <CardTitle>Thông tin chi tiết</CardTitle>
               </CardHeader>
               <CardContent>
                 <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {profile.fullName && (
                     <div>
-                      <dt className="text-sm text-gray-500">Ho va ten</dt>
+                      <dt className="text-sm text-gray-500">Họ và tên</dt>
                       <dd className="font-medium">{profile.fullName}</dd>
                     </div>
                   )}
                   {profile.farmSize && (
                     <div>
-                      <dt className="text-sm text-gray-500">Dien tich</dt>
+                      <dt className="text-sm text-gray-500">Diện tích</dt>
                       <dd className="font-medium">{profile.farmSize}</dd>
                     </div>
                   )}
                   {profile.mainProducts && profile.mainProducts.length > 0 && (
                     <div className="sm:col-span-2">
-                      <dt className="text-sm text-gray-500">San pham chinh</dt>
+                      <dt className="text-sm text-gray-500">Sản phẩm chính</dt>
                       <dd className="mt-1 flex flex-wrap gap-2">
                         {profile.mainProducts.map((product, i) => (
                           <Badge key={i} variant="outline">
@@ -166,13 +158,13 @@ function UserDetailContent() {
                   )}
                   {profile.department && (
                     <div>
-                      <dt className="text-sm text-gray-500">Phong ban</dt>
+                      <dt className="text-sm text-gray-500">Phòng ban</dt>
                       <dd className="font-medium">{profile.department}</dd>
                     </div>
                   )}
                   {profile.position && (
                     <div>
-                      <dt className="text-sm text-gray-500">Chuc vu</dt>
+                      <dt className="text-sm text-gray-500">Chức vụ</dt>
                       <dd className="font-medium">{profile.position}</dd>
                     </div>
                   )}
@@ -185,31 +177,27 @@ function UserDetailContent() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Hoat dong</CardTitle>
+              <CardTitle>Hoạt động</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-600">
                   <Clock className="h-4 w-4" />
-                  <span className="text-sm">Dang nhap cuoi</span>
+                  <span className="text-sm">Đăng nhập cuối</span>
                 </div>
-                <span className="text-sm font-medium">
-                  {formatDate(user.lastLoginAt)}
-                </span>
+                <span className="text-sm font-medium">{formatDate(user.lastLoginAt)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-600">
                   <Clock className="h-4 w-4" />
-                  <span className="text-sm">Hoat dong cuoi</span>
+                  <span className="text-sm">Hoạt động cuối</span>
                 </div>
-                <span className="text-sm font-medium">
-                  {formatDate(user.lastActiveAt)}
-                </span>
+                <span className="text-sm font-medium">{formatDate(user.lastActiveAt)}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Trang thai</span>
+                <span className="text-sm text-gray-600">Trạng thái</span>
                 <Badge variant={user.isActive ? 'success' : 'secondary'}>
-                  {user.isActive ? 'Dang hoat dong' : 'Khong hoat dong'}
+                  {user.isActive ? 'Đang hoạt động' : 'Không hoạt động'}
                 </Badge>
               </div>
             </CardContent>
@@ -218,34 +206,30 @@ function UserDetailContent() {
           {(user.approvedAt || user.rejectedAt || user.suspendedAt) && (
             <Card>
               <CardHeader>
-                <CardTitle>Lich su trang thai</CardTitle>
+                <CardTitle>Lịch sử trạng thái</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {user.approvedAt && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Duyet luc: </span>
+                    <span className="text-gray-500">Duyệt lúc: </span>
                     <span className="font-medium">{formatDate(user.approvedAt)}</span>
                   </div>
                 )}
                 {user.rejectedAt && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Tu choi luc: </span>
+                    <span className="text-gray-500">Từ chối lúc: </span>
                     <span className="font-medium">{formatDate(user.rejectedAt)}</span>
                     {user.rejectionReason && (
-                      <p className="mt-1 text-red-600">
-                        Ly do: {user.rejectionReason}
-                      </p>
+                      <p className="mt-1 text-red-600">Lý do: {user.rejectionReason}</p>
                     )}
                   </div>
                 )}
                 {user.suspendedAt && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Dinh chi luc: </span>
+                    <span className="text-gray-500">Đình chỉ lúc: </span>
                     <span className="font-medium">{formatDate(user.suspendedAt)}</span>
                     {user.suspensionReason && (
-                      <p className="mt-1 text-yellow-600">
-                        Ly do: {user.suspensionReason}
-                      </p>
+                      <p className="mt-1 text-yellow-600">Lý do: {user.suspensionReason}</p>
                     )}
                   </div>
                 )}
@@ -260,20 +244,22 @@ function UserDetailContent() {
 
 export default function UserDetailPage() {
   return (
-    <Suspense fallback={
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-10 w-10" />
-          <Skeleton className="h-8 w-48" />
-        </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <Skeleton className="h-[400px]" />
+    <Suspense
+      fallback={
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-10 w-10" />
+            <Skeleton className="h-8 w-48" />
           </div>
-          <Skeleton className="h-[300px]" />
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <Skeleton className="h-[400px]" />
+            </div>
+            <Skeleton className="h-[300px]" />
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <UserDetailContent />
     </Suspense>
   );

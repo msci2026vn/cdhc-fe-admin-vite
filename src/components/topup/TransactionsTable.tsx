@@ -41,11 +41,11 @@ function formatTime(date: string) {
 }
 
 const STATUS_FILTERS = [
-  { value: 'all', label: 'Tat ca' },
-  { value: 'completed', label: 'Hoan thanh' },
-  { value: 'failed', label: 'That bai' },
-  { value: 'transferring', label: 'Dang chuyen' },
-  { value: 'paid', label: 'Da thanh toan' },
+  { value: 'all', label: 'Tất cả' },
+  { value: 'completed', label: 'Hoàn thành' },
+  { value: 'failed', label: 'Thất bại' },
+  { value: 'transferring', label: 'Đang chuyển' },
+  { value: 'paid', label: 'Đã thanh toán' },
 ];
 
 export function TransactionsTable() {
@@ -67,12 +67,12 @@ export function TransactionsTable() {
     try {
       const result = await retryMutation.mutateAsync(orderId);
       if (result.success) {
-        toast.success('Retry thanh cong!');
+        toast.success('Retry thành công!');
       } else {
-        toast.error('Retry that bai');
+        toast.error('Retry thất bại');
       }
     } catch {
-      toast.error('Co loi xay ra khi retry');
+      toast.error('Có lỗi xảy ra khi retry');
     }
   };
 
@@ -80,7 +80,7 @@ export function TransactionsTable() {
     <div className="rounded-lg border bg-white">
       {/* Header + Filter */}
       <div className="flex items-center justify-between border-b px-4 py-3">
-        <h3 className="font-semibold">Lich su chuyen AVAX</h3>
+        <h3 className="font-semibold">Lịch sử chuyển AVAX</h3>
         <Select
           value={statusFilter}
           onValueChange={(v) => {
@@ -108,18 +108,18 @@ export function TransactionsTable() {
           ))}
         </div>
       ) : txs.length === 0 ? (
-        <div className="p-8 text-center text-gray-500 text-sm">Chua co giao dich nao</div>
+        <div className="p-8 text-center text-gray-500 text-sm">Chưa có giao dịch nào</div>
       ) : (
         <>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Thoi gian</TableHead>
+                <TableHead>Thời gian</TableHead>
                 <TableHead>User</TableHead>
                 <TableHead className="text-right">AVAX</TableHead>
                 <TableHead className="text-right">USD</TableHead>
                 <TableHead>TX Hash</TableHead>
-                <TableHead>Trang thai</TableHead>
+                <TableHead>Trạng thái</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -187,7 +187,7 @@ export function TransactionsTable() {
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between border-t px-4 py-3">
               <span className="text-xs text-gray-500">
-                Trang {pagination.page}/{pagination.totalPages} ({pagination.total} giao dich)
+                Trang {pagination.page}/{pagination.totalPages} ({pagination.total} giao dịch)
               </span>
               <div className="flex items-center gap-2">
                 <Button

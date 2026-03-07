@@ -47,20 +47,18 @@ export function ConversionRecentTable({ conversions, isLoading, onUserClick }: P
   return (
     <div className="rounded-lg border bg-white">
       <div className="flex items-center justify-between border-b px-4 py-3">
-        <p className="font-medium">Giao dich gan day</p>
+        <p className="font-medium">Giao dịch gần đây</p>
         <Link to="/conversion/list" className="text-sm text-green-600 hover:text-green-700">
-          Xem tat ca →
+          Xem tất cả →
         </Link>
       </div>
       {conversions.length === 0 ? (
-        <div className="p-8 text-center text-gray-500">Chua co giao dich nao</div>
+        <div className="p-8 text-center text-gray-500">Chưa có giao dịch nào</div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>User</TableHead>
-              <TableHead>Huong</TableHead>
-              <TableHead>Moc</TableHead>
               <TableHead>So luong</TableHead>
               <TableHead>Thoi gian</TableHead>
             </TableRow>

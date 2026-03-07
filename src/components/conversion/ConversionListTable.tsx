@@ -66,7 +66,7 @@ export function ConversionListTable({
   if (conversions.length === 0) {
     return (
       <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-        Khong co giao dich nao
+        Không có giao dịch nào
       </div>
     );
   }

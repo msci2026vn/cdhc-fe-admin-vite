@@ -525,7 +525,7 @@ export default function WalletAuditPage() {
             {txs.length === 0 ? (
               <Card>
                 <CardContent className="p-8 text-center text-gray-400">
-                  Chua co giao dich nao
+                  Chưa có giao dịch nào
                 </CardContent>
               </Card>
             ) : (

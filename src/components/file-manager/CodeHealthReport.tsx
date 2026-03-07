@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from 'react';
 import {
   Activity,
@@ -106,7 +104,8 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
           <div>
             <h3 className="font-semibold text-gray-200">Bao cao suc khoe Code</h3>
             <p className="text-xs text-gray-500">
-              {data.totalFiles} files - {data.totalLines.toLocaleString()} dong - {data.totalSizeFormatted}
+              {data.totalFiles} files - {data.totalLines.toLocaleString()} dong -{' '}
+              {data.totalSizeFormatted}
             </p>
           </div>
         </div>
@@ -150,7 +149,10 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
             className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
             title="Lam moi"
           >
-            <RefreshCw size={16} className={loading ? 'animate-spin text-green-400' : 'text-gray-500'} />
+            <RefreshCw
+              size={16}
+              className={loading ? 'animate-spin text-green-400' : 'text-gray-500'}
+            />
           </button>
 
           {expanded ? (
@@ -164,9 +166,7 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
       {/* Summary Stats */}
       <div className="grid grid-cols-4 gap-1 p-3 bg-gray-800/50 border-b border-gray-700">
         <div className="text-center px-2 py-2 bg-gray-800 rounded-lg">
-          <div className="text-lg font-bold text-gray-200">
-            {data.summary.avgLinesPerFile}
-          </div>
+          <div className="text-lg font-bold text-gray-200">{data.summary.avgLinesPerFile}</div>
           <div className="text-xs text-gray-500">TB dong/file</div>
         </div>
         <div className="text-center px-2 py-2 bg-gray-800 rounded-lg">
@@ -293,9 +293,7 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
                     key={ext}
                     className="px-3 py-2 bg-gray-800 rounded-lg border border-gray-700"
                   >
-                    <div className="font-mono text-sm font-medium text-gray-300">
-                      {ext}
-                    </div>
+                    <div className="font-mono text-sm font-medium text-gray-300">{ext}</div>
                     <div className="text-xs text-gray-500">
                       {info.count} files - {info.totalLines.toLocaleString()} dong
                     </div>
@@ -311,10 +309,8 @@ export function CodeHealthReport({ onSelectFile }: CodeHealthReportProps) {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-900/30 mb-4">
                 <TrendingUp size={32} className="text-green-400" />
               </div>
-              <p className="text-green-400 font-semibold text-lg">
-                Code dang duoc to chuc tot!
-              </p>
-              <p className="text-sm text-gray-500 mt-1">Khong co file nao can toi uu</p>
+              <p className="text-green-400 font-semibold text-lg">File Sizes OK</p>
+              <p className="text-sm text-gray-500 mt-1">Không có file nào cần tối ưu</p>
             </div>
           )}
         </div>

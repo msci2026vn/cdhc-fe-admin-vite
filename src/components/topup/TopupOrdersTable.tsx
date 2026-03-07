@@ -50,12 +50,12 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
             <TableRow>
               <TableHead className="w-10">#</TableHead>
               <TableHead>User</TableHead>
-              <TableHead>Goi</TableHead>
+              <TableHead>Gói</TableHead>
               <TableHead>AVAX</TableHead>
               <TableHead>USD</TableHead>
-              <TableHead>Thanh toan</TableHead>
-              <TableHead>Trang thai</TableHead>
-              <TableHead>Thoi gian</TableHead>
+              <TableHead>Thanh toán</TableHead>
+              <TableHead>Trạng thái</TableHead>
+              <TableHead>Thời gian</TableHead>
               <TableHead className="w-20" />
             </TableRow>
           </TableHeader>
@@ -78,7 +78,7 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
   if (orders.length === 0) {
     return (
       <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-        Khong co order nao
+        Không có order nào
       </div>
     );
   }
@@ -90,12 +90,12 @@ export function TopupOrdersTable({ orders, isLoading, onViewDetail, onRetry }: P
           <TableRow>
             <TableHead className="w-10">#</TableHead>
             <TableHead>User</TableHead>
-            <TableHead>Goi</TableHead>
+            <TableHead>Gói</TableHead>
             <TableHead>AVAX</TableHead>
             <TableHead>USD</TableHead>
-            <TableHead>Thanh toan</TableHead>
-            <TableHead>Trang thai</TableHead>
-            <TableHead>Thoi gian</TableHead>
+            <TableHead>Thanh toán</TableHead>
+            <TableHead>Trạng thái</TableHead>
+            <TableHead>Thời gian</TableHead>
             <TableHead className="w-20" />
           </TableRow>
         </TableHeader>
