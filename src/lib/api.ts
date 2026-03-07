@@ -1676,3 +1676,200 @@ export const walletMonitorApi = {
 
   checkNow: () => api.post<WalletsResponse>('/api/admin-v2/wallets/check', {}),
 };
+
+// Wallet Audit
+export interface WalletAuditDetail {
+  wallet: {
+    id: string;
+    name: string;
+    address: string;
+    role: string;
+  };
+  period: { from: string; to: string };
+  summary: {
+    totalIn: string;
+    totalOut: string;
+    totalGasSpent: string;
+    closingBalance: string;
+    netFlow: string;
+    transactionCount: number;
+  };
+  breakdown: Array<{
+    category: string;
+    count: number;
+    totalAvax: string;
+    pct: string;
+  }>;
+  recentTransactions: Array<{
+    id: string;
+    token_id: number;
+    price_avax: string;
+    fee_amount_avax: string;
+    seller_received_avax: string;
+    fee_rate: string;
+    seller_is_vip: boolean;
+    seller_wallet: string;
+    buyer_wallet: string;
+    transfer_tx_hash: string | null;
+    created_at: string;
+  }>;
+  alerts: Array<{ type: string; message: string }>;
+}
+
+export interface WalletAuditSummaryResponse {
+  period: { from: string; to: string };
+  wallets: Array<{
+    id: string;
+    name: string;
+    address: string;
+    balance: string;
+    balanceUsd: number;
+    totalIn: string;
+    totalOut: string;
+    txCount: number;
+    status: 'critical' | 'low' | 'ok';
+    lastActivity: string | null;
+    alerts: string[];
+  }>;
+  revenue: {
+    feeCollectorBalance: string;
+    feeCollectorTotalIn: string;
+    totalTransactions: number;
+    avgFeePerTx: string;
+  };
+  marketplaceTransactions: Array<{
+    id: string;
+    token_id: number;
+    price_avax: string;
+    fee_amount_avax: string;
+    fee_rate: string;
+    seller_received_avax: string;
+    seller_is_vip: boolean;
+    seller_name: string | null;
+    buyer_name: string | null;
+    transfer_tx_hash: string | null;
+    created_at: string;
+  }>;
+  marketplacePagination: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}
+
+export const walletAuditApi = {
+  getSummary: (page = 1, limit = 20) =>
+    api.get<WalletAuditSummaryResponse>(
+      `/api/admin-v2/wallets/audit/summary?page=${page}&limit=${limit}`,
+    ),
+
+  getDetail: (walletId: string) =>
+    api.get<WalletAuditDetail>(`/api/admin-v2/wallets/${walletId}/audit`),
+};
+
+// ==================== AUCTION ADMIN API ====================
+
+export interface AuctionSession {
+  id: string;
+  name: string;
+  status: 'scheduled' | 'active' | 'ended' | 'cancelled';
+  slot_count: number;
+  spotlight_count: number;
+  start_time: string;
+  end_time: string;
+  duration_minutes: number;
+  bid_cost_ogn: number;
+  free_bids_per_session: number;
+  min_increment_avax: string;
+  anti_snipe_minutes: number;
+  anti_snipe_extend_minutes: number;
+  spectator_entry_ogn: number;
+  spectator_house_cut_pct: string;
+  seller_fee_pct: string;
+  created_at: string;
+  auction_count?: string;
+  active_auctions?: string;
+}
+
+export interface AuctionQueueItem {
+  queue: {
+    id: string;
+    token_id: number;
+    nft_name: string | null;
+    nft_image_url: string | null;
+    nft_rarity: string | null;
+    start_price_avax: string;
+    status: string;
+    assigned_type: string | null;
+    session_id: string | null;
+    created_at: string;
+  };
+  seller_name: string | null;
+}
+
+export interface CreateSessionInput {
+  name: string;
+  startTime: string;
+  endTime: string;
+  durationMinutes?: number;
+  slotCount?: number;
+  bidCostOgn?: number;
+  freeBidsPerSession?: number;
+  minIncrementAvax?: string;
+  antiSnipeMinutes?: number;
+  antiSnipeExtendMinutes?: number;
+  spectatorEntryOgn?: number;
+  spectatorHouseCutPct?: number;
+  sellerFeePct?: number;
+}
+
+export const auctionAdminApi = {
+  getSessions: () =>
+    api.get<{ ok: boolean; data: AuctionSession[] }>('/api/admin/auction/sessions'),
+
+  createSession: (input: CreateSessionInput) =>
+    api.post<{ ok: boolean; data: AuctionSession }>('/api/admin/auction/sessions', input),
+
+  updateSession: (id: string, input: Partial<CreateSessionInput>) =>
+    api.put<{ ok: boolean; data: AuctionSession }>(`/api/admin/auction/sessions/${id}`, input),
+
+  cancelSession: (id: string) => api.delete<{ ok: boolean }>(`/api/admin/auction/sessions/${id}`),
+
+  getQueue: (status?: string) => {
+    const params = status ? `?status=${status}` : '';
+    return api.get<{ ok: boolean; data: AuctionQueueItem[] }>(`/api/admin/auction/queue${params}`);
+  },
+
+  getSuggestions: (count = 5) =>
+    api.get<{
+      ok: boolean;
+      data: {
+        byPrice: AuctionQueueItem[];
+        byRarity: AuctionQueueItem[];
+        byDate: AuctionQueueItem[];
+      };
+    }>(`/api/admin/auction/queue/suggest?count=${count}`),
+
+  assignSpotlights: (sessionId: string, queueIds: string[]) =>
+    api.post<{ ok: boolean; assigned: number }>('/api/admin/auction/queue/assign-spotlights', {
+      sessionId,
+      queueIds,
+    }),
+
+  assignSides: (sessionId: string) =>
+    api.post<{ ok: boolean; assigned: number }>(
+      `/api/admin/auction/queue/assign-sides/${sessionId}`,
+    ),
+
+  activateSession: (sessionId: string) =>
+    api.post<{ ok: boolean; auctionsCreated: number; sessionId: string }>(
+      `/api/admin/auction/activate/${sessionId}`,
+    ),
+
+  getStats: () =>
+    api.get<{ ok: boolean; data: Record<string, number> }>('/api/admin/auction/stats'),
+
+  getDetailedStats: () =>
+    api.get<{ ok: boolean; data: Record<string, number> }>('/api/admin/auction/stats/detailed'),
+};

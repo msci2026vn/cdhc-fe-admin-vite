@@ -25,6 +25,7 @@ import {
   Swords,
   Store,
   PackageCheck,
+  ClipboardList,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -159,6 +160,13 @@ const navigation = [
     name: 'Wallet Monitor',
     href: '/wallet-monitor',
     icon: Wallet,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Kiem Toan Vi',
+    href: '/wallet-audit',
+    icon: ClipboardList,
     permission: 'stats.view',
     superAdminOnly: true,
   },
