@@ -1,7 +1,14 @@
-
-
 import { useState, useEffect } from 'react';
-import { Search, RefreshCw, FolderTree, Code2, Loader2, X, AlertCircle, Activity } from 'lucide-react';
+import {
+  Search,
+  RefreshCw,
+  FolderTree,
+  Code2,
+  Loader2,
+  X,
+  AlertCircle,
+  Activity,
+} from 'lucide-react';
 import { FileTree } from '@/components/file-manager/FileTree';
 import { CodeViewer } from '@/components/file-manager/CodeViewer';
 import { Breadcrumb } from '@/components/file-manager/Breadcrumb';
@@ -115,13 +122,10 @@ export default function FileManagerPage() {
         {/* Search & Actions */}
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              size={16}
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
             <input
               type="text"
-              placeholder="Tim kiem files..."
+              placeholder="Tìm kiếm files..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -135,14 +139,10 @@ export default function FileManagerPage() {
               'px-5 py-2.5 rounded-xl text-sm font-medium transition-all',
               searching || !searchQuery.trim()
                 ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm'
+                : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm',
             )}
           >
-            {searching ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              'Tim'
-            )}
+            {searching ? <Loader2 size={16} className="animate-spin" /> : 'Tim'}
           </button>
           {searchResults && (
             <button
@@ -167,7 +167,7 @@ export default function FileManagerPage() {
               'p-2.5 rounded-xl transition-colors',
               showHealthReport
                 ? 'bg-green-900/30 text-green-400'
-                : 'hover:bg-gray-800 text-gray-500'
+                : 'hover:bg-gray-800 text-gray-500',
             )}
             title="Bao cao suc khoe code"
           >
@@ -203,9 +203,7 @@ export default function FileManagerPage() {
               {searchResults ? 'Ket qua tim kiem' : 'Cau truc thu muc'}
             </span>
             {searchResults && (
-              <span className="text-xs text-gray-500">
-                {searchResults.length} files
-              </span>
+              <span className="text-xs text-gray-500">{searchResults.length} files</span>
             )}
           </div>
 
@@ -214,10 +212,7 @@ export default function FileManagerPage() {
             {loading ? (
               <div className="flex items-center justify-center py-8">
                 <div className="text-center">
-                  <Loader2
-                    size={24}
-                    className="animate-spin text-green-500 mx-auto mb-2"
-                  />
+                  <Loader2 size={24} className="animate-spin text-green-500 mx-auto mb-2" />
                   <p className="text-sm text-gray-500">Dang tai...</p>
                 </div>
               </div>
@@ -269,9 +264,7 @@ export default function FileManagerPage() {
           <span className="text-gray-700">|</span>
           <span>Mo ta tieng Viet co san</span>
         </div>
-        <div className="text-gray-600">
-          File Manager v2.0
-        </div>
+        <div className="text-gray-600">File Manager v2.0</div>
       </div>
     </div>
   );

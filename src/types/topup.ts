@@ -75,12 +75,12 @@ export interface TopupOrderListParams {
 }
 
 export const TOPUP_STATUS_LABELS: Record<TopupOrderStatus, string> = {
-  pending: 'Cho thanh toan',
-  paid: 'Da thanh toan',
-  transferring: 'Dang chuyen',
-  completed: 'Hoan thanh',
-  failed: 'That bai',
-  expired: 'Het han',
+  pending: 'Chờ thanh toán',
+  paid: 'Đã thanh toán',
+  transferring: 'Đang chuyển',
+  completed: 'Hoàn thành',
+  failed: 'Thất bại',
+  expired: 'Hết hạn',
 };
 
 // Matches BE getHotWalletInfo() response

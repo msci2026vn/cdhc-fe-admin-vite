@@ -1,5 +1,3 @@
-
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -20,8 +18,8 @@ export default function SettingsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Thong tin tai khoan</CardTitle>
-            <CardDescription>Thong tin co ban ve tai khoan cua ban</CardDescription>
+            <CardTitle>Thông tin tài khoản</CardTitle>
+            <CardDescription>Thông tin cơ bản về tài khoản của bạn</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">

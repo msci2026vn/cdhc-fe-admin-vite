@@ -304,7 +304,7 @@ function WalletDetailModal({ walletId, onClose }: { walletId: string; onClose: (
               {/* Stats */}
               <div>
                 <h3 className="font-semibold mb-2">
-                  Thong ke ({detail.period?.from} - {detail.period?.to})
+                  Thống kê ({detail.period?.from} - {detail.period?.to})
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-green-50 rounded p-3 text-center">
@@ -459,8 +459,8 @@ export default function WalletAuditPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
-          Loi tai du lieu: {(error as Error).message}
+        <div className="text-red-500 py-8 text-center">
+          Lỗi tải dữ liệu: {(error as Error).message}
         </div>
       )}
 

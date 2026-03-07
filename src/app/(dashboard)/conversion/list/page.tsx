@@ -134,7 +134,7 @@ export default function ConversionListPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Giao Dich Doi Diem</h1>
-        <p className="text-gray-500">Danh sach tat ca giao dich doi diem Seed/OGN</p>
+        <p className="text-gray-500">Danh sách tất cả giao dịch đổi điểm Seed/OGN</p>
       </div>
 
       <ConversionListFilters

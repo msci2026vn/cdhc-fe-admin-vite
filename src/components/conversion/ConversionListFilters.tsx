@@ -60,7 +60,7 @@ export function ConversionListFilters({
             <SelectValue placeholder="Huong" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca huong</SelectItem>
+            <SelectItem value="all">Tất cả hướng</SelectItem>
             <SelectItem value="seed_to_ogn">Seed→OGN</SelectItem>
             <SelectItem value="ogn_to_seed">OGN→Seed</SelectItem>
           </SelectContent>
@@ -70,7 +70,7 @@ export function ConversionListFilters({
             <SelectValue placeholder="Moc" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca moc</SelectItem>
+            <SelectItem value="all">Tất cả mốc</SelectItem>
             <SelectItem value="1">Moc 1</SelectItem>
             <SelectItem value="2">Moc 2</SelectItem>
             <SelectItem value="3">Moc 3</SelectItem>
@@ -80,12 +80,12 @@ export function ConversionListFilters({
         </Select>
         <Select value={status} onValueChange={onStatusChange}>
           <SelectTrigger className="w-[140px] h-9">
-            <SelectValue placeholder="Trang thai" />
+            <SelectValue placeholder="Trạng thái" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca</SelectItem>
-            <SelectItem value="completed">Thanh cong</SelectItem>
-            <SelectItem value="failed">That bai</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
+            <SelectItem value="completed">Thành công</SelectItem>
+            <SelectItem value="failed">Thất bại</SelectItem>
           </SelectContent>
         </Select>
         <Input

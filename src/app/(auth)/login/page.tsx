@@ -74,7 +74,7 @@ function LoginContent() {
 
       if (!result.success) {
         authLogger.error('LoginPage', 'Login failed', { error: result.error });
-        setError(result.error || 'Dang nhap that bai');
+        setError(result.error || 'Đăng nhập thất bại');
       } else {
         authLogger.success('LoginPage', 'Login successful, should redirect...');
       }
@@ -92,7 +92,7 @@ function LoginContent() {
 
   const handleGoogleError = () => {
     authLogger.error('LoginPage', 'Google OAuth error callback');
-    setError('Dang nhap Google that bai. Vui long thu lai.');
+    setError('Đăng nhập Google thất bại. Vui lòng thử lại.');
   };
 
   const handleBeforeLogin = () => {
@@ -115,7 +115,7 @@ function LoginContent() {
         <div>
           <CardTitle className="text-2xl font-bold">CDHC Admin</CardTitle>
           <CardDescription className="text-base mt-2">
-            Dang nhap de quan ly he thong Con Duong Huu Co
+            Đăng nhập để quản lý hệ thống Con Đường Hữu Cơ
           </CardDescription>
         </div>
       </CardHeader>
@@ -129,7 +129,7 @@ function LoginContent() {
         {isLoading ? (
           <div className="flex flex-col items-center gap-3 py-4">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-green-600" />
-            <p className="text-sm text-gray-500">Dang xu ly dang nhap...</p>
+            <p className="text-sm text-gray-500">Đang xử lý đăng nhập...</p>
           </div>
         ) : (
           <div className="flex justify-center" onClick={handleBeforeLogin}>
@@ -216,7 +216,7 @@ function LoginLoading() {
         </div>
         <div>
           <CardTitle className="text-2xl font-bold">CDHC Admin</CardTitle>
-          <CardDescription className="text-base mt-2">Dang tai...</CardDescription>
+          <CardDescription className="text-base mt-2">Đang tải...</CardDescription>
         </div>
       </CardHeader>
       <CardContent className="flex justify-center py-8">

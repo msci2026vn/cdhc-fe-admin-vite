@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -121,9 +119,7 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
             <FileCode size={40} className="text-gray-500" />
           </div>
           <p className="text-gray-400 font-medium">Chon mot file de xem noi dung</p>
-          <p className="text-sm text-gray-500 mt-1">
-            Click vao file trong cay thu muc ben trai
-          </p>
+          <p className="text-sm text-gray-500 mt-1">Click vao file trong cay thu muc ben trai</p>
         </div>
       </div>
     );
@@ -138,12 +134,8 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
             <Folder size={40} className="text-yellow-500" />
           </div>
           <p className="text-xl font-semibold text-gray-300">{selectedFile.name}/</p>
-          <p className="text-sm text-gray-500 mt-2 max-w-xs">
-            {selectedFile.descriptionVi}
-          </p>
-          <p className="text-xs mt-4 text-gray-600">
-            {selectedFile.relativePath}
-          </p>
+          <p className="text-sm text-gray-500 mt-2 max-w-xs">{selectedFile.descriptionVi}</p>
+          <p className="text-xs mt-4 text-gray-600">{selectedFile.relativePath}</p>
         </div>
       </div>
     );
@@ -155,7 +147,7 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
       <div className="h-full flex items-center justify-center bg-gray-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-4 border-green-500 border-t-transparent mx-auto" />
-          <p className="mt-4 text-gray-400">Dang tai noi dung file...</p>
+          <p className="mt-4 text-gray-400">Đang tải nội dung file...</p>
         </div>
       </div>
     );
@@ -169,7 +161,7 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-900/30 mb-4">
             <AlertCircle size={32} className="text-red-400" />
           </div>
-          <p className="text-red-400 font-medium">Loi: {error}</p>
+          <p className="text-red-400 font-medium">Lỗi: {error}</p>
         </div>
       </div>
     );
@@ -186,7 +178,9 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
           <FileCode size={18} className="text-green-400" />
           <div>
             <span className="font-semibold text-gray-200">{selectedFile.name}</span>
-            <span className="text-sm text-gray-500 ml-2">({content?.lines.toLocaleString()} dong)</span>
+            <span className="text-sm text-gray-500 ml-2">
+              ({content?.lines.toLocaleString()} dong)
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -198,15 +192,17 @@ export function CodeViewer({ selectedFile }: CodeViewerProps) {
             className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
             title={darkMode ? 'Light mode' : 'Dark mode'}
           >
-            {darkMode ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-gray-400" />}
+            {darkMode ? (
+              <Sun size={16} className="text-yellow-400" />
+            ) : (
+              <Moon size={16} className="text-gray-400" />
+            )}
           </button>
           <button
             onClick={handleCopy}
             className={cn(
               'p-2 rounded-lg transition-colors',
-              copied
-                ? 'bg-green-600 text-white'
-                : 'hover:bg-gray-700 text-gray-400'
+              copied ? 'bg-green-600 text-white' : 'hover:bg-gray-700 text-gray-400',
             )}
             title="Copy code"
           >

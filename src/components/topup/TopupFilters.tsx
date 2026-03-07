@@ -45,16 +45,16 @@ export function TopupFilters({
         </div>
         <Select value={status} onValueChange={onStatusChange}>
           <SelectTrigger className="w-[160px] h-9">
-            <SelectValue placeholder="Trang thai" />
+            <SelectValue placeholder="Trạng thái" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca</SelectItem>
-            <SelectItem value="pending">Cho thanh toan</SelectItem>
-            <SelectItem value="paid">Da thanh toan</SelectItem>
-            <SelectItem value="transferring">Dang chuyen</SelectItem>
-            <SelectItem value="completed">Hoan thanh</SelectItem>
-            <SelectItem value="failed">That bai</SelectItem>
-            <SelectItem value="expired">Het han</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
+            <SelectItem value="pending">Chờ thanh toán</SelectItem>
+            <SelectItem value="paid">Đã thanh toán</SelectItem>
+            <SelectItem value="transferring">Đang chuyển</SelectItem>
+            <SelectItem value="completed">Hoàn thành</SelectItem>
+            <SelectItem value="failed">Thất bại</SelectItem>
+            <SelectItem value="expired">Hết hạn</SelectItem>
           </SelectContent>
         </Select>
         <Input
@@ -62,14 +62,14 @@ export function TopupFilters({
           value={dateFrom}
           onChange={(e) => onDateFromChange(e.target.value)}
           className="w-[140px] h-9"
-          placeholder="Tu ngay"
+          placeholder="Từ ngày"
         />
         <Input
           type="date"
           value={dateTo}
           onChange={(e) => onDateToChange(e.target.value)}
           className="w-[140px] h-9"
-          placeholder="Den ngay"
+          placeholder="Đến ngày"
         />
         <Button variant="outline" size="sm" className="h-9" onClick={onReset}>
           <RotateCcw className="mr-1 h-3 w-3" />

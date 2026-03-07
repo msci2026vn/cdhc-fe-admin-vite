@@ -355,7 +355,7 @@ function TableDetailContent({ tableName }: { tableName: string }) {
           <div className="relative mt-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Tim kiem trong trang hien tai..."
+              placeholder="Tìm kiếm trong trang hiện tại..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -418,7 +418,7 @@ function TableDetailContent({ tableName }: { tableName: string }) {
                   disabled={page === 1 || isFetching}
                 >
                   <ChevronLeft className="h-4 w-4" />
-                  Truoc
+                  Trước
                 </Button>
                 <span className="text-sm px-2">
                   {page} / {totalPages}

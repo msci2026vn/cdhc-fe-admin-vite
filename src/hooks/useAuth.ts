@@ -158,7 +158,7 @@ export function useAuth() {
         }
 
         // 9. Handle failure - extract error message
-        let errorMessage = 'Dang nhap that bai';
+        let errorMessage = 'Đăng nhập thất bại';
         if (response?.error) {
           errorMessage =
             typeof response.error === 'string'

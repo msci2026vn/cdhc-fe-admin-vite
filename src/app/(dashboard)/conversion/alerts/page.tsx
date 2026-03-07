@@ -79,10 +79,10 @@ export default function ConversionAlertsPage() {
       <div className="flex flex-wrap gap-3">
         <Select value={status} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="Trang thai" />
+            <SelectValue placeholder="Trạng thái" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
             <SelectItem value="open">Mo</SelectItem>
             <SelectItem value="dismissed">Da dismiss</SelectItem>
             <SelectItem value="escalated">Da escalate</SelectItem>
@@ -93,7 +93,7 @@ export default function ConversionAlertsPage() {
             <SelectValue placeholder="Muc do" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca muc do</SelectItem>
+            <SelectItem value="all">Tất cả mức độ</SelectItem>
             <SelectItem value="critical">Critical</SelectItem>
             <SelectItem value="warning">Warning</SelectItem>
             <SelectItem value="info">Info</SelectItem>
@@ -104,7 +104,7 @@ export default function ConversionAlertsPage() {
             <SelectValue placeholder="Loai" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca loai</SelectItem>
+            <SelectItem value="all">Tất cả loại</SelectItem>
             <SelectItem value="velocity_alert">Toc do cao</SelectItem>
             <SelectItem value="whale_alert">Ca voi</SelectItem>
             <SelectItem value="spike_alert">Dot bien</SelectItem>

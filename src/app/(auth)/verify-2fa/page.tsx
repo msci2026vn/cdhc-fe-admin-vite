@@ -81,23 +81,23 @@ export default function Verify2FAPage() {
             className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-2"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Quay lai dang nhap
+            Quay lại đăng nhập
           </Link>
           <div className="mx-auto h-16 w-16 rounded-2xl bg-green-600 flex items-center justify-center">
             <Shield className="h-8 w-8 text-white" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Xac thuc 2 lop</CardTitle>
+            <CardTitle className="text-2xl font-bold">Xác thực 2 lớp</CardTitle>
             <CardDescription className="text-base mt-2">
-              Nhap ma 6 chu so tu ung dung xac thuc cua ban
+              Nhập mã 6 chữ số từ ứng dụng xác thực của bạn
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Thông tin email đang đăng nhập */}
           <div className="text-center p-3 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600">Dang nhap voi</p>
-            <p className="font-medium text-gray-900">{admin.email}</p>
+            <p className="text-sm text-gray-600">Đăng nhập với</p>
+            <p className="font-medium text-gray-900">{sessionStorage.getItem('pending2FAMail')}</p>
           </div>
 
           {error && (

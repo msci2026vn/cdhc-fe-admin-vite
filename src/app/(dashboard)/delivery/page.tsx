@@ -134,14 +134,14 @@ export default function DeliveryAdminPage() {
   const handleDownloadPdf = async (batchId: string, batchNumber: string, pdfUrl: string | null) => {
     try {
       if (!pdfUrl) {
-        // PDF chua generate -> generate truoc
-        toast.info('Dang tao PDF...');
+        // PDF chưa generate -> generate trước
+        toast.info('Đang tạo PDF...');
         await generatePdfMutation.mutateAsync(batchId);
       }
       await deliveryAdminApi.downloadPdf(batchId, batchNumber);
-      toast.success('Da tai PDF');
+      toast.success('Đã tải PDF');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Tai PDF that bai';
+      const message = err instanceof Error ? err.message : 'Tải PDF thất bại';
       toast.error(message);
     }
   };
@@ -152,11 +152,14 @@ export default function DeliveryAdminPage() {
   };
 
   const isProcessing = flowStep !== 'idle';
+  const statusLabels = {
+    creating: 'Đang tạo lô...',
+    generating: 'Đang tạo PDF...',
+    downloading: 'Đang tải...',
+  };
   const buttonText = {
-    idle: `Tao lo & In phieu (${selectedSlotIds.size} da chon)`,
-    creating: 'Dang tao lo...',
-    generating: 'Dang tao PDF...',
-    downloading: 'Dang tai...',
+    idle: `Tạo lô & In phiếu (${selectedSlotIds.size} đã chọn)`,
+    ...statusLabels,
   }[flowStep];
 
   return (
@@ -209,7 +212,7 @@ export default function DeliveryAdminPage() {
                 <TableHead>SDT</TableHead>
                 <TableHead>Dia chi</TableHead>
                 <TableHead>Ma OTP</TableHead>
-                <TableHead>Thang</TableHead>
+                <TableHead>Tháng</TableHead>
                 <TableHead>Ngay DK</TableHead>
               </TableRow>
             </TableHeader>
@@ -260,7 +263,7 @@ export default function DeliveryAdminPage() {
       {/* Section 2: Batch Form */}
       {claimedSlots.length > 0 && (
         <Card className="p-4">
-          <h2 className="mb-4 text-lg font-semibold">Thong tin lo giao hang</h2>
+          <h2 className="mb-4 text-lg font-semibold">Thông tin lô giao hàng</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-2">
               <Label htmlFor="productName">San pham *</Label>

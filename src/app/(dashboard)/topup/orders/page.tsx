@@ -65,8 +65,8 @@ export default function TopupOrderListPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Danh sach Topup Orders</h1>
-          <p className="text-gray-500">Tat ca orders nap AVAX cua moi user</p>
+          <h1 className="text-2xl font-bold">Danh sách Topup Orders</h1>
+          <p className="text-gray-500">Tất cả orders nạp AVAX của mọi user</p>
         </div>
         <Button variant="outline" onClick={handleRefresh}>
           <RefreshCw className="mr-2 h-4 w-4" />

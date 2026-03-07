@@ -36,18 +36,21 @@ const FAIL_REASON_LABELS: Record<
   string,
   { label: string; variant: 'warning' | 'secondary' | 'info' | 'destructive' }
 > = {
-  insufficient_seed: { label: 'Thieu Hat', variant: 'warning' },
-  insufficient_ogn: { label: 'Thieu OGN', variant: 'warning' },
-  level_too_low: { label: 'Chua du level', variant: 'secondary' },
-  daily_limit_reached: { label: 'Het luot ngay', variant: 'info' },
-  weekly_limit_reached: { label: 'Het luot tuan', variant: 'info' },
-  cooldown_active: { label: 'Dang cooldown', variant: 'warning' },
-  system_frozen: { label: 'He thong dung', variant: 'destructive' },
-  user_frozen: { label: 'Bi khoa', variant: 'destructive' },
-  invalid_tier: { label: 'Moc loi', variant: 'secondary' },
-  duplicate_request: { label: 'Trung request', variant: 'secondary' },
-  max_cap_exceeded: { label: 'Vuot gioi han', variant: 'destructive' },
-  server_error: { label: 'Loi he thong', variant: 'destructive' },
+  insufficient_seed: { label: 'Thiếu Hạt', variant: 'warning' },
+  insufficient_ogn: { label: 'Thiếu OGN', variant: 'warning' },
+  level_too_low: { label: 'Chưa đủ level', variant: 'warning' },
+  daily_limit_reached: { label: 'Hết lượt ngày', variant: 'info' },
+  weekly_limit_reached: { label: 'Hết lượt tuần', variant: 'info' },
+  cooldown_active: { label: 'Đang cooldown', variant: 'warning' },
+  system_frozen: { label: 'Hệ thống dừng', variant: 'destructive' },
+  user_frozen: { label: 'Bị khóa', variant: 'destructive' },
+  invalid_tier: { label: 'Mốc lỗi', variant: 'secondary' },
+  duplicate_request: { label: 'Trùng request', variant: 'secondary' },
+  max_cap_exceeded: { label: 'Vượt giới hạn', variant: 'destructive' },
+  server_error: { label: 'Lỗi hệ thống', variant: 'destructive' },
+  invalid_request: { label: 'Request lỗi', variant: 'secondary' },
+  invalid_signature: { label: 'Sai chữ ký', variant: 'destructive' },
+  invalid_time: { label: 'Sai thời gian', variant: 'secondary' },
 };
 
 export function UserAuditDialog({ userId, open, onClose }: Props) {
@@ -64,7 +67,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
 
   const handleFreeze = async () => {
     if (!userId || reason.length < 5) {
-      toast.error('Ly do phai co it nhat 5 ky tu');
+      toast.error('Lý do phải có ít nhất 5 ký tự');
       return;
     }
     try {
@@ -134,7 +137,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
                 <div className="rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
                   User bi khoa boi {audit.user.frozenBy || 'admin'} vao{' '}
                   {audit.user.frozenAt ? formatDate(audit.user.frozenAt) : '-'}
-                  {audit.user.frozenReason && <> - Ly do: {audit.user.frozenReason}</>}
+                  {audit.user.frozenReason && <> - Lý do: {audit.user.frozenReason}</>}
                 </div>
               )}
 
@@ -259,7 +262,7 @@ export function UserAuditDialog({ userId, open, onClose }: Props) {
             </DialogDescription>
           </DialogHeader>
           <div>
-            <label className="text-sm font-medium">Ly do (toi thieu 5 ky tu)</label>
+            <label className="text-sm font-medium">Lý do (tối thiểu 5 ký tự)</label>
             <Input
               className="mt-1"
               placeholder="Nhap ly do..."

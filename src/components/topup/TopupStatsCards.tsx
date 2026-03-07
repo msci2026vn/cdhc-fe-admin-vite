@@ -19,7 +19,7 @@ const cards = [
   },
   {
     key: 'completed',
-    label: 'Hoan thanh',
+    label: 'Hoàn thành',
     icon: CheckCircle,
     color: 'text-green-600',
     bg: 'bg-green-50',
@@ -27,7 +27,7 @@ const cards = [
   },
   {
     key: 'failed',
-    label: 'That bai',
+    label: 'Thất bại',
     icon: XCircle,
     color: 'text-red-600',
     bg: 'bg-red-50',
@@ -35,7 +35,7 @@ const cards = [
   },
   {
     key: 'pending',
-    label: 'Dang cho',
+    label: 'Đang chờ',
     icon: Clock,
     color: 'text-yellow-600',
     bg: 'bg-yellow-50',

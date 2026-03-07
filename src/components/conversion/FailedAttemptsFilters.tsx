@@ -47,21 +47,21 @@ export function FailedAttemptsFilters({
         />
         <Select value={failReason} onValueChange={onFailReasonChange}>
           <SelectTrigger className="w-[180px] h-9">
-            <SelectValue placeholder="Ly do" />
+            <SelectValue placeholder="Lý do" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tat ca ly do</SelectItem>
-            <SelectItem value="insufficient_seed">Thieu Hat</SelectItem>
-            <SelectItem value="insufficient_ogn">Thieu OGN</SelectItem>
-            <SelectItem value="level_too_low">Chua du level</SelectItem>
-            <SelectItem value="daily_limit_reached">Het luot ngay</SelectItem>
-            <SelectItem value="weekly_limit_reached">Het luot tuan</SelectItem>
-            <SelectItem value="cooldown_active">Dang cooldown</SelectItem>
-            <SelectItem value="system_frozen">He thong dung</SelectItem>
-            <SelectItem value="user_frozen">Bi khoa</SelectItem>
-            <SelectItem value="duplicate_request">Trung request</SelectItem>
-            <SelectItem value="max_cap_exceeded">Vuot gioi han</SelectItem>
-            <SelectItem value="server_error">Loi he thong</SelectItem>
+            <SelectItem value="all">Tất cả lý do</SelectItem>
+            <SelectItem value="insufficient_seed">Thiếu Hạt</SelectItem>
+            <SelectItem value="insufficient_ogn">Thiếu OGN</SelectItem>
+            <SelectItem value="level_too_low">Chưa đủ level</SelectItem>
+            <SelectItem value="daily_limit_reached">Hết lượt ngày</SelectItem>
+            <SelectItem value="weekly_limit_reached">Hết lượt tuần</SelectItem>
+            <SelectItem value="cooldown_active">Đang cooldown</SelectItem>
+            <SelectItem value="system_frozen">Hệ thống dừng</SelectItem>
+            <SelectItem value="user_frozen">Bị khóa</SelectItem>
+            <SelectItem value="duplicate_request">Trùng request</SelectItem>
+            <SelectItem value="max_cap_exceeded">Vượt giới hạn</SelectItem>
+            <SelectItem value="server_error">Lỗi hệ thống</SelectItem>
           </SelectContent>
         </Select>
         <Input
