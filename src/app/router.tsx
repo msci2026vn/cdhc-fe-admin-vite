@@ -37,6 +37,7 @@ const DeliveryAdminPage = lazy(() => import('./(dashboard)/delivery/page'));
 const TopupDashboardPage = lazy(() => import('./(dashboard)/topup/page'));
 const TopupOrderListPage = lazy(() => import('./(dashboard)/topup/orders/page'));
 const WorldBossPage = lazy(() => import('./(dashboard)/world-boss/page'));
+const UIEditorPage = lazy(() => import('./(dashboard)/ui-editor/page'));
 const MarketplacePage = lazy(() => import('./(dashboard)/marketplace/page'));
 const VipConfigPage = lazy(() => import('./(dashboard)/vip-config/page'));
 const WalletMonitorPage = lazy(() => import('./(dashboard)/wallet-monitor/page'));
@@ -92,6 +93,7 @@ export function AppRouter() {
           <Route path="/topup/orders" element={<TopupOrderListPage />} />
           <Route path="/delivery" element={<DeliveryAdminPage />} />
           <Route path="/world-boss" element={<WorldBossPage />} />
+          <Route path="/ui-editor" element={<UIEditorPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
           <Route path="/vip-config" element={<VipConfigPage />} />
           <Route path="/wallet-monitor" element={<WalletMonitorPage />} />
