@@ -208,19 +208,22 @@ export default function UIEditorPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-[1fr_280px] gap-4">
+            <div className="grid grid-cols-[1fr_300px] gap-4 items-start">
               {/* Canvas */}
-              <Card>
+              <Card className="overflow-hidden">
                 <CardContent className="pt-4">
                   <div className="flex justify-center">
                     <div
                       ref={canvasRef}
                       className="relative bg-gray-900 rounded overflow-hidden"
-                      style={{ width: CANVAS_W / 2, height: CANVAS_H / 2 }}
+                      style={{
+                        width: Math.round(CANVAS_W * 0.75),
+                        height: Math.round(CANVAS_H * 0.75),
+                      }}
                     >
                       <div
                         style={{
-                          transform: 'scale(0.5)',
+                          transform: 'scale(0.75)',
                           transformOrigin: 'top left',
                           width: CANVAS_W,
                           height: CANVAS_H,
@@ -336,7 +339,7 @@ export default function UIEditorPage() {
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground text-center mt-2">
-                    Canvas 390×693px (50%) • Click + kéo để di chuyển
+                    Canvas 390×693px (75%) • Click + kéo để di chuyển
                   </p>
                 </CardContent>
               </Card>
