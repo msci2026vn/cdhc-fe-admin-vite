@@ -33,6 +33,7 @@ const SCREEN_OPTIONS = [
   { value: 'campaign', label: 'Campaign Battle' },
   { value: 'pvp', label: 'PVP Battle' },
   { value: 'farm', label: 'Farm Screen' },
+  { value: 'guild', label: 'Guild' },
 ];
 
 const CANVAS_W = 390;
@@ -43,6 +44,8 @@ export default function UIEditorPage() {
   const [selectedEl, setSelectedEl] = useState<string | null>(null);
   const [localPos, setLocalPos] = useState<UIPositionsMap>({});
   const [isDirty, setIsDirty] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [bgImageUrl, setBgImageUrl] = useState('');
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const { data: screens } = useUIScreens();
@@ -64,7 +67,12 @@ export default function UIEditorPage() {
   const handleMouseDown = useCallback(
     (name: string, e: React.MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
+      if (isDragging) return; // đang drag element khác → block
+
       setSelectedEl(name);
+      setIsDragging(true);
+
       const canvas = canvasRef.current?.getBoundingClientRect();
       if (!canvas) return;
 
@@ -78,6 +86,7 @@ export default function UIEditorPage() {
       const scaleY = CANVAS_H / canvas.height;
 
       const onMove = (mv: MouseEvent) => {
+        mv.preventDefault();
         const dx = (mv.clientX - startX) * scaleX;
         const dy = (mv.clientY - startY) * scaleY;
         setLocalPos((prev) => ({
@@ -91,13 +100,14 @@ export default function UIEditorPage() {
         setIsDirty(true);
       };
       const onUp = () => {
+        setIsDragging(false);
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
       };
       document.addEventListener('mousemove', onMove);
       document.addEventListener('mouseup', onUp);
     },
-    [localPos],
+    [localPos, isDragging],
   );
 
   // Manual coord edit
@@ -230,58 +240,78 @@ export default function UIEditorPage() {
                           position: 'relative',
                         }}
                       >
-                        {/* Zone guides */}
-                        {[
-                          {
-                            top: '0%',
-                            height: '22%',
-                            label: 'Boss Area',
-                            color: 'rgba(248,81,73,0.05)',
-                          },
-                          {
-                            top: '22%',
-                            height: '12%',
-                            label: 'Player Area',
-                            color: 'rgba(63,185,80,0.05)',
-                          },
-                          {
-                            top: '34%',
-                            height: '46%',
-                            label: 'Gem Board',
-                            color: 'rgba(88,166,255,0.05)',
-                          },
-                          {
-                            top: '80%',
-                            height: '20%',
-                            label: 'Bottom HUD',
-                            color: 'rgba(227,179,65,0.05)',
-                          },
-                        ].map((z) => (
-                          <div
-                            key={z.label}
+                        {/* Background image nếu có, zone guides nếu không */}
+                        {bgImageUrl ? (
+                          <img
+                            src={bgImageUrl}
+                            alt="bg"
                             style={{
                               position: 'absolute',
-                              top: z.top,
-                              height: z.height,
-                              left: 0,
-                              right: 0,
-                              background: z.color,
-                              borderBottom: '1px dashed rgba(255,255,255,0.05)',
+                              inset: 0,
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: 'top',
+                              opacity: 0.5,
+                              pointerEvents: 'none',
                             }}
-                          >
-                            <span
-                              style={{
-                                position: 'absolute',
-                                right: 4,
-                                top: 2,
-                                fontSize: 9,
-                                color: 'rgba(255,255,255,0.2)',
-                              }}
-                            >
-                              {z.label}
-                            </span>
-                          </div>
-                        ))}
+                            onError={() => setBgImageUrl('')}
+                          />
+                        ) : (
+                          <>
+                            {[
+                              {
+                                top: '0%',
+                                height: '22%',
+                                label: 'Boss Area',
+                                color: 'rgba(248,81,73,0.05)',
+                              },
+                              {
+                                top: '22%',
+                                height: '12%',
+                                label: 'Player Area',
+                                color: 'rgba(63,185,80,0.05)',
+                              },
+                              {
+                                top: '34%',
+                                height: '46%',
+                                label: 'Gem Board',
+                                color: 'rgba(88,166,255,0.05)',
+                              },
+                              {
+                                top: '80%',
+                                height: '20%',
+                                label: 'Bottom HUD',
+                                color: 'rgba(227,179,65,0.05)',
+                              },
+                            ].map((z) => (
+                              <div
+                                key={z.label}
+                                style={{
+                                  position: 'absolute',
+                                  top: z.top,
+                                  height: z.height,
+                                  left: 0,
+                                  right: 0,
+                                  background: z.color,
+                                  borderBottom: '1px dashed rgba(255,255,255,0.05)',
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    position: 'absolute',
+                                    right: 4,
+                                    top: 2,
+                                    fontSize: 9,
+                                    color: 'rgba(255,255,255,0.2)',
+                                  }}
+                                >
+                                  {z.label}
+                                </span>
+                              </div>
+                            ))}
+                          </>
+                        )}
 
                         {isLoading ? (
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -310,7 +340,13 @@ export default function UIEditorPage() {
                                   selectedEl === name
                                     ? 'rgba(248,81,73,0.15)'
                                     : 'rgba(227,179,65,0.04)',
-                                cursor: 'move',
+                                cursor:
+                                  isDragging && selectedEl === name
+                                    ? 'grabbing'
+                                    : isDragging
+                                      ? 'not-allowed'
+                                      : 'move',
+                                pointerEvents: isDragging && selectedEl !== name ? 'none' : 'auto',
                                 boxSizing: 'border-box',
                               }}
                               onMouseDown={(e) => handleMouseDown(name, e)}
@@ -337,6 +373,27 @@ export default function UIEditorPage() {
                         )}
                       </div>
                     </div>
+                  </div>
+                  {/* BG Image input */}
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      Ảnh nền (R2 URL):
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="https://cdn.cdhc.vn/screenshots/world-boss.png"
+                      value={bgImageUrl}
+                      onChange={(e) => setBgImageUrl(e.target.value)}
+                      className="flex-1 h-7 text-xs px-2 rounded border border-input bg-background font-mono"
+                    />
+                    {bgImageUrl && (
+                      <button
+                        onClick={() => setBgImageUrl('')}
+                        className="text-xs text-muted-foreground hover:text-foreground px-1"
+                      >
+                        ✕
+                      </button>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground text-center mt-2">
                     Canvas 390×693px (75%) • Click + kéo để di chuyển
