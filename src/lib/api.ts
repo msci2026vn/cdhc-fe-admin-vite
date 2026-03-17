@@ -1879,3 +1879,53 @@ export const auctionAdminApi = {
   getAuctionDetail: (auctionId: string) =>
     api.get<{ ok: boolean; data: any }>(`/api/auction/${auctionId}`),
 };
+
+export const chainProofApi = {
+  getStats: () => api.get<ChainProofStats>('/api/admin/chain-proofs/stats'),
+  getList: (page = 1, limit = 20) =>
+    api.get<ChainProofList>(`/api/admin/chain-proofs?page=${page}&limit=${limit}`),
+};
+
+export interface ChainProofStats {
+  summary: {
+    total_tx: number;
+    unique_players: number;
+    first_tx_at: string;
+    last_tx_at: string;
+  };
+  leaderboard: Array<{
+    user_id: string;
+    name: string;
+    tx_count: number;
+    last_tx_at: string;
+  }>;
+  recent_tx: Array<{
+    id: string;
+    tx_hash: string;
+    winner_name: string;
+    loser_name: string;
+    created_at: string;
+  }>;
+  deployer: string;
+  snowtrace_url: string;
+}
+
+export interface ChainProofItem {
+  id: string;
+  tx_hash: string;
+  merkle_root: string;
+  ipfs_hash: string;
+  winner_name: string;
+  loser_name: string;
+  created_at: string;
+  explorer_url: string;
+}
+
+export interface ChainProofList {
+  data: ChainProofItem[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+}

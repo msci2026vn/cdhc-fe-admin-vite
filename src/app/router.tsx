@@ -43,6 +43,7 @@ const VipConfigPage = lazy(() => import('./(dashboard)/vip-config/page'));
 const WalletMonitorPage = lazy(() => import('./(dashboard)/wallet-monitor/page'));
 const WalletAuditPage = lazy(() => import('./(dashboard)/wallet-audit/page'));
 const AuctionAdminPage = lazy(() => import('./(dashboard)/auction/page'));
+const ChainProofPage = lazy(() => import('./(dashboard)/chain-proof/page'));
 
 function PageLoader() {
   return (
@@ -99,6 +100,7 @@ export function AppRouter() {
           <Route path="/wallet-monitor" element={<WalletMonitorPage />} />
           <Route path="/wallet-audit" element={<WalletAuditPage />} />
           <Route path="/auction" element={<AuctionAdminPage />} />
+          <Route path="/chain-proof" element={<ChainProofPage />} />
         </Route>
       </Routes>
     </Suspense>

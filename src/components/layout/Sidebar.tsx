@@ -28,6 +28,7 @@ import {
   PackageCheck,
   ClipboardList,
   Gavel,
+  ShieldCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -183,6 +184,13 @@ const navigation = [
     name: 'Dau Gia',
     href: '/auction',
     icon: Gavel,
+    permission: 'stats.view',
+    superAdminOnly: true,
+  },
+  {
+    name: 'Chain Proof',
+    href: '/chain-proof',
+    icon: ShieldCheck,
     permission: 'stats.view',
     superAdminOnly: true,
   },
