@@ -1,16 +1,53 @@
-node_modules
-dist
-*.local
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build
+dist/
+build/
+.cache/
+.vite/
+
+# Environment
+.env
 .env.local
 .env.*.local
+*.local
 
-# Editor directories and files
+# Editor & OS
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*~
+
+# Logs
+*.log
+logs/
+
+# Temp & Backup
+*.bak
+*.tmp
+*.old
+*.orig
+*.patch
+temp/
+tmp/
+
+# Internal docs & prompts
+PR_*.md
+PROMPT_*.md
+NOTES*.md
+TODO*.md
+
+# Package manager lockfiles (using bun.lock)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
