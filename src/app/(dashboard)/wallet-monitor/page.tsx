@@ -357,10 +357,10 @@ export default function WalletMonitorPage() {
                       borderRadius: '8px',
                       color: '#F3F4F6',
                     }}
-                    formatter={(value: number | undefined) => [
-                      `${(value ?? 0).toFixed(4)} AVAX`,
-                      'Balance',
-                    ]}
+                    formatter={(value) => {
+                      const num = typeof value === 'number' ? value : Number(value);
+                      return [`${(isNaN(num) ? 0 : num).toFixed(4)} AVAX`, 'Balance'];
+                    }}
                   />
                   <Line
                     type="monotone"

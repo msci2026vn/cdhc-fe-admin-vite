@@ -49,25 +49,9 @@ if (typeof window !== 'undefined') {
   });
 }
 
-// Flag de tranh infinite refresh loop
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: unknown) => void;
-  reject: (reason?: unknown) => void;
-  endpoint: string;
-  options: RequestInit;
-}> = [];
-
-const processQueue = (error: Error | null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve();
-    }
-  });
-  failedQueue = [];
-};
+// Shared Promise pattern: tất cả requests đồng thời đều await cùng 1 refresh call
+// Không cần isRefreshing boolean hay failedQueue array → không race condition
+let refreshPromise: Promise<boolean> | null = null;
 
 class ApiClient {
   private async handleResponse<T>(
@@ -165,9 +149,9 @@ class ApiClient {
     options: RequestInit,
     isRetry = false,
   ): Promise<ApiResponse<T>> {
-    // Circuit breaker: nếu đã retry sau refresh mà vẫn 401 → logout ngay, không loop tiếp
+    // Circuit breaker: đã retry 1 lần rồi vẫn 401 → logout ngay, không bao giờ đệ quy >2 tầng
     if (isRetry) {
-      authLogger.error('ApiClient', 'Retry after refresh still 401 — logging out', { endpoint });
+      authLogger.error('ApiClient', 'Still 401 after refresh — logging out', { endpoint });
       if (typeof window !== 'undefined') {
         const { useAuthStore } = await import('@/stores/authStore');
         useAuthStore.getState().logout();
@@ -176,62 +160,45 @@ class ApiClient {
       throw new Error('Unauthorized');
     }
 
-    // Neu dang refresh -> queue request nay lai
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        failedQueue.push({
-          resolve: () => resolve(this.request<T>(endpoint, options, true)),
-          reject,
-          endpoint,
-          options,
-        });
-      });
-    }
-
-    isRefreshing = true;
-
-    try {
+    // Shared Promise: N requests đồng thời 401 đều await cùng 1 network call refresh
+    // refreshPromise được reset về null sau khi resolve → request tiếp theo tạo promise mới
+    if (!refreshPromise) {
       authLogger.info('ApiClient', 'Attempting cookie-based token refresh...');
-
-      // Call refresh endpoint - backend uses httpOnly cookies, no need to send token in body
-      const refreshResponse = await fetch(`${API_BASE}/api/auth/refresh`, {
+      refreshPromise = fetch(`${API_BASE}/api/auth/refresh`, {
         method: 'POST',
-        credentials: 'include', // Send httpOnly cookies
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (refreshResponse.ok) {
-        authLogger.success('ApiClient', 'Cookie refresh successful');
-
-        // Refresh thành công -> process queue
-        processQueue(null);
-        isRefreshing = false;
-
-        // Retry original request với isRetry=true để không loop nếu vẫn 401
-        return this.request<T>(endpoint, options, true);
-      } else {
-        // Refresh thất bại -> logout
-        authLogger.error('ApiClient', 'Cookie refresh failed', {
-          status: refreshResponse.status,
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((res) => {
+          if (res.ok) {
+            authLogger.success('ApiClient', 'Cookie refresh successful');
+            return true;
+          }
+          authLogger.error('ApiClient', 'Cookie refresh failed', { status: res.status });
+          return false;
+        })
+        .catch((err) => {
+          authLogger.error('ApiClient', 'Cookie refresh error', { error: String(err) });
+          return false;
+        })
+        .finally(() => {
+          refreshPromise = null;
         });
-        throw new Error('Refresh token failed');
-      }
-    } catch (error) {
-      // Refresh thất bại -> logout
-      processQueue(error as Error);
-      isRefreshing = false;
+    }
 
+    const refreshed = await refreshPromise;
+
+    if (!refreshed) {
       if (typeof window !== 'undefined') {
-        // Dynamic import de tranh circular dependency
         const { useAuthStore } = await import('@/stores/authStore');
         useAuthStore.getState().logout();
         window.location.href = '/login';
       }
-
       throw new Error('Unauthorized');
     }
+
+    // Retry với isRetry=true — nếu vẫn 401 → circuit breaker ở trên, không loop nữa
+    return this.request<T>(endpoint, options, true);
   }
 
   async request<T>(
