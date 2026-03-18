@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       admin: null,
       isAuthenticated: false,
-      isLoading: true,
+      isLoading: false,
       requires2FA: false,
       pendingAdmin: null,
 
@@ -124,15 +124,13 @@ export const useAuthStore = create<AuthState>()(
         return (state, error) => {
           if (error) {
             authLogger.error('AuthStore', 'Rehydration failed', { error });
-            useAuthStore.setState({ isLoading: false });
           } else {
             authLogger.success('AuthStore', 'Rehydration complete', {
               admin: state?.admin,
               isAuthenticated: state?.isAuthenticated,
             });
-            // isLoading is not persisted (starts true), must be reset after rehydration
-            useAuthStore.setState({ isLoading: false });
           }
+          // No setState here — useAuthStore may not be assigned yet (circular ref)
         };
       },
     },
