@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
@@ -8,48 +8,31 @@ import { authLogger } from '@/lib/auth-logger';
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
-  const { isAuthenticated, admin, isLoading, setLoading } = useAuthStore();
-  const [isChecking, setIsChecking] = useState(true);
+  const { isAuthenticated, admin, isLoading } = useAuthStore();
 
   useEffect(() => {
-    authLogger.info('DashboardLayout', 'Checking auth state', {
+    // Wait for rehydration to complete before checking auth
+    if (isLoading) return;
+
+    authLogger.info('DashboardLayout', 'Auth state after rehydration', {
       isAuthenticated,
       hasAdmin: !!admin,
-      isLoading,
+      adminEmail: admin?.email,
     });
 
-    // Give zustand time to rehydrate from localStorage
-    const checkAuth = () => {
-      const state = useAuthStore.getState();
-
-      authLogger.info('DashboardLayout', 'Auth state after rehydration', {
-        isAuthenticated: state.isAuthenticated,
-        hasAdmin: !!state.admin,
-        adminEmail: state.admin?.email,
+    if (!isAuthenticated || !admin) {
+      authLogger.warning('DashboardLayout', 'Not authenticated, redirecting to login');
+      navigate('/login', { replace: true });
+    } else {
+      authLogger.success('DashboardLayout', 'User authenticated', {
+        email: admin.email,
+        role: admin.role,
       });
+    }
+  }, [isLoading, isAuthenticated, admin, navigate]);
 
-      if (!state.isAuthenticated || !state.admin) {
-        authLogger.warning('DashboardLayout', 'Not authenticated, redirecting to login');
-        navigate('/login', { replace: true });
-      } else {
-        authLogger.success('DashboardLayout', 'User authenticated', {
-          email: state.admin.email,
-          role: state.admin.role,
-        });
-        setLoading(false);
-      }
-
-      setIsChecking(false);
-    };
-
-    // Small delay to allow zustand to rehydrate
-    const timer = setTimeout(checkAuth, 100);
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Show loading while checking auth
-  if (isChecking || isLoading) {
+  // Show loading while rehydrating from localStorage
+  if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
