@@ -74,10 +74,11 @@ class ApiClient {
     response: Response,
     endpoint: string,
     options: RequestInit,
+    isRetry = false,
   ): Promise<ApiResponse<T>> {
     if (response.status === 401) {
-      // Token expired - try to refresh
-      return this.handleUnauthorized<T>(endpoint, options);
+      // Token expired - try to refresh (only if not already a retry to break infinite loop)
+      return this.handleUnauthorized<T>(endpoint, options, isRetry);
     }
 
     // Handle non-OK responses (4xx/5xx) that aren't 401
@@ -162,12 +163,24 @@ class ApiClient {
   private async handleUnauthorized<T>(
     endpoint: string,
     options: RequestInit,
+    isRetry = false,
   ): Promise<ApiResponse<T>> {
+    // Circuit breaker: nếu đã retry sau refresh mà vẫn 401 → logout ngay, không loop tiếp
+    if (isRetry) {
+      authLogger.error('ApiClient', 'Retry after refresh still 401 — logging out', { endpoint });
+      if (typeof window !== 'undefined') {
+        const { useAuthStore } = await import('@/stores/authStore');
+        useAuthStore.getState().logout();
+        window.location.href = '/login';
+      }
+      throw new Error('Unauthorized');
+    }
+
     // Neu dang refresh -> queue request nay lai
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({
-          resolve: () => resolve(this.request<T>(endpoint, options)),
+          resolve: () => resolve(this.request<T>(endpoint, options, true)),
           reject,
           endpoint,
           options,
@@ -196,8 +209,8 @@ class ApiClient {
         processQueue(null);
         isRefreshing = false;
 
-        // Retry original request (cookies already updated by backend)
-        return this.request<T>(endpoint, options);
+        // Retry original request với isRetry=true để không loop nếu vẫn 401
+        return this.request<T>(endpoint, options, true);
       } else {
         // Refresh thất bại -> logout
         authLogger.error('ApiClient', 'Cookie refresh failed', {
@@ -221,7 +234,11 @@ class ApiClient {
     }
   }
 
-  async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
+  async request<T>(
+    endpoint: string,
+    options: RequestInit = {},
+    isRetry = false,
+  ): Promise<ApiResponse<T>> {
     const url = `${API_BASE}${endpoint}`;
 
     // Build headers - NO Authorization header, rely on httpOnly cookies
@@ -249,7 +266,7 @@ class ApiClient {
         ok: response.ok,
       });
 
-      return this.handleResponse<T>(response, endpoint, options);
+      return this.handleResponse<T>(response, endpoint, options, isRetry);
     } catch (error) {
       authLogger.error('ApiClient', `Network Error: ${endpoint}`, {
         error: error instanceof Error ? error.message : String(error),
