@@ -139,26 +139,49 @@ export const useAuthStore = create<AuthState>()(
           // Verify cookies are still valid by calling /api/auth/me
           // localStorage may say "authenticated" but cookies could be expired
           if (state?.isAuthenticated && state?.admin) {
-            authLogger.info('AuthStore', 'Verifying cookies with /api/auth/me...');
-            const API_BASE = import.meta.env.VITE_API_URL || 'https://sta.cdhc.vn';
-            fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' })
-              .then((res) => {
-                if (res.ok) {
-                  authLogger.success('AuthStore', 'Cookie verification passed');
-                  useAuthStore.getState().setLoading(false);
-                } else {
-                  authLogger.warning(
-                    'AuthStore',
-                    'Cookie verification failed — clearing stale session',
-                    {
-                      status: res.status,
-                    },
-                  );
-                  useAuthStore.getState().logout();
-                }
-              })
-              .catch((err) => {
-                authLogger.error('AuthStore', 'Cookie verification error', { error: String(err) });
+            authLogger.info('AuthStore', 'Verifying cookies with /api/auth/me (via api client)...');
+
+            // Use api client (dynamic import to avoid circular dependency)
+            // CRITICAL: raw fetch skips the 401→refresh→retry flow in api client.
+            // If access token expired but refresh token is valid, raw fetch would
+            // get 401 and immediately logout. Api client handles refresh automatically.
+            import('@/lib/api')
+              .then(({ api }) =>
+                api.get('/api/auth/me').then(
+                  (result: { success: boolean }) => {
+                    if (result.success) {
+                      authLogger.success('AuthStore', 'Cookie verification passed');
+                      useAuthStore.getState().setLoading(false);
+                    } else {
+                      authLogger.warning(
+                        'AuthStore',
+                        'Cookie verification failed — clearing stale session',
+                        { result },
+                      );
+                      useAuthStore.getState().logout();
+                    }
+                  },
+                  (err: Error) => {
+                    // 'Unauthorized' = api client already called logout via doLogoutAndRedirect
+                    if (err?.message === 'Unauthorized') {
+                      authLogger.warning(
+                        'AuthStore',
+                        'Session expired — api client handled logout',
+                      );
+                      return;
+                    }
+                    // Network error — don't logout, just stop loading
+                    authLogger.error('AuthStore', 'Cookie verification error', {
+                      error: String(err),
+                    });
+                    useAuthStore.getState().setLoading(false);
+                  },
+                ),
+              )
+              .catch((importErr) => {
+                authLogger.error('AuthStore', 'Failed to import api module', {
+                  error: String(importErr),
+                });
                 useAuthStore.getState().setLoading(false);
               });
           } else {

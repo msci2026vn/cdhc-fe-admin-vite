@@ -158,7 +158,14 @@ class ApiClient {
     if (typeof window !== 'undefined') {
       const { useAuthStore } = await import('@/stores/authStore');
       useAuthStore.getState().logout();
-      window.location.href = '/login';
+      // Don't hard redirect with window.location.href — DashboardLayout guard
+      // handles navigation via React Router. Hard redirect caused double navigation
+      // (React Router navigate + full page reload) and race conditions.
+
+      // Reset logout guard after delay so user can re-login without page reload
+      setTimeout(() => {
+        isLoggingOut = false;
+      }, 2000);
     }
     throw new Error('Unauthorized');
   }
