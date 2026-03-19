@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -19,9 +17,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
           queries: {
             staleTime: 60 * 1000, // 1 minute
             refetchOnWindowFocus: false,
+            retry: (failureCount, error) => {
+              // Don't retry on auth errors — handleUnauthorized already handles refresh
+              if (error instanceof Error && error.message === 'Unauthorized') return false;
+              return failureCount < 2;
+            },
           },
         },
-      })
+      }),
   );
 
   return (

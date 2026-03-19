@@ -53,6 +53,9 @@ if (typeof window !== 'undefined') {
 // Không cần isRefreshing boolean hay failedQueue array → không race condition
 let refreshPromise: Promise<boolean> | null = null;
 
+// Guard: prevent multiple concurrent logouts from racing 401s
+let isLoggingOut = false;
+
 class ApiClient {
   private async handleResponse<T>(
     response: Response,
@@ -144,6 +147,22 @@ class ApiClient {
     };
   }
 
+  private async doLogoutAndRedirect(reason: string, endpoint: string): Promise<never> {
+    // Guard: only one logout at a time — prevent concurrent 401s from racing
+    if (isLoggingOut) {
+      throw new Error('Unauthorized');
+    }
+    isLoggingOut = true;
+
+    authLogger.error('ApiClient', `Logging out: ${reason}`, { endpoint });
+    if (typeof window !== 'undefined') {
+      const { useAuthStore } = await import('@/stores/authStore');
+      useAuthStore.getState().logout();
+      window.location.href = '/login';
+    }
+    throw new Error('Unauthorized');
+  }
+
   private async handleUnauthorized<T>(
     endpoint: string,
     options: RequestInit,
@@ -151,13 +170,7 @@ class ApiClient {
   ): Promise<ApiResponse<T>> {
     // Circuit breaker: đã retry 1 lần rồi vẫn 401 → logout ngay, không bao giờ đệ quy >2 tầng
     if (isRetry) {
-      authLogger.error('ApiClient', 'Still 401 after refresh — logging out', { endpoint });
-      if (typeof window !== 'undefined') {
-        const { useAuthStore } = await import('@/stores/authStore');
-        useAuthStore.getState().logout();
-        window.location.href = '/login';
-      }
-      throw new Error('Unauthorized');
+      return this.doLogoutAndRedirect('Still 401 after refresh', endpoint);
     }
 
     // Shared Promise: N requests đồng thời 401 đều await cùng 1 network call refresh
@@ -189,12 +202,7 @@ class ApiClient {
     const refreshed = await refreshPromise;
 
     if (!refreshed) {
-      if (typeof window !== 'undefined') {
-        const { useAuthStore } = await import('@/stores/authStore');
-        useAuthStore.getState().logout();
-        window.location.href = '/login';
-      }
-      throw new Error('Unauthorized');
+      return this.doLogoutAndRedirect('Refresh failed', endpoint);
     }
 
     // Retry với isRetry=true — nếu vẫn 401 → circuit breaker ở trên, không loop nữa

@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       admin: null,
       isAuthenticated: false,
-      isLoading: false,
+      isLoading: true, // Start true — wait for cookie verification before acting
       requires2FA: false,
       pendingAdmin: null,
 
@@ -124,13 +124,49 @@ export const useAuthStore = create<AuthState>()(
         return (state, error) => {
           if (error) {
             authLogger.error('AuthStore', 'Rehydration failed', { error });
-          } else {
-            authLogger.success('AuthStore', 'Rehydration complete', {
-              admin: state?.admin,
-              isAuthenticated: state?.isAuthenticated,
-            });
+            // On error, clear auth state
+            setTimeout(() => {
+              useAuthStore.getState().setLoading(false);
+            }, 0);
+            return;
           }
-          // No setState here — useAuthStore may not be assigned yet (circular ref)
+
+          authLogger.success('AuthStore', 'Rehydration complete', {
+            admin: state?.admin,
+            isAuthenticated: state?.isAuthenticated,
+          });
+
+          // Verify cookies are still valid by calling /api/auth/me
+          // localStorage may say "authenticated" but cookies could be expired
+          if (state?.isAuthenticated && state?.admin) {
+            authLogger.info('AuthStore', 'Verifying cookies with /api/auth/me...');
+            const API_BASE = import.meta.env.VITE_API_URL || 'https://sta.cdhc.vn';
+            fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' })
+              .then((res) => {
+                if (res.ok) {
+                  authLogger.success('AuthStore', 'Cookie verification passed');
+                  useAuthStore.getState().setLoading(false);
+                } else {
+                  authLogger.warning(
+                    'AuthStore',
+                    'Cookie verification failed — clearing stale session',
+                    {
+                      status: res.status,
+                    },
+                  );
+                  useAuthStore.getState().logout();
+                }
+              })
+              .catch((err) => {
+                authLogger.error('AuthStore', 'Cookie verification error', { error: String(err) });
+                useAuthStore.getState().setLoading(false);
+              });
+          } else {
+            // Not authenticated in localStorage — just mark loading done
+            setTimeout(() => {
+              useAuthStore.getState().setLoading(false);
+            }, 0);
+          }
         };
       },
     },
