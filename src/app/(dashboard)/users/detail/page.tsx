@@ -11,6 +11,7 @@ import { useUserProfile } from '@/hooks/useUsers';
 import { usePermission } from '@/hooks/usePermission';
 import { formatDate, getInitials } from '@/lib/utils';
 import { ROLE_LABELS, STATUS_LABELS, STATUS_COLORS } from '@/types/user';
+import { EmailManagementSection } from '@/components/users/EmailManagementSection';
 
 function UserDetailContent() {
   const [searchParams] = useSearchParams();
@@ -238,6 +239,8 @@ function UserDetailContent() {
           )}
         </div>
       </div>
+
+      <EmailManagementSection userId={id} />
     </div>
   );
 }

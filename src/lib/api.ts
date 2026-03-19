@@ -1880,6 +1880,30 @@ export const auctionAdminApi = {
     api.get<{ ok: boolean; data: any }>(`/api/auction/${auctionId}`),
 };
 
+// ============================================
+// User Email Management API
+// ============================================
+
+export interface UserEmailInfo {
+  email: string;
+  emailChangedAt: string | null;
+  daysUntilNextChange: number | null;
+  hasPendingOtp: boolean;
+  pendingNewEmail: string | null;
+  otpSecondsLeft: number;
+  cooldownSecondsLeft: number;
+  failedAttempts: number;
+}
+
+export const userEmailApi = {
+  getInfo: (userId: string) => api.get<UserEmailInfo>(`/api/admin/users/${userId}/email-info`),
+
+  resetLimit: (userId: string) => api.post(`/api/admin/users/${userId}/email-reset`),
+
+  changeEmail: (userId: string, newEmail: string) =>
+    api.put(`/api/admin/users/${userId}/email`, { newEmail }),
+};
+
 export const chainProofApi = {
   getStats: () => api.get<ChainProofStats>('/api/admin/chain-proofs/stats'),
   getList: (page = 1, limit = 20) =>

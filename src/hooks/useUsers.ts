@@ -1,7 +1,6 @@
-
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '@/lib/api';
+import { toast } from 'sonner';
+import { api, userEmailApi } from '@/lib/api';
 import type { User, UserProfile, UserFilters, BulkActionResult } from '@/types';
 
 export function useUsers(filters: UserFilters = {}) {
@@ -29,7 +28,8 @@ export function useUser(id: string) {
 export function useUserProfile(id: string) {
   return useQuery({
     queryKey: ['user-profile', id],
-    queryFn: () => api.get<{ user: User; profile: UserProfile['profile'] }>(`/api/admin/users/${id}/profile`),
+    queryFn: () =>
+      api.get<{ user: User; profile: UserProfile['profile'] }>(`/api/admin/users/${id}/profile`),
     enabled: !!id,
   });
 }
@@ -112,6 +112,48 @@ export function useBulkAction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['stats'] });
+    },
+  });
+}
+
+export function useUserEmailInfo(userId: string) {
+  return useQuery({
+    queryKey: ['user-email-info', userId],
+    queryFn: () => userEmailApi.getInfo(userId),
+    enabled: !!userId,
+  });
+}
+
+export function useResetEmailLimit() {
+  return useMutation({
+    mutationFn: (userId: string) => userEmailApi.resetLimit(userId),
+    onSuccess: () => {
+      toast.success('Đã reset giới hạn 30 ngày');
+    },
+    onError: (err: Error) => {
+      toast.error('Reset thất bại: ' + err.message);
+    },
+  });
+}
+
+export function useAdminChangeEmail() {
+  return useMutation({
+    mutationFn: ({ userId, newEmail }: { userId: string; newEmail: string }) =>
+      userEmailApi.changeEmail(userId, newEmail),
+    onSuccess: () => {
+      toast.success('Đã đổi email thành công');
+    },
+    onError: (err: Error) => {
+      const msg = err.message || '';
+      if (msg.includes('409') || msg.includes('already')) {
+        toast.error('Email này đã được sử dụng');
+      } else if (msg.includes('404')) {
+        toast.error('Không tìm thấy user');
+      } else if (msg.includes('400')) {
+        toast.error('Email không hợp lệ');
+      } else {
+        toast.error('Đổi email thất bại: ' + msg);
+      }
     },
   });
 }
