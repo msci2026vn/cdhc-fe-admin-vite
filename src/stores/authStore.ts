@@ -18,11 +18,13 @@ interface AuthState {
   isLoading: boolean;
   requires2FA: boolean;
   pendingAdmin: AuthAdmin | null;
+  loginInProgress: boolean;
   setAuth: (admin: AuthAdmin) => void;
   setPending2FA: (admin: AuthAdmin) => void;
   complete2FA: () => void;
   logout: () => void;
   setLoading: (loading: boolean) => void;
+  setLoginInProgress: (inProgress: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -33,10 +35,13 @@ export const useAuthStore = create<AuthState>()(
       isLoading: true, // Start true — wait for cookie verification before acting
       requires2FA: false,
       pendingAdmin: null,
+      loginInProgress: false,
 
       setAuth: (admin) => {
+        const isLogin = get().loginInProgress;
         authLogger.state('AuthStore', 'setAuth called', {
           newAdmin: admin,
+          loginInProgress: isLogin,
           currentState: {
             admin: get().admin,
             isAuthenticated: get().isAuthenticated,
@@ -46,7 +51,9 @@ export const useAuthStore = create<AuthState>()(
         set({
           admin,
           isAuthenticated: true,
-          isLoading: false,
+          // During login, keep isLoading: true until cookie verification passes.
+          // This prevents DashboardLayout children from firing API calls prematurely.
+          isLoading: isLogin ? true : false,
           requires2FA: false,
           pendingAdmin: null,
         });
@@ -54,6 +61,7 @@ export const useAuthStore = create<AuthState>()(
         authLogger.success('AuthStore', 'State updated (cookie-based auth)', {
           admin,
           isAuthenticated: true,
+          isLoading: isLogin,
         });
       },
 
@@ -83,6 +91,12 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
+        // Guard: don't logout if a login is in progress (prevents rehydration race)
+        if (get().loginInProgress) {
+          authLogger.warning('AuthStore', 'logout BLOCKED — login in progress');
+          return;
+        }
+
         authLogger.state('AuthStore', 'logout called', {
           currentAdmin: get().admin,
         });
@@ -101,6 +115,11 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (isLoading) => {
         authLogger.state('AuthStore', 'setLoading', { isLoading });
         set({ isLoading });
+      },
+
+      setLoginInProgress: (loginInProgress) => {
+        authLogger.state('AuthStore', 'setLoginInProgress', { loginInProgress });
+        set({ loginInProgress });
       },
     }),
     {

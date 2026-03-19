@@ -157,6 +157,7 @@ class ApiClient {
     authLogger.error('ApiClient', `Logging out: ${reason}`, { endpoint });
     if (typeof window !== 'undefined') {
       const { useAuthStore } = await import('@/stores/authStore');
+      // logout() is guarded by loginInProgress — won't clear state during active login
       useAuthStore.getState().logout();
       // Don't hard redirect with window.location.href — DashboardLayout guard
       // handles navigation via React Router. Hard redirect caused double navigation

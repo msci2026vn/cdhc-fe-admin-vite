@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
-import { legacyApi } from '@/lib/api';
+import { api, legacyApi } from '@/lib/api';
 import { authLogger } from '@/lib/auth-logger';
 import type { AdminRole } from '@/types';
 
@@ -145,11 +145,36 @@ export function useAuth() {
           });
 
           // No tokens needed - backend uses httpOnly cookies
+          // Signal that a login is in progress — prevents rehydration from calling logout()
+          useAuthStore.getState().setLoginInProgress(true);
           setAuth(adminData);
 
           authLogger.success('useAuth', 'setAuth completed (auth via httpOnly cookies)');
 
-          // 8. Redirect
+          // 8. Verify cookies are working before navigating
+          // The browser may not have committed Set-Cookie to the jar yet,
+          // or a rehydration race could interfere. Verify with /api/auth/me.
+          authLogger.info('useAuth', 'Verifying cookies with /api/auth/me before redirect...');
+          try {
+            const meResult = await api.get<{ id: string }>('/api/auth/me');
+            if (meResult.success) {
+              authLogger.success('useAuth', 'Cookie verification passed — redirecting');
+            } else {
+              authLogger.warning(
+                'useAuth',
+                'Cookie verification returned non-success, proceeding anyway',
+              );
+            }
+          } catch {
+            authLogger.warning('useAuth', 'Cookie verification failed, proceeding anyway');
+          }
+
+          // Cookie verification passed (or we're proceeding anyway).
+          // Now mark loading done so DashboardLayout renders children.
+          useAuthStore.getState().setLoading(false);
+          useAuthStore.getState().setLoginInProgress(false);
+
+          // 9. Redirect
           authLogger.info('useAuth', 'Redirecting to /dashboard...');
           navigate('/dashboard');
 
